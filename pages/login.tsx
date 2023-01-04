@@ -6,15 +6,17 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { loggedInUserId } from "../recoilAtom/adminAtom";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
 
 interface IFormData {
+  id: string;
+  pw: string;
   errors?: {
     id: {
       message: string;
     };
   };
-  id: string;
-  password: string;
 }
 
 let isRefreshed = false;
@@ -22,8 +24,23 @@ let localLoginId: string;
 
 const Login = () => {
   const [capsLockFlag, setCapsLockFlag] = useState(false);
+  const [isLoginClicked, setIsLoginClicked] = useState(false);
+
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
     useRecoilState(loggedInUserId);
+
+  //const [getUserAuth, { data, loading, error }] = useLazyQuery(USER_AUTH);
+  //console.log(data, loading, error, "all userssssss");
+  const [login, loginResult] = useMutation(LOGIN);
+  const loginData = loginResult.data?.login;
+  console.log(loginData, "login data");
+  useEffect(() => {
+    if (loginResult.data?.login) {
+      console.log(loginResult.data);
+
+      alert("로그인에 성공했습니다.");
+    } else if (loginResult.data?.login === null) alert("로그인 실패.");
+  }, [loginResult.data]);
 
   const {
     register,
@@ -40,9 +57,11 @@ const Login = () => {
     let capsLock = e.getModifierState("CapsLock");
     setCapsLockFlag(capsLock);
   };
-  const onValid = (data: IFormData) => {
-    console.log(data, "onvalid!!");
+
+  const onValid = (formData: IFormData) => {
+    //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
+
   const onInValid = (error: any) => {
     console.log(error, "error");
   };
@@ -84,7 +103,7 @@ const Login = () => {
             placeholder="Account"
             style={{
               fontSize: "15px",
-              borderRadius: "10px",
+              borderRadius: "3px",
               color: "white",
             }}
           />
@@ -102,7 +121,7 @@ const Login = () => {
           <input
             type="password"
             className="input-pw"
-            {...register("password", {
+            {...register("pw", {
               required: "please enter Password",
             })}
             placeholder="Password"
@@ -112,7 +131,7 @@ const Login = () => {
             style={{
               fontSize: "15px",
               color: "white",
-              borderRadius: "10px",
+              borderRadius: "3px",
             }}
           />
         </div>
@@ -123,7 +142,7 @@ const Login = () => {
             fontSize: "15px",
           }}
         >
-          {errors?.password?.message}
+          {errors?.pw?.message}
         </div>
 
         <div>{capsLockFlag ? <span>Capslock is Active</span> : ""}</div>
@@ -264,7 +283,7 @@ const Login = () => {
           justify-content: center;
           align-items: center;
           background-color: #3369aa;
-          border-radius: 10px;
+          border-radius: 3px;
           width: 100%;
           height: 40px;
           opacity: 0.8;

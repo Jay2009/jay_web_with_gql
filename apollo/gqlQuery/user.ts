@@ -1,5 +1,27 @@
 import { gql, useSubscription } from "@apollo/client";
 
+const GET_USER = gql`
+  query singleUser($userId: String!) {
+    singleUser(userId: $userId) {
+      id
+      userId
+      name
+      authority
+      post
+    }
+  }
+`;
+
+const LOGIN = gql`
+  mutation login($userId: String!, $userPw: String!) {
+    login(userId: $userId, userPw: $userPw) {
+      id
+      userId
+      userPw
+    }
+  }
+`;
+
 const ALL_USERS = gql`
   query allUser {
     allUser {
@@ -8,10 +30,14 @@ const ALL_USERS = gql`
       userPw
       name
       authority
-      post
+      post {
+        title
+        writer
+      }
     }
   }
 `;
+
 const ALL_POSTS = gql`
   query allPost {
     allPost {
@@ -19,18 +45,6 @@ const ALL_POSTS = gql`
       title
       writer
       content
-    }
-  }
-`;
-
-const GET_USER = gql`
-  query getUser($userId: String!) {
-    getUser(userId: $userId) {
-      id
-      userId
-      name
-      authority
-      post
     }
   }
 `;
@@ -85,8 +99,9 @@ const DELETE_POSTS = gql`
 
 export {
   ALL_USERS,
-  ADD_USER,
+  LOGIN,
   GET_USER,
+  ADD_USER,
   UPDATE_USER,
   DELETE_USERS,
   ALL_POSTS,
