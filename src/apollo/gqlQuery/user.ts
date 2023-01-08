@@ -1,5 +1,11 @@
 import { gql, useSubscription } from "@apollo/client";
 
+const SIGNUP = gql`
+  mutation signup($userId: String!, $userPw: String!, $name: String!) {
+    signup(userId: $userId, userPw: $userPw, name: $name)
+  }
+`;
+
 const GET_USER = gql`
   query singleUser($userId: String!) {
     singleUser(userId: $userId) {
@@ -98,6 +104,7 @@ const DELETE_POSTS = gql`
 `;
 
 export {
+  SIGNUP,
   ALL_USERS,
   LOGIN,
   GET_USER,

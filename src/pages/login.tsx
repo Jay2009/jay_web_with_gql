@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import { loggedInUserId } from "../recoilAtom/adminAtom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
+import Link from "next/link";
 
 interface IFormData {
   id: string;
@@ -150,6 +151,8 @@ const Login = () => {
         <button type="submit" className="btn-signIn">
           <h3>Sign in</h3>
         </button>
+
+        <text>Register</text>
       </form>
 
       <style jsx>{`
