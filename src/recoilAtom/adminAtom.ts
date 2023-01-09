@@ -2,10 +2,10 @@ import { atom } from "recoil";
 
 // for login page
 export const authority = atom({
-  key: "authority",
+  key: "authorityKey",
   default: "",
 });
 export const loggedInUserId = atom({
-  key: "loggedInUserId",
+  key: "loggedInUserIdKey",
   default: "",
 });

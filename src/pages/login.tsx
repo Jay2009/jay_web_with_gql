@@ -2,23 +2,16 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { loggedInUserId } from "../recoilAtom/adminAtom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
-import Link from "next/link";
-
-interface IFormData {
-  id: string;
-  pw: string;
-  errors?: {
-    id: {
-      message: string;
-    };
-  };
-}
+import { Modal } from "antd";
+import { ILoginFormData } from "../types/iRctHookForm";
+import UserRegisterModal from "../components/userRegisterModal";
 
 let isRefreshed = false;
 let localLoginId: string;
@@ -27,6 +20,8 @@ const Login = () => {
   const [capsLockFlag, setCapsLockFlag] = useState(false);
   const [isLoginClicked, setIsLoginClicked] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
     useRecoilState(loggedInUserId);
 
@@ -34,11 +29,10 @@ const Login = () => {
   //console.log(data, loading, error, "all userssssss");
   const [login, loginResult] = useMutation(LOGIN);
   const loginData = loginResult.data?.login;
-  console.log(loginData, "login data");
+
   useEffect(() => {
     if (loginResult.data?.login) {
       console.log(loginResult.data);
-
       alert("로그인에 성공했습니다.");
     } else if (loginResult.data?.login === null) alert("로그인 실패.");
   }, [loginResult.data]);
@@ -52,19 +46,27 @@ const Login = () => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<IFormData>();
+  } = useForm<ILoginFormData>();
 
   const checkCapsLock = (e: React.KeyboardEvent<HTMLInputElement>) => {
     let capsLock = e.getModifierState("CapsLock");
     setCapsLockFlag(capsLock);
   };
 
-  const onValid = (formData: IFormData) => {
+  const onValid = (formData: ILoginFormData) => {
     //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
 
   const onInValid = (error: any) => {
     console.log(error, "error");
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -100,7 +102,6 @@ const Login = () => {
               required: "please enter user ID",
             })}
             className="input-id"
-            name="id"
             placeholder="Account"
             style={{
               fontSize: "15px",
@@ -152,8 +153,14 @@ const Login = () => {
           <h3>Sign in</h3>
         </button>
 
-        <text>Register</text>
+        <div className="create-account" onClick={showModal}>
+          Create Account
+        </div>
       </form>
+      <UserRegisterModal
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+      />
 
       <style jsx>{`
         .background-frame {
@@ -254,7 +261,6 @@ const Login = () => {
         }
 
         .input-id {
-          background: #343a40;
           background-image: url(/assets/user.png);
           background-repeat: no-repeat;
           background-position: 15px center;
@@ -275,7 +281,8 @@ const Login = () => {
           box-shadow: 4px 4px 12px #4f5054;
         }
         .input-id:focus,
-        .input-pw:focus {
+        .input-pw:focus,
+        .form-input:focus {
           outline: none;
         }
 
@@ -295,16 +302,53 @@ const Login = () => {
           box-shadow: 4px 4px 12px #4f5054;
           outline: none;
         }
-        .btn-signIn:hover {
+        .btn-signIn:hover,
+        .btn-form-create:hover {
           cursor: pointer;
           opacity: 1;
         }
-        .btn-signIn:focus {
-          cursor: pointer;
-          opacity: 1;
-        }
-        .btn-signIn:active {
+        .btn-signIn:active,
+        .btn-form-create:active {
           border: 1px solid #2372db;
+        }
+        .create-account {
+          opacity: 0.5;
+        }
+        .create-account:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
+        .form-wrap {
+          margin-top: 40px;
+          margin-bottom: 40px;
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 30px;
+        }
+
+        .form-input {
+          height: 30px;
+          width: 90%;
+          background-color: #151b23;
+          border: none;
+          box-shadow: 4px 4px 12px #4f5054;
+          border-radius: 5px;
+          color: white;
+          font-size: 13px;
+        }
+        .form-input-txt {
+          width: 80px;
+        }
+        .btn-form-create {
+          width: 80px;
+          height: 30px;
+          border-radius: 8px;
+          color: white;
+          background: #3369aa;
+          opacity: 0.8;
         }
         span {
           color: red;

@@ -33,7 +33,7 @@ export interface ISignupData {
 export interface ISignupVars {
   name: string;
   userId: string;
-  password: string;
+  userPw: string;
 }
 
 export interface ICurrentUserData {

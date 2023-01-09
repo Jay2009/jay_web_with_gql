@@ -1,5 +1,5 @@
 import { InMemoryCache, makeVar, gql } from "@apollo/client";
-import { IUser } from "../types/interfaceApolloData";
+import { IUser } from "../types/iApollo";
 
 // Local states
 export const currentUserVar = makeVar<IUser | null>(null);
