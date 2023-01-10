@@ -19,7 +19,7 @@ export interface ILoginData {
 
 export interface ILoginVars {
   userId: string;
-  password: string;
+  userPw: string;
 }
 
 export interface ILogoutData {

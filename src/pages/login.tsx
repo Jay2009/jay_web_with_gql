@@ -11,14 +11,21 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
 import { Modal } from "antd";
 import { ILoginFormData } from "../types/iRctHookForm";
-import UserRegisterModal from "../components/userRegisterModal";
+import UserRegisterModal from "../components/modal/userRegisterModal";
+import { ICurrentUserData, ILoginData, ILoginVars } from "../types/iApollo";
+import { GET_CURRENT_USER } from "../apollo/cache";
+import Loading from "../components/common/loading";
+import Error from "../components/common/error";
 
 let isRefreshed = false;
 let localLoginId: string;
 
 const Login = () => {
   const [capsLockFlag, setCapsLockFlag] = useState(false);
-  const [isLoginClicked, setIsLoginClicked] = useState(false);
+  const router = useRouter();
+
+  const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
+  const [login, loginResult] = useMutation<ILoginData, ILoginVars>(LOGIN);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,16 +34,17 @@ const Login = () => {
 
   //const [getUserAuth, { data, loading, error }] = useLazyQuery(USER_AUTH);
   //console.log(data, loading, error, "all userssssss");
-  const [login, loginResult] = useMutation(LOGIN);
-  const loginData = loginResult.data?.login;
 
   useEffect(() => {
     if (loginResult.data?.login) {
       console.log(loginResult.data);
       alert("로그인에 성공했습니다.");
-    } else if (loginResult.data?.login === null) alert("로그인 실패.");
-  }, [loginResult.data]);
-
+      router.push("/");
+    } else if (loginResult.data?.login === null) {
+      alert("로그인 실패.");
+    }
+  }, [loginResult.data, router]);
+  if (currentUser.data?.user) router.push("/");
   const {
     register,
     handleSubmit,
@@ -54,6 +62,7 @@ const Login = () => {
   };
 
   const onValid = (formData: ILoginFormData) => {
+    login({ variables: { userId: formData.id, userPw: formData.pw } });
     //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
 
@@ -74,8 +83,6 @@ const Login = () => {
       onValid; // call the fn when enter key pressed
     }
   };
-
-  const router = useRouter();
 
   return (
     <div className="background-frame">
@@ -147,11 +154,16 @@ const Login = () => {
           {errors?.pw?.message}
         </div>
 
-        <div>{capsLockFlag ? <span>Capslock is Active</span> : ""}</div>
+        <div>{capsLockFlag ? <span>Capslock is activated</span> : ""}</div>
+        {loginResult.error ? <Error msg="Please check id and password." /> : ""}
 
-        <button type="submit" className="btn-signIn">
-          <h3>Sign in</h3>
-        </button>
+        {loginResult.loading ? (
+          <Loading />
+        ) : (
+          <button type="submit" className="btn-signIn">
+            <h3>Sign in</h3>
+          </button>
+        )}
 
         <div className="create-account" onClick={showModal}>
           Create Account

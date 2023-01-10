@@ -1,12 +1,12 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import JaySideBar from "../components/navBar/jaySideBar";
-import GetUrlTitle from "../components/navBar/getUrlTitle";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import React, { useEffect } from "react";
+// import MgUserWholeTable from '../../components/pageComponents/admin/userManage/mgUserWholeTable';
+// import { userAuthority } from '../../states/admin/atomAdmin';
+import JaySideBar from "../../components/navBar/jaySideBar";
+import GetUrlTitle from "../../components/navBar/getUrlTitle";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+const ManageUser = () => {
   const getUrl = GetUrlTitle();
 
   return (
@@ -30,4 +30,6 @@ export default function Home() {
       `}</style>
     </div>
   );
-}
+};
+
+export default ManageUser;

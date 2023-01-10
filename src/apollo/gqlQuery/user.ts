@@ -21,9 +21,10 @@ const GET_USER = gql`
 const LOGIN = gql`
   mutation login($userId: String!, $userPw: String!) {
     login(userId: $userId, userPw: $userPw) {
-      id
       userId
-      userPw
+      name
+      authority
+      token
     }
   }
 `;

@@ -3,10 +3,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
-import { IRegisterFormData } from "../types/iRctHookForm";
-import { GET_CURRENT_USER } from "../apollo/cache";
-import { SIGNUP } from "../apollo/gqlQuery/user";
-import { ICurrentUserData, ISignupData, ISignupVars } from "../types/iApollo";
+import { IRegisterFormData } from "../../types/iRctHookForm";
+import { GET_CURRENT_USER } from "../../apollo/cache";
+import { SIGNUP } from "../../apollo/gqlQuery/user";
+import {
+  ICurrentUserData,
+  ISignupData,
+  ISignupVars,
+} from "../../types/iApollo";
 import { useRouter } from "next/router";
 
 interface IloginProps {
