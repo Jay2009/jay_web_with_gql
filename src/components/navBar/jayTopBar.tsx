@@ -21,12 +21,12 @@ export default function JayTopBar() {
 	useEffect(() => {}, []);
 
 	return (
-		<nav className="top-main">
+        <nav className="top-main">
 			<div className="logo">
-				
+				<h3>Jay Web</h3>
 			</div>
 			<div className="right-side-menu">
-				<Link href="/">
+				<Link href="/" legacyBehavior>
 					<a>
 						<IconItSelf
 							url={'/assets/about.png'}
@@ -34,7 +34,7 @@ export default function JayTopBar() {
 						/>
 					</a>
 				</Link>
-				<Link href="/composition">
+				<Link href="/composition" legacyBehavior>
 					<a>
 						<IconItSelf
 							url={'/assets/about.png'}
@@ -50,9 +50,10 @@ export default function JayTopBar() {
 			<style jsx>
 				{`
 					.top-main {
+            height:100%;
 						display: flex;
 						align-items: center;
-						background: #051222;
+						background: linear-gradient(to left, #0c203a, #071527);
 						box-shadow: 0px 0px 5px rgba(0, 0, 0, 25);
 						justify-content: space-between;
 					}
@@ -66,5 +67,5 @@ export default function JayTopBar() {
 				`}
 			</style>
 		</nav>
-	);
+    );
 }
