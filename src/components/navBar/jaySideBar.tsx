@@ -178,7 +178,7 @@ const JaySideBar = () => {
                       {list?.subMenu?.map((list, j) => {
                         return (
                           <div key={j}>
-                            <Link href={list.path} >
+                            <Link href={list.path} legacyBehavior>
                               <a
                                 className={
                                   router.pathname == list.path
@@ -195,7 +195,7 @@ const JaySideBar = () => {
                     </div>
                   </div>
                 ) : (
-                  <Link key={i} href={list.path} >
+                  <Link key={i} href={list.path} legacyBehavior>
                     <a
                       className={
                         router.pathname == list.path
@@ -222,7 +222,7 @@ const JaySideBar = () => {
                   <>
                     {list?.subMenu?.map((list, k) => {
                       return (
-                        <Link key={k} href={list.path} >
+                        <Link key={k} href={list.path} legacyBehavior>
                           <a
                             className={
                               !isCollapsed[COOKIE_KEY]
@@ -416,8 +416,8 @@ const JaySideBar = () => {
             height: 30px;
             justify-content: center;
             align-items: center;
-            background-color: #002a46;
-            border-radius: 30px;
+            background-color: #003558;
+            border-radius: 7px;
             margin-right: 10px;
             opacity: 0.8;
           }
@@ -466,6 +466,9 @@ const JaySideBar = () => {
             color: white;
             opacity: 1;
             transition: 0.25s;
+          }
+          a{
+            text-decoration-line: none;
           }
           .menu-element:hover,
           .submenu-element:hover {

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import JaySideBar from "../components/navBar/jaySideBar";
 import GetUrlTitle from "../components/navBar/getUrlTitle";
+import JayTopBar from "../components/navBar/jayTopBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +12,7 @@ export default function Home() {
 
   return (
     <div className="nav-frame">
-      <div className="top-nav">{/* <JayTopBar /> */}</div>
+      <div className="top-nav"><JayTopBar /></div>
       <div className="main-body">
         <JaySideBar />
         <div className="right-main">
