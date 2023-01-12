@@ -178,7 +178,7 @@ const JaySideBar = () => {
                       {list?.subMenu?.map((list, j) => {
                         return (
                           <div key={j}>
-                            <Link href={list.path} legacyBehavior>
+                            <Link href={list.path} >
                               <a
                                 className={
                                   router.pathname == list.path
@@ -195,7 +195,7 @@ const JaySideBar = () => {
                     </div>
                   </div>
                 ) : (
-                  <Link key={i} href={list.path} legacyBehavior>
+                  <Link key={i} href={list.path} >
                     <a
                       className={
                         router.pathname == list.path
@@ -222,7 +222,7 @@ const JaySideBar = () => {
                   <>
                     {list?.subMenu?.map((list, k) => {
                       return (
-                        <Link key={k} href={list.path} legacyBehavior>
+                        <Link key={k} href={list.path} >
                           <a
                             className={
                               !isCollapsed[COOKIE_KEY]
