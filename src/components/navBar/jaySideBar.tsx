@@ -28,6 +28,8 @@ let stringBool = "";
 const JaySideBar = () => {
   const router = useRouter();
   const filteredPath = router.pathname.split("/", 3);
+  console.log(filteredPath,"psthhh");
+  
   const [isCollapsed, setIsCollapsed, removeCookie] = useCookies([COOKIE_KEY]);
   const [isSubClicked, setIsSubClicked] = useState(true);
 
@@ -68,7 +70,7 @@ const JaySideBar = () => {
       },
       {
         link: "Community",
-        path: "/comunnity",
+        path: "/community",
         imgUrl: "/assets/community.png",
       },
       {
