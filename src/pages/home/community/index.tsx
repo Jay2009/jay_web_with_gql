@@ -3,16 +3,18 @@ import { useRecoilState } from "recoil";
 import React, { useEffect } from "react";
 // import MgUserWholeTable from '../../components/pageComponents/admin/userManage/mgUserWholeTable';
 // import { userAuthority } from '../../states/admin/atomAdmin';
-import JaySideBar from "../../components/navBar/jaySideBar";
-import GetUrlTitle from "../../components/navBar/getUrlTitle";
-import JayTopBar from "../../components/navBar/jayTopBar";
+import JaySideBar from "@/components/navBar/jaySideBar";
+import GetUrlTitle from "@/components/navBar/getUrlTitle";
+import JayTopBar from "@/components/navBar/jayTopBar";
 
 const ManageUser = () => {
   const getUrl = GetUrlTitle();
 
   return (
     <div className="nav-frame">
-      <div className="top-nav"><JayTopBar /> </div>
+      <div className="top-nav">
+        <JayTopBar />{" "}
+      </div>
       <div className="main-body">
         <JaySideBar />
         <div className="right-main">

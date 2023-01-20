@@ -28,8 +28,8 @@ let stringBool = "";
 const JaySideBar = () => {
   const router = useRouter();
   const filteredPath = router.pathname.split("/", 3);
-  console.log(filteredPath,"psthhh");
-  
+  console.log(filteredPath[1], "psthhh");
+
   const [isCollapsed, setIsCollapsed, removeCookie] = useCookies([COOKIE_KEY]);
   const [isSubClicked, setIsSubClicked] = useState(true);
 
@@ -41,7 +41,7 @@ const JaySideBar = () => {
 
   useEffect(() => {
     if (isCollapsed[COOKIE_KEY]) {
-      //window.addEventListener('load', handleReload);
+      // window.addEventListener("load", handleReload);
       window.addEventListener("unload", handleReload);
     }
   }, [isCollapsed[COOKIE_KEY]]);
@@ -61,31 +61,31 @@ const JaySideBar = () => {
     setIsSubClicked(!isSubClicked);
   };
 
-  if (filteredPath[1] == "") {
+  if (filteredPath[1] == "home") {
     links = [
       {
         link: "Main",
-        path: "/",
+        path: "/home",
         imgUrl: "/assets/main-page.png",
       },
       {
         link: "Community",
-        path: "/community",
+        path: "/home/community",
         imgUrl: "/assets/community.png",
       },
       {
         link: "About",
-        path: "/about",
+        path: "/home/about/jayWeb",
         imgUrl: "/assets/about.png",
         subMenu: [
           {
             link: "JayWeb",
-            path: "/about",
+            path: "/home/about/jayWeb",
             imgUrl: "/assets/browser.png",
           },
           {
             link: "Developer",
-            path: "/about/developer",
+            path: "/home/about/developer",
             imgUrl: "/assets/developer.png",
           },
         ],
@@ -139,10 +139,10 @@ const JaySideBar = () => {
                       <a
                         className={
                           !isCollapsed[COOKIE_KEY]
-                            ? filteredPath[1] == list.path.split("/", 3)[2]
+                            ? filteredPath[2] == list.path.split("/", 3)[2]
                               ? "selected-menu"
                               : "menu-element"
-                            : filteredPath[1] == list.path.split("/", 3)[2]
+                            : filteredPath[2] == list.path.split("/", 3)[2]
                             ? "selected-menu"
                             : "menu-element"
                         }
@@ -469,7 +469,7 @@ const JaySideBar = () => {
             opacity: 1;
             transition: 0.25s;
           }
-          a{
+          a {
             text-decoration-line: none;
           }
           .menu-element:hover,
