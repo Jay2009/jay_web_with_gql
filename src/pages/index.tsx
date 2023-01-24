@@ -7,6 +7,7 @@ import JayTopBar from "../components/navBar/jayTopBar";
 import { ALL_ECONOMY_IDX } from "@/apollo/gqlQuery/economy";
 import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
+import Echart from "@/components/eCharts/eChart";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,9 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
+      console.log(data, "ypooooo");
     }
+    console.log(error, "errorrrrrrrr");
   }, [data]);
 
   return (
@@ -26,19 +28,52 @@ export default function Home() {
         <JayTopBar />
       </div>
       <div className="main-body">
-        welcome to Jay web!
-        {/* <div className="right-main">
-          <span className="url-path-txt">{getUrl}</span>
-          <MgUserWholeTable />
-        </div> */}
+        <div className="right-main">
+          <div className="control-area">
+            <h2>No more trading, but trainning your self. </h2>
+            <div>조금의 설명과 버튼 !</div>
+            <div> 디테일스</div>
+          </div>
+
+          <div className="echarts-wrap">
+            <div className="chart-layer">
+              <Echart data={data?.oneYearEco.usInterestRate.series} />
+              <Echart />
+              <Echart />
+            </div>
+            <div className="chart-layer">
+              <Echart />
+              <Echart />
+              <Echart />
+            </div>
+          </div>
+        </div>
       </div>
-      ``
+
       <style jsx>{`
-        .top-layer {
+        .right-main {
+          width: 100%;
+          height: 100%;
+          z-index: 0;
           display: flex;
-          flex-direction: row;
-          height: 35%;
-          gap: 20px;
+          justify-content: center;
+          align-items: center;
+          gap: 30px;
+        }
+        .control-area {
+          width: 100%;
+          height: 10%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .echarts-wrap {
+          width: 100%;
+          height: 100%;
+        }
+        .chart-layer {
+          display: flex;
         }
       `}</style>
     </div>
