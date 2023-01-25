@@ -5,6 +5,7 @@ const ALL_ECONOMY_IDX = gql`
     oneYearEco {
       dollar {
         localDate
+        candleData
       }
       gold {
         localDate

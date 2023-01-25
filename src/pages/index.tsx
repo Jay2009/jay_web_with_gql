@@ -6,18 +6,50 @@ import GetUrlTitle from "../components/navBar/getUrlTitle";
 import JayTopBar from "../components/navBar/jayTopBar";
 import { ALL_ECONOMY_IDX } from "@/apollo/gqlQuery/economy";
 import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
-import Echart from "@/components/eCharts/eChart";
+import { useEffect, useState } from "react";
+import LineChart from "@/components/eCharts/lineChart";
+import CandleChart from "@/components/eCharts/candleChart";
 
-const inter = Inter({ subsets: ["latin"] });
+interface IEconomics {
+  localDate: string[];
+  candleData: number[];
+}
+
+let lastHalfEDollar: IEconomics[] = [];
 
 export default function Home() {
   const getUrl = GetUrlTitle();
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
+  const [firstHalfDollar, setFirstHalfDollar] = useState<IEconomics | null>(
+    null
+  );
+  const [lastHalfDollar, setLastHalfDollar] = useState<IEconomics | null>(null);
 
   useEffect(() => {
     if (data) {
-      console.log(data, "ypooooo");
+      console.log(data);
+
+      let dollarLocDate = data.oneYearEco.dollar.localDate;
+      let dollarCdleData = data.oneYearEco.dollar.candleData;
+      let firstLocDate = dollarLocDate.slice(0, dollarLocDate.length / 2);
+      let firstCdleData = dollarCdleData.slice(0, dollarCdleData.length / 2);
+      let lastLocDate = dollarLocDate.slice(
+        dollarLocDate.length / 2,
+        dollarLocDate.length
+      );
+      let lastCdleData = dollarCdleData.slice(
+        dollarLocDate.length / 2,
+        dollarLocDate.length
+      );
+      // firstHalfDollar = [
+      //   { localDate: firstLocDate, candleData: firstCdleData },
+      // ];
+      // firstHalfDollar = [{ localDate: lastLocDate, candleData: lastCdleData }];
+      setFirstHalfDollar({
+        localDate: firstLocDate,
+        candleData: firstCdleData,
+      });
+      setLastHalfDollar({ localDate: lastLocDate, candleData: lastCdleData });
     }
     console.log(error, "errorrrrrrrr");
   }, [data]);
@@ -37,14 +69,24 @@ export default function Home() {
 
           <div className="echarts-wrap">
             <div className="chart-layer">
-              <Echart data={data?.oneYearEco.usInterestRate.series} />
-              <Echart />
-              <Echart />
+              <CandleChart
+                title="6month Dollar Index"
+                maxYaxis={120}
+                candleData={firstHalfDollar ? firstHalfDollar : null}
+              />
+              <CandleChart
+                title="Next 6month Dollar Index"
+                maxYaxis={120}
+                candleData={lastHalfDollar ? lastHalfDollar : null}
+              />
             </div>
             <div className="chart-layer">
-              <Echart />
-              <Echart />
-              <Echart />
+              <LineChart />
+              <LineChart />
+            </div>
+            <div className="chart-layer">
+              <LineChart data={data?.oneYearEco.usInterestRate.series} />
+              <LineChart />
             </div>
           </div>
         </div>
@@ -69,6 +111,9 @@ export default function Home() {
           align-items: center;
         }
         .echarts-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 35px;
           width: 100%;
           height: 100%;
         }

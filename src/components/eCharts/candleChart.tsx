@@ -3,15 +3,24 @@ import EChartsNextForReactCore from "echarts-next-for-react";
 import ECharts, { EChartsReactProps } from "echarts-for-react";
 
 interface IChartProps {
-  data?: any[];
+  candleData?: {
+    localDate: string[];
+    candleData: number[];
+  } | null;
+  maxYaxis?: number;
+  title?: string;
 }
 
-const Echart: React.FC<IChartProps> = ({ data }) => {
-  if (data) console.log(data, "ypooooo");
+const CandleChart: React.FC<IChartProps> = ({
+  candleData,
+  maxYaxis,
+  title,
+}) => {
+  if (candleData) console.log(candleData.localDate, "이차트!!");
 
   const option = {
     title: {
-      text: "title",
+      text: title,
     },
     grid: {
       top: "15%",
@@ -21,7 +30,8 @@ const Echart: React.FC<IChartProps> = ({ data }) => {
       // containLabel: true
     },
     xAxis: {
-      type: "time",
+      type: "category",
+      data: candleData?.localDate,
       axisLine: {
         lineStyle: {
           width: 1,
@@ -30,9 +40,13 @@ const Echart: React.FC<IChartProps> = ({ data }) => {
     },
     yAxis: {
       type: "value",
+      max: maxYaxis,
     },
     tooltip: {
       trigger: "axis",
+      axisPointer: {
+        type: "cross",
+      },
     },
     dataZoom: [
       {
@@ -43,9 +57,8 @@ const Echart: React.FC<IChartProps> = ({ data }) => {
     ],
     series: [
       {
-        data: data,
-        showSymbol: false,
-        type: "line",
+        type: "candlestick",
+        data: candleData?.candleData,
         lineStyle: {
           width: 1.5,
           color: "#739A7B",
@@ -55,8 +68,8 @@ const Echart: React.FC<IChartProps> = ({ data }) => {
   };
 
   return (
-    <ECharts style={{ width: "800px", height: "230px" }} option={option} />
+    <ECharts style={{ width: "500px", height: "230px" }} option={option} />
   );
 };
 
-export default Echart;
+export default CandleChart;
