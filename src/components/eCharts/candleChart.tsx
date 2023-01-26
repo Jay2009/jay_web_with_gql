@@ -7,6 +7,8 @@ interface IChartProps {
     localDate: string[];
     candleData: number[];
   } | null;
+  isGoBtnClicked?: boolean;
+  isRefrBtnClicked?: boolean;
   maxYaxis?: number;
   title?: string;
 }
@@ -15,6 +17,8 @@ const CandleChart: React.FC<IChartProps> = ({
   candleData,
   maxYaxis,
   title,
+  isGoBtnClicked,
+  isRefrBtnClicked,
 }) => {
   if (candleData) console.log(candleData.localDate, "이차트!!");
 
@@ -22,25 +26,39 @@ const CandleChart: React.FC<IChartProps> = ({
     title: {
       text: title,
     },
-    grid: {
-      top: "15%",
-      left: "7%",
-      right: "5%",
-      bottom: "8%",
-      // containLabel: true
-    },
+    animationDuration: 100000,
+    grid:
+      isGoBtnClicked == true
+        ? {
+            top: "15%",
+            left: "0%",
+            right: "7%",
+            bottom: "15%",
+          }
+        : {
+            top: "15%",
+            left: "15%",
+            right: "0%",
+            bottom: "15%",
+          },
+
     xAxis: {
       type: "category",
       data: candleData?.localDate,
-      axisLine: {
-        lineStyle: {
-          width: 1,
-        },
+      offset: 0,
+      axisLabel: {
+        // 여기에 Go 버튼 눌렀을시 "false" refresh 또는 안누르면  "true"
+        showMinLabel: isGoBtnClicked == true ? false : true,
+        align: "right",
       },
     },
     yAxis: {
       type: "value",
       max: maxYaxis,
+      axisLabel: {
+        // 여기에 Go 버튼 눌렀을시 "false" refresh 또는 안누르면  "true"
+        show: isGoBtnClicked == true ? false : true,
+      },
     },
     tooltip: {
       trigger: "axis",
@@ -59,6 +77,7 @@ const CandleChart: React.FC<IChartProps> = ({
       {
         type: "candlestick",
         data: candleData?.candleData,
+        animationDuration: 3000,
         lineStyle: {
           width: 1.5,
           color: "#739A7B",
@@ -68,7 +87,7 @@ const CandleChart: React.FC<IChartProps> = ({
   };
 
   return (
-    <ECharts style={{ width: "500px", height: "230px" }} option={option} />
+    <ECharts style={{ width: "450px", height: "250px" }} option={option} />
   );
 };
 

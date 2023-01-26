@@ -15,15 +15,24 @@ interface IEconomics {
   candleData: number[];
 }
 
-let lastHalfEDollar: IEconomics[] = [];
-
 export default function Home() {
   const getUrl = GetUrlTitle();
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
+  const [isGoBtnClicked, setIsGoBtnClicked] = useState(false);
+  const [isRefrBtnClicked, setIsRefrBtnClicked] = useState(false);
+
   const [firstHalfDollar, setFirstHalfDollar] = useState<IEconomics | null>(
     null
   );
   const [lastHalfDollar, setLastHalfDollar] = useState<IEconomics | null>(null);
+
+  const [firstHalfGold, setFirstHalfGold] = useState<IEconomics | null>(null);
+  const [lastHalfGold, setLastHalfGold] = useState<IEconomics | null>(null);
+
+  const [firstHalfNasdaq, setFirstHalfNasdaq] = useState<IEconomics | null>(
+    null
+  );
+  const [lastHalfNasdaq, setLastHalfNasdaq] = useState<IEconomics | null>(null);
 
   useEffect(() => {
     if (data) {
@@ -54,6 +63,15 @@ export default function Home() {
     console.log(error, "errorrrrrrrr");
   }, [data]);
 
+  const handleOkBtn = () => {
+    setIsRefrBtnClicked(false);
+    setIsGoBtnClicked(true);
+  };
+  const handleRefrBtn = () => {
+    setIsGoBtnClicked(false);
+    setIsRefrBtnClicked(true);
+  };
+
   return (
     <div className="nav-frame">
       <div className="top-nav">
@@ -63,8 +81,21 @@ export default function Home() {
         <div className="right-main">
           <div className="control-area">
             <h2>No more trading, but trainning your self. </h2>
-            <div>조금의 설명과 버튼 !</div>
-            <div> 디테일스</div>
+            <div className="btn-wrap">
+              {isGoBtnClicked == false ? (
+                <button
+                  className="btn"
+                  onClick={handleOkBtn}
+                  disabled={data ? false : true}
+                >
+                  Go
+                </button>
+              ) : (
+                <button className="btn" onClick={handleRefrBtn}>
+                  Try again
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="echarts-wrap">
@@ -74,11 +105,22 @@ export default function Home() {
                 maxYaxis={120}
                 candleData={firstHalfDollar ? firstHalfDollar : null}
               />
-              <CandleChart
-                title="Next 6month Dollar Index"
-                maxYaxis={120}
-                candleData={lastHalfDollar ? lastHalfDollar : null}
-              />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <CandleChart
+                      title="-> Next 6month Dollar Index"
+                      maxYaxis={120}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      candleData={lastHalfDollar ? lastHalfDollar : null}
+                    />
+                  </div>
+                  <div className="chart-curtain"></div>
+                </>
+              ) : (
+                <div className="result-control">sd</div>
+              )}
             </div>
             <div className="chart-layer">
               <LineChart />
@@ -119,6 +161,56 @@ export default function Home() {
         }
         .chart-layer {
           display: flex;
+        }
+
+        .btn-wrap {
+          display: flex;
+          gap: 10px;
+        }
+        .btn {
+          margin-top: 20px;
+          display: flex;
+          color: white;
+          justify-content: center;
+          align-items: center;
+          background-color: #3369aa;
+          border-radius: 3px;
+          width: 80px;
+          height: 35px;
+          opacity: 0.8;
+          transition: 0.4s;
+          border: none;
+          box-shadow: 4px 4px 12px #4f5054;
+          outline: none;
+        }
+        .btn:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
+        .result-wrap {
+          positon: relative;
+        }
+        .chart-curtain {
+          background: #0a1b30;
+          position: absolute;
+          z-index: 10;
+          left: 470px;
+
+          height: 250px;
+          background: linear-gradient(to right, #08182c, #0a1a30);
+          width: 0px;
+          animation: moveToRight 2.5s linear;
+        }
+
+        @keyframes moveToRight {
+          0% {
+            transform: translate(0, 0);
+            width: 450px;
+          }
+          to {
+            transform: translate(450px, 0);
+            width: 0px;
+          }
         }
       `}</style>
     </div>

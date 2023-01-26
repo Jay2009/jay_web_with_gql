@@ -9,9 +9,11 @@ const ALL_ECONOMY_IDX = gql`
       }
       gold {
         localDate
+        candleData
       }
       vix {
         localDate
+        candleData
       }
       usInterestRate {
         series
@@ -21,9 +23,11 @@ const ALL_ECONOMY_IDX = gql`
       }
       nasdaq {
         localDate
+        candleData
       }
       us10yTreasury {
         localDate
+        candleData
       }
     }
   }

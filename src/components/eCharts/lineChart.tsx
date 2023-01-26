@@ -13,6 +13,7 @@ const LineChart: React.FC<IChartProps> = ({ data }) => {
     title: {
       text: "title",
     },
+
     grid: {
       top: "15%",
       left: "7%",
