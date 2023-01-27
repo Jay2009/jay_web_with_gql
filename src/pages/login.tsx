@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { loggedInUserId } from "../recoilAtom/adminAtom";
+import { loggedInUserId } from "../../recoil/atoms/adminAtom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
 import { Modal } from "antd";

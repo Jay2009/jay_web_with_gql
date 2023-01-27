@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import JaySideBar from "../components/navBar/jaySideBar";
 import GetUrlTitle from "../components/navBar/getUrlTitle";
 import JayTopBar from "../components/navBar/jayTopBar";
@@ -9,59 +8,29 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import LineChart from "@/components/eCharts/lineChart";
 import CandleChart from "@/components/eCharts/candleChart";
-
-interface IEconomics {
-  localDate: string[];
-  candleData: number[];
-}
+import UpDownCntrlPanel from "@/components/common/upDownCntrlPanel";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { economyState } from "recoil/atoms/economyAtom";
+import { bakeEcodata } from "recoil/selectors/economySelector";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
+
+  const [ecoData, setEcoData] = useRecoilState(economyState);
+  const fineEcodata = useRecoilValue(bakeEcodata);
+
   const [isGoBtnClicked, setIsGoBtnClicked] = useState(false);
   const [isRefrBtnClicked, setIsRefrBtnClicked] = useState(false);
 
-  const [firstHalfDollar, setFirstHalfDollar] = useState<IEconomics | null>(
-    null
-  );
-  const [lastHalfDollar, setLastHalfDollar] = useState<IEconomics | null>(null);
-
-  const [firstHalfGold, setFirstHalfGold] = useState<IEconomics | null>(null);
-  const [lastHalfGold, setLastHalfGold] = useState<IEconomics | null>(null);
-
-  const [firstHalfNasdaq, setFirstHalfNasdaq] = useState<IEconomics | null>(
-    null
-  );
-  const [lastHalfNasdaq, setLastHalfNasdaq] = useState<IEconomics | null>(null);
-
   useEffect(() => {
-    if (data) {
-      console.log(data);
-
-      let dollarLocDate = data.oneYearEco.dollar.localDate;
-      let dollarCdleData = data.oneYearEco.dollar.candleData;
-      let firstLocDate = dollarLocDate.slice(0, dollarLocDate.length / 2);
-      let firstCdleData = dollarCdleData.slice(0, dollarCdleData.length / 2);
-      let lastLocDate = dollarLocDate.slice(
-        dollarLocDate.length / 2,
-        dollarLocDate.length
-      );
-      let lastCdleData = dollarCdleData.slice(
-        dollarLocDate.length / 2,
-        dollarLocDate.length
-      );
-      // firstHalfDollar = [
-      //   { localDate: firstLocDate, candleData: firstCdleData },
-      // ];
-      // firstHalfDollar = [{ localDate: lastLocDate, candleData: lastCdleData }];
-      setFirstHalfDollar({
-        localDate: firstLocDate,
-        candleData: firstCdleData,
-      });
-      setLastHalfDollar({ localDate: lastLocDate, candleData: lastCdleData });
-    }
     console.log(error, "errorrrrrrrr");
+    if (data) {
+      setEcoData(data);
+    }
   }, [data]);
+
+  console.log(fineEcodata, "recoil 에서 나온 데이터 달러임당!!!");
 
   const handleOkBtn = () => {
     setIsRefrBtnClicked(false);
@@ -80,7 +49,9 @@ export default function Home() {
       <div className="main-body">
         <div className="right-main">
           <div className="control-area">
-            <h2>No more trading, but trainning your self. </h2>
+            <h2 className="main-title">
+              No more trading, but trainning your self.{" "}
+            </h2>
             <div className="btn-wrap">
               {isGoBtnClicked == false ? (
                 <button
@@ -103,23 +74,31 @@ export default function Home() {
               <CandleChart
                 title="6month Dollar Index"
                 maxYaxis={120}
-                candleData={firstHalfDollar ? firstHalfDollar : null}
+                candleData={
+                  fineEcodata?.firstHalfData?.dollar
+                    ? fineEcodata?.firstHalfData?.dollar
+                    : null
+                }
               />
               {isGoBtnClicked == true ? (
                 <>
                   <div className="result-wrap">
                     <CandleChart
-                      title="-> Next 6month Dollar Index"
+                      title="-> Next 6 months Dollar Index"
                       maxYaxis={120}
                       isGoBtnClicked={isGoBtnClicked}
                       isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={lastHalfDollar ? lastHalfDollar : null}
+                      candleData={
+                        fineEcodata?.lastHalfData?.dollar
+                          ? fineEcodata?.lastHalfData?.dollar
+                          : null
+                      }
                     />
                   </div>
                   <div className="chart-curtain"></div>
                 </>
               ) : (
-                <div className="result-control">sd</div>
+                <UpDownCntrlPanel />
               )}
             </div>
             <div className="chart-layer">
@@ -127,7 +106,9 @@ export default function Home() {
               <LineChart />
             </div>
             <div className="chart-layer">
-              <LineChart data={data?.oneYearEco.usInterestRate.series} />
+              <LineChart
+                data={fineEcodata?.firstHalfData?.usInterestRate?.series}
+              />
               <LineChart />
             </div>
           </div>
@@ -162,6 +143,9 @@ export default function Home() {
         .chart-layer {
           display: flex;
         }
+        .main-title {
+          font-weight: normal;
+        }
 
         .btn-wrap {
           display: flex;
@@ -190,6 +174,7 @@ export default function Home() {
         .result-wrap {
           positon: relative;
         }
+
         .chart-curtain {
           background: #0a1b30;
           position: absolute;
