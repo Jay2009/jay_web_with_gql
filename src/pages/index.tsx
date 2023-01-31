@@ -10,18 +10,29 @@ import LineChart from "@/components/eCharts/lineChart";
 import CandleChart from "@/components/eCharts/candleChart";
 import UpDownCntrlPanel from "@/components/common/upDownCntrlPanel";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { economyState } from "recoil/atoms/economyAtom";
+import { economyState, riseOrFallState } from "recoil/atoms/economyAtom";
 import { bakeEcodata } from "recoil/selectors/economySelector";
+import { Modal } from "antd";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
 
+  const [btnState, setBtnState] = useRecoilState(riseOrFallState);
   const [ecoData, setEcoData] = useRecoilState(economyState);
   const fineEcodata = useRecoilValue(bakeEcodata);
 
   const [isGoBtnClicked, setIsGoBtnClicked] = useState(false);
   const [isRefrBtnClicked, setIsRefrBtnClicked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     console.log(error, "errorrrrrrrr");
@@ -29,8 +40,9 @@ export default function Home() {
       setEcoData(data);
     }
   }, [data]);
+  console.log(btnState, "버튼 상태들@!@@@");
 
-  console.log(fineEcodata, "recoil 에서 나온 데이터 달러임당!!!");
+  //console.log(fineEcodata, "recoil 에서 나온 데이터 달러임당!!!");
 
   const handleOkBtn = () => {
     setIsRefrBtnClicked(false);
@@ -38,8 +50,20 @@ export default function Home() {
   };
   const handleRefrBtn = () => {
     setIsGoBtnClicked(false);
-    setIsRefrBtnClicked(true);
+    setIsRefrBtnClicked(false);
+    setBtnState({
+      ...btnState,
+      dollar: null,
+      gold: null,
+      nasdaq: null,
+      usInterestRate: null,
+      us10yTreasury: null,
+      vix: null,
+    });
+    refetch();
   };
+
+  console.log(btnState, "btn stateee@!@@@");
 
   return (
     <div className="nav-frame">
@@ -50,26 +74,126 @@ export default function Home() {
         <div className="right-main">
           <div className="control-area">
             <h2 className="main-title">
-              No more trading, but trainning your self.{" "}
+              No more trading, but trainning your self with real data.
             </h2>
-            <div className="btn-wrap">
-              {isGoBtnClicked == false ? (
-                <button
-                  className="btn"
-                  onClick={handleOkBtn}
-                  disabled={data ? false : true}
-                >
-                  Go
-                </button>
-              ) : (
-                <button className="btn" onClick={handleRefrBtn}>
-                  Try again
-                </button>
-              )}
-            </div>
+            {btnState.dollar !== null &&
+            btnState.gold !== null &&
+            btnState.nasdaq !== null ? (
+              <div className="btn-wrap">
+                {isGoBtnClicked == false ? (
+                  <button
+                    className="btn"
+                    onClick={handleOkBtn}
+                    disabled={data ? false : true}
+                  >
+                    Next 6months &nbsp;
+                    <Image
+                      alt=""
+                      src="/assets/bar-chart.png"
+                      width={25}
+                      height={25}
+                    />
+                  </button>
+                ) : (
+                  <>
+                    <button className="btn" onClick={showModal}>
+                      Result details &nbsp;
+                      <Image
+                        alt=""
+                        src="/assets/search.png"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                    <button className="btn" onClick={handleRefrBtn}>
+                      Try again &nbsp;
+                      <Image
+                        alt=""
+                        src="/assets/refresh.png"
+                        width={25}
+                        height={25}
+                      />
+                    </button>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div style={{ margin: "7px" }}>
+                Please click all of &quot; Up or Down &quot; buttons below
+              </div>
+            )}
+            <Modal
+              title="Result detail"
+              centered={true}
+              open={isModalOpen}
+              onCancel={handleCancel}
+              width={380}
+              footer
+            ></Modal>
           </div>
 
           <div className="echarts-wrap">
+            <div className="chart-layer">
+              <CandleChart
+                title="Dollar Index"
+                maxYaxis={120}
+                candleData={
+                  fineEcodata?.firstHalfData?.dollar
+                    ? fineEcodata?.firstHalfData?.dollar
+                    : null
+                }
+              />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <CandleChart
+                      title=" Next 6 months"
+                      maxYaxis={120}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      candleData={
+                        fineEcodata?.lastHalfData?.dollar
+                          ? fineEcodata?.lastHalfData?.dollar
+                          : null
+                      }
+                    />
+                  </div>
+                  <div className="chart-curtain right-chart"></div>
+                </>
+              ) : (
+                <UpDownCntrlPanel title="Dollar" />
+              )}
+
+              <CandleChart
+                title="Nasdaq Index"
+                maxYaxis={17000}
+                candleData={
+                  fineEcodata?.firstHalfData?.nasdaq
+                    ? fineEcodata?.firstHalfData?.nasdaq
+                    : null
+                }
+              />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <CandleChart
+                      title=" Next 6 months"
+                      maxYaxis={17000}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      candleData={
+                        fineEcodata?.lastHalfData?.nasdaq
+                          ? fineEcodata?.lastHalfData?.nasdaq
+                          : null
+                      }
+                    />
+                  </div>
+                  <div className="chart-curtain left-chart"></div>
+                </>
+              ) : (
+                <UpDownCntrlPanel title="Nasdaq" />
+              )}
+            </div>
             <div className="chart-layer">
               <CandleChart
                 title="6month Dollar Index"
@@ -98,12 +222,8 @@ export default function Home() {
                   <div className="chart-curtain"></div>
                 </>
               ) : (
-                <UpDownCntrlPanel />
+                <UpDownCntrlPanel title="Gold" />
               )}
-            </div>
-            <div className="chart-layer">
-              <LineChart />
-              <LineChart />
             </div>
             <div className="chart-layer">
               <LineChart
@@ -149,17 +269,16 @@ export default function Home() {
 
         .btn-wrap {
           display: flex;
-          gap: 10px;
+          gap: 30px;
         }
         .btn {
-          margin-top: 20px;
           display: flex;
           color: white;
           justify-content: center;
           align-items: center;
           background-color: #3369aa;
           border-radius: 3px;
-          width: 80px;
+          width: 130px;
           height: 35px;
           opacity: 0.8;
           transition: 0.4s;
@@ -176,15 +295,20 @@ export default function Home() {
         }
 
         .chart-curtain {
-          background: #0a1b30;
+          background: #091a30;
           position: absolute;
           z-index: 10;
-          left: 470px;
-
-          height: 250px;
-          background: linear-gradient(to right, #08182c, #0a1a30);
           width: 0px;
+        }
+        .left-chart {
+          left: 470px;
+          height: 250px;
           animation: moveToRight 2.5s linear;
+        }
+        .right-chart {
+          right: 100px;
+          height: 250px;
+          animation: moveToRight 5s linear;
         }
 
         @keyframes moveToRight {

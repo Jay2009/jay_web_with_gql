@@ -25,6 +25,10 @@ const CandleChart: React.FC<IChartProps> = ({
   const option = {
     title: {
       text: title,
+      textStyle: {
+        fontSize: 20,
+        color: "gray",
+      },
     },
     animationDuration: 100000,
     grid:
