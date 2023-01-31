@@ -122,7 +122,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         .result-control {
           width: 435px;
           height: 200px;
-          margin-top: 30px;
+          margin-top: 20px;
           margin-left: 10px;
           display: flex;
           flex-direction: column;

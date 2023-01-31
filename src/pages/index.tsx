@@ -78,7 +78,9 @@ export default function Home() {
             </h2>
             {btnState.dollar !== null &&
             btnState.gold !== null &&
-            btnState.nasdaq !== null ? (
+            btnState.nasdaq !== null &&
+            btnState.vix !== null && 
+            btnState.us10yTreasury !== null ? (
               <div className="btn-wrap">
                 {isGoBtnClicked == false ? (
                   <button
@@ -196,11 +198,11 @@ export default function Home() {
             </div>
             <div className="chart-layer">
               <CandleChart
-                title="6month Dollar Index"
-                maxYaxis={120}
+                title="Gold Index"
+                maxYaxis={2100}
                 candleData={
-                  fineEcodata?.firstHalfData?.dollar
-                    ? fineEcodata?.firstHalfData?.dollar
+                  fineEcodata?.firstHalfData?.gold
+                    ? fineEcodata?.firstHalfData?.gold
                     : null
                 }
               />
@@ -208,21 +210,51 @@ export default function Home() {
                 <>
                   <div className="result-wrap">
                     <CandleChart
-                      title="-> Next 6 months Dollar Index"
-                      maxYaxis={120}
+                      title=" Next 6 months"
+                      maxYaxis={2100}
                       isGoBtnClicked={isGoBtnClicked}
                       isRefrBtnClicked={isRefrBtnClicked}
                       candleData={
-                        fineEcodata?.lastHalfData?.dollar
-                          ? fineEcodata?.lastHalfData?.dollar
+                        fineEcodata?.lastHalfData?.gold
+                          ? fineEcodata?.lastHalfData?.gold
                           : null
                       }
                     />
                   </div>
-                  <div className="chart-curtain"></div>
+                  <div className="chart-curtain right-chart"></div>
                 </>
               ) : (
                 <UpDownCntrlPanel title="Gold" />
+              )}
+
+              <CandleChart
+                title="Vix Index"
+                maxYaxis={75}
+                candleData={
+                  fineEcodata?.firstHalfData?.vix
+                    ? fineEcodata?.firstHalfData?.vix
+                    : null
+                }
+              />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <CandleChart
+                      title=" Next 6 months"
+                      maxYaxis={75}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      candleData={
+                        fineEcodata?.lastHalfData?.vix
+                          ? fineEcodata?.lastHalfData?.vix
+                          : null
+                      }
+                    />
+                  </div>
+                  <div className="chart-curtain left-chart"></div>
+                </>
+              ) : (
+                <UpDownCntrlPanel title="Vix" />
               )}
             </div>
             <div className="chart-layer">
@@ -262,6 +294,8 @@ export default function Home() {
         }
         .chart-layer {
           display: flex;
+          justify-content:center;
+          align-items:center;
         }
         .main-title {
           font-weight: normal;
@@ -301,12 +335,12 @@ export default function Home() {
           width: 0px;
         }
         .left-chart {
-          left: 470px;
+          left: 440px;
           height: 250px;
           animation: moveToRight 2.5s linear;
         }
         .right-chart {
-          right: 100px;
+          right: -50px;
           height: 250px;
           animation: moveToRight 5s linear;
         }

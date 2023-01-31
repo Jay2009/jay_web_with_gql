@@ -49,7 +49,7 @@ const CandleChart: React.FC<IChartProps> = ({
     xAxis: {
       type: "category",
       data: candleData?.localDate,
-      offset: 0,
+      offset: 5,
       axisLabel: {
         // 여기에 Go 버튼 눌렀을시 "false" refresh 또는 안누르면  "true"
         showMinLabel: isGoBtnClicked == true ? false : true,
