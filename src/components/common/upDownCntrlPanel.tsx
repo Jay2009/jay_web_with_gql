@@ -32,9 +32,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, gold: true });
       case "Nasdaq":
         return setBtnState({ ...btnState, nasdaq: true });
-      case "UsInterestRate":
+      case "US Interest Rates":
         return setBtnState({ ...btnState, usInterestRate: true });
-      case "Us10yTreasury":
+      case "US 10y Treasury":
         return setBtnState({ ...btnState, us10yTreasury: true });
       case "Vix":
         return setBtnState({ ...btnState, vix: true });
@@ -52,9 +52,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, gold: false });
       case "Nasdaq":
         return setBtnState({ ...btnState, nasdaq: false });
-      case "UsInterestRate":
+      case "US Interest Rates":
         return setBtnState({ ...btnState, usInterestRate: false });
-      case "Us10yTreasury":
+      case "US 10y Treasury":
         return setBtnState({ ...btnState, us10yTreasury: false });
       case "Vix":
         return setBtnState({ ...btnState, vix: false });

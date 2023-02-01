@@ -12,7 +12,7 @@ import UpDownCntrlPanel from "@/components/common/upDownCntrlPanel";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { economyState, riseOrFallState } from "recoil/atoms/economyAtom";
 import { bakeEcodata } from "recoil/selectors/economySelector";
-import { Modal } from "antd";
+import EcoResultModal from "@/components/modal/ecoResultModal";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
@@ -80,7 +80,8 @@ export default function Home() {
             btnState.gold !== null &&
             btnState.nasdaq !== null &&
             btnState.vix !== null && 
-            btnState.us10yTreasury !== null ? (
+            btnState.us10yTreasury !== null &&
+            btnState.usInterestRate !== null ? (
               <div className="btn-wrap">
                 {isGoBtnClicked == false ? (
                   <button
@@ -124,14 +125,13 @@ export default function Home() {
                 Please click all of &quot; Up or Down &quot; buttons below
               </div>
             )}
-            <Modal
-              title="Result detail"
-              centered={true}
-              open={isModalOpen}
-              onCancel={handleCancel}
-              width={380}
-              footer
-            ></Modal>
+            <EcoResultModal
+              isModalOpen={isModalOpen}
+              handleCancel={handleCancel}
+              fineEcoData={fineEcodata?
+              fineEcodata
+                : null}
+            />
           </div>
 
           <div className="echarts-wrap">
@@ -229,7 +229,7 @@ export default function Home() {
 
               <CandleChart
                 title="Vix Index"
-                maxYaxis={75}
+                maxYaxis={90}
                 candleData={
                   fineEcodata?.firstHalfData?.vix
                     ? fineEcodata?.firstHalfData?.vix
@@ -241,7 +241,7 @@ export default function Home() {
                   <div className="result-wrap">
                     <CandleChart
                       title=" Next 6 months"
-                      maxYaxis={75}
+                      maxYaxis={90}
                       isGoBtnClicked={isGoBtnClicked}
                       isRefrBtnClicked={isRefrBtnClicked}
                       candleData={
@@ -258,11 +258,68 @@ export default function Home() {
               )}
             </div>
             <div className="chart-layer">
-              <LineChart
-                data={fineEcodata?.firstHalfData?.usInterestRate?.series}
+              <CandleChart
+                title="US 10y Treasury Index"
+                maxYaxis={5}
+                candleData={
+                  fineEcodata?.firstHalfData?.us10yTreasury
+                    ? fineEcodata?.firstHalfData?.us10yTreasury
+                    : null
+                }
               />
-              <LineChart />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <CandleChart
+                      title=" Next 6 months"
+                      maxYaxis={5}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      candleData={
+                        fineEcodata?.lastHalfData?.us10yTreasury
+                          ? fineEcodata?.lastHalfData?.us10yTreasury
+                          : null
+                      }
+                    />
+                  </div>
+                  <div className="chart-curtain right-chart"></div>
+                </>
+              ) : (
+                <UpDownCntrlPanel title="US 10y Treasury" />
+              )}
+
+
+              <LineChart
+                title="US Interest Rates Index"
+                maxYaxis={5}
+                data={
+                  fineEcodata?.firstHalfData?.usInterestRate.series
+                    ? fineEcodata?.firstHalfData?.usInterestRate.series
+                    : null
+                }
+              />
+              {isGoBtnClicked == true ? (
+                <>
+                  <div className="result-wrap">
+                    <LineChart
+                      title=" Next 6 months"
+                      maxYaxis={5}
+                      isGoBtnClicked={isGoBtnClicked}
+                      isRefrBtnClicked={isRefrBtnClicked}
+                      data={
+                        fineEcodata?.lastHalfData?.usInterestRate.series
+                          ? fineEcodata?.lastHalfData?.usInterestRate.series
+                          : null
+                      }
+                    />
+                  </div>
+                  <div className="chart-curtain left-chart"></div>
+                </>
+              ) : (
+                <UpDownCntrlPanel title="US Interest Rates" />
+              )}
             </div>
+            
           </div>
         </div>
       </div>
@@ -288,12 +345,14 @@ export default function Home() {
         .echarts-wrap {
           display: flex;
           flex-direction: column;
-          gap: 35px;
+          gap: 5px;
           width: 100%;
           height: 100%;
         }
         .chart-layer {
           display: flex;
+          width: 100%;
+          height:100%;
           justify-content:center;
           align-items:center;
         }

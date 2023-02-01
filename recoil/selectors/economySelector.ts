@@ -4,7 +4,7 @@ import { economyState } from "recoil/atoms/economyAtom";
 export const bakeEcodata = selector({
   key: "bakeEcodata",
   get: ({ get }) => {
-    let firstHalfData: any;
+    let firstHalfData;
     let lastHalfData;
     // baking dollar idx
     if (get(economyState) !== null) {
@@ -139,16 +139,16 @@ export const bakeEcodata = selector({
       firstHalfData = {
         ...firstHalfData,
         vix: {
-          localDate: firstUs10YTrsuryLoc,
-          candleData: firstUs10YTrsuryCdle,
+          localDate: firstVixLoc,
+          candleData: firstVixCdle,
         },
       };
       lastHalfData = {
         ...lastHalfData,
-        vix: { localDate: lastUs10YTrsuryLoc, candleData: lastUs10YTrsuryCdle },
+        vix: { localDate: lastVixLoc, candleData: lastVixyCdle },
       };
 
-      // US interest rates data division into 2 parts (first half year and last half year)
+      // US interest rates data dividing into 2 parts (first half year and last half year)
       let usInterRateData = data.oneYearEco.usInterestRate.series;
       let maxLength = Math.ceil(usInterRateData.length / 2);
       let firstUsInterRateData = usInterRateData.slice(0, maxLength);
