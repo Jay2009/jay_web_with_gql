@@ -22,21 +22,14 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
 
 useEffect(() => {
-  if(fineEcoData !== undefined && null){
-  console.log(fineEcoData,"@@@@@@@$$$$$$$$");
-  let firstNasdaqCandl = fineEcoData.firstHalfData.nasdaq.candleData
-  let newestNasdaqPrice : any = firstNasdaqCandl?.[firstNasdaqCandl.length -1] ;
-  let firstNasdAvg : number = (newestNasdaqPrice[0] + newestNasdaqPrice[1] + newestNasdaqPrice[2]) / 3;
-  console.log(firstNasdAvg, "ㅎㅎㅎㅎㅎㅎㅎㅎㅎ");
+  if(fineEcoData !== undefined && fineEcoData !== null){
+  
   
   //let firstNasdAvg : number = (newestNasdaqPrice[0] + newestNasdaqPrice[1] + newestNasdaqPrice[2]) /3
 
   // let lastNasdaqCandl = fineEcoData?.lastHalfData?.nasdaq.candleData
   // let newestNasdaqPrice : any = firstNasdaqCandl?.[firstNasdaqCandl.length -1] ;
   // let firstNasdAvg = (newestNasdaqPrice[0] + newestNasdaqPrice[1] + newestNasdaqPrice[2]) /3
-  
-
-    lastNasdaq = fineEcoData?.lastHalfData?.nasdaq.candleData
     
     
     //console.log(firstNasdaq,"마지막 인덱스 데이터");
