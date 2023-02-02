@@ -128,9 +128,16 @@ export default function Home() {
             <EcoResultModal
               isModalOpen={isModalOpen}
               handleCancel={handleCancel}
-              fineEcoData={fineEcodata?
-              fineEcodata
+              firstHalfData={
+                fineEcodata?.firstHalfData
+                ?
+              fineEcodata.firstHalfData
                 : null}
+                lastHalfData={
+                  fineEcodata?.lastHalfData
+                  ?
+                fineEcodata.lastHalfData
+                  : null}
             />
           </div>
 

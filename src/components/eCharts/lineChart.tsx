@@ -80,8 +80,8 @@ const LineChart: React.FC<IChartProps> = ({ data, isGoBtnClicked, maxYaxis , tit
         showSymbol: false,
         type: "line",
         lineStyle: {
-          width: 1.5,
-          color: "#739A7B",
+          width: 2,
+          color: "#f7f72f",
         },
       },
     ],

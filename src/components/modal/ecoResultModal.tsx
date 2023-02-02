@@ -2,40 +2,96 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Modal } from "antd";
 import {IFineEcoData} from "@/types/iFineEcoData"
+import Image from "next/image";
 
 interface IResultModalProps {
   isModalOpen: boolean;
   handleCancel: () => void;
 }
 interface IResultProps extends IResultModalProps {
-  fineEcoData? : IFineEcoData | null
+  firstHalfData? : IFineEcoData | null
+  lastHalfData? : IFineEcoData | null
+}
+interface Itest {
+  [index: number]: number ;
 }
 
-let firstNasdaq : number[] | undefined  = [] ;
-let lastNasdaq : number[] | undefined = [] ;
+interface IEcoResult {
+  initNasDate? : string;
+  initNasPrice? : number;
+  lastNasDate? : string;
+  lastNasPrice? : number;
+  nasRateOfReturn?: number;
+
+  initDollarDate? : string;
+  initDollarPrice? : number;
+  lastDollarDate? : string;
+  lastDollarPrice? : number;
+  dollarRateOfReturn?: number;
+
+  initGoldDate? : string;
+  initGoldPrice? : number;
+  lastGoldDate? : string;
+  lastGoldPrice? : number;
+  goldRateOfReturn?: number;
+  
+}
 
 const EcoResultModal: React.FC<IResultProps> = ({
   isModalOpen,
   handleCancel,
-  fineEcoData,
+  firstHalfData,
+  lastHalfData,
 }) => {
 
+  const [nasInitData, setNasInitData] = useState<IEcoResult | null>(null) ;
+  const [nasLastData, setNasLastData] = useState<IEcoResult | null>(null) ;
+
+  const [goldInitData, setGoldInitData] = useState<IEcoResult | null>(null) ;
+  const [goldLastData, setGoldLastData] = useState<IEcoResult | null>(null) ;
+
+  const [dollarInitData, setDollarInitData] = useState<IEcoResult | null>(null) ;
+  const [dollarLastData, setDollarLastData] = useState<IEcoResult | null>(null) ;
 
 useEffect(() => {
-  if(fineEcoData !== undefined && fineEcoData !== null){
-  
-  
-  //let firstNasdAvg : number = (newestNasdaqPrice[0] + newestNasdaqPrice[1] + newestNasdaqPrice[2]) /3
+  if(firstHalfData !== undefined && firstHalfData !== null && lastHalfData !== undefined && lastHalfData !== null){
 
-  // let lastNasdaqCandl = fineEcoData?.lastHalfData?.nasdaq.candleData
-  // let newestNasdaqPrice : any = firstNasdaqCandl?.[firstNasdaqCandl.length -1] ;
-  // let firstNasdAvg = (newestNasdaqPrice[0] + newestNasdaqPrice[1] + newestNasdaqPrice[2]) /3
-    
-    
-    //console.log(firstNasdaq,"마지막 인덱스 데이터");
+  const firstHalfNasData :Itest | any  = firstHalfData.nasdaq.candleData[firstHalfData.nasdaq.candleData.length  -1  ]  
+  let initNasDate = firstHalfData.nasdaq.localDate[firstHalfData.nasdaq.localDate.length -1]
+  let initNasPrice  = Math.floor(firstHalfNasData[0] + firstHalfNasData[1] + firstHalfNasData[2] + firstHalfNasData[3] / 4)
+  setNasInitData({...nasInitData, initNasDate : initNasDate , initNasPrice: initNasPrice})
+
+  const lastHalfNasData :Itest | any  = lastHalfData.nasdaq.candleData[lastHalfData.nasdaq.candleData.length  -1  ]  
+  let lastNasDate = lastHalfData.nasdaq.localDate[lastHalfData.nasdaq.localDate.length -1]
+  let lastNasPrice  =  Math.floor(lastHalfNasData[0] + lastHalfNasData[1] + lastHalfNasData[2] + lastHalfNasData[3] / 4)
+  let nasRateOfReturn = ((lastNasPrice - initNasPrice) / initNasPrice) * 100
+  setNasLastData({...nasLastData, lastNasDate : lastNasDate , lastNasPrice: lastNasPrice, nasRateOfReturn: Math.floor(nasRateOfReturn)})
+
+  const firstHalfDollarData :Itest | any  = firstHalfData.dollar.candleData[firstHalfData.dollar.candleData.length  -1  ]  
+  let initDollarDate = firstHalfData.dollar.localDate[firstHalfData.dollar.localDate.length -1]
+  let initDollarPrice  = Math.floor(firstHalfDollarData[0] + firstHalfDollarData[1] + firstHalfDollarData[2] + firstHalfDollarData[3] / 4)
+  setDollarInitData({...dollarInitData, initDollarDate : initDollarDate , initDollarPrice: initDollarPrice})
+
+  const lastHalfDollarData :Itest | any  = lastHalfData.dollar.candleData[lastHalfData.dollar.candleData.length  -1  ]  
+  let lastDollarDate = lastHalfData.dollar.localDate[lastHalfData.dollar.localDate.length -1]
+  let lastDollarPrice  =  Math.floor(lastHalfDollarData[0] + lastHalfDollarData[1] + lastHalfDollarData[2] + lastHalfDollarData[3] / 4)
+  let dollarRateOfReturn = ((lastDollarPrice - initDollarPrice) / initDollarPrice) * 100
+  setDollarLastData({...dollarLastData, lastDollarDate : lastDollarDate , lastDollarPrice: lastDollarPrice, dollarRateOfReturn: Math.floor(dollarRateOfReturn)})
+
+
+  const firstHalfGoldData :Itest | any  = firstHalfData.gold.candleData[firstHalfData.gold.candleData.length  -1  ]  
+  let initGoldDate = firstHalfData.gold.localDate[firstHalfData.gold.localDate.length -1]
+  let initGoldPrice  = Math.floor(firstHalfGoldData[0] + firstHalfGoldData[1] + firstHalfGoldData[2] + firstHalfGoldData[3] / 4)
+  setGoldInitData({...goldInitData, initGoldDate : initGoldDate , initGoldPrice: initGoldPrice})
+
+  const lastHalfGoldData :Itest | any  = lastHalfData.gold.candleData[lastHalfData.gold.candleData.length  -1  ]  
+  let lastGoldDate = lastHalfData.gold.localDate[lastHalfData.gold.localDate.length -1]
+  let lastGoldPrice  =  Math.floor(lastHalfGoldData[0] + lastHalfGoldData[1] + lastHalfGoldData[2] + lastHalfGoldData[3] / 4)
+  let goldRateOfReturn = ((lastGoldPrice - initGoldPrice) / initGoldPrice) * 100
+  setGoldLastData({...goldLastData, lastGoldDate : lastGoldDate , lastGoldPrice: lastGoldPrice, goldRateOfReturn: Math.floor(goldRateOfReturn)})
 }
 
-})
+},[firstHalfData,lastHalfData])
 
   return (
     <div>
@@ -50,7 +106,27 @@ useEffect(() => {
         
           <div className="body-wrap">
             <div className="content-wrap">
-              {firstNasdaq ? firstNasdaq[0] : ""}
+              <div className="row-elements">
+                <Image alt="" src="/assets/nasdaq.png" width={32} height={32}/>
+                <div className="element">{nasInitData?.initNasDate} : ${nasInitData?.initNasPrice}</div>
+                <div className="element">{nasLastData?.lastNasDate} : ${nasLastData?.lastNasPrice} </div>
+                <div className="element">Rate of Return : {nasLastData?.nasRateOfReturn}%</div>
+                <Image alt="" src="/assets/correct.png" width={32} height={32}/>
+              </div>
+              <div className="row-elements">
+                <Image alt="" src="/assets/dollar.png" width={32} height={32}/>
+                <div className="element">{dollarInitData?.initDollarDate} : ${dollarInitData?.initDollarPrice}</div>
+                <div className="element">{dollarLastData?.lastDollarDate} : ${dollarLastData?.lastDollarPrice} </div>
+                <div className="element">Rate of Return : {dollarLastData?.dollarRateOfReturn}%</div>
+                <Image alt="" src="/assets/incorrect.png" width={32} height={32}/>
+              </div>
+
+              <div className="row-elements">
+                <Image alt="" src="/assets/gold.png" width={32} height={32}/>
+                <div className="element">{goldInitData?.initGoldDate} : ${goldInitData?.initGoldPrice}</div>
+                <div className="element">{goldLastData?.lastGoldDate} : ${goldLastData?.lastGoldPrice} </div>
+                <div className="element">Rate of Return : {goldLastData?.goldRateOfReturn}%</div>
+              </div>
             </div>
             <button onClick={handleCancel}className="ok-btn">
               OK
@@ -68,6 +144,20 @@ useEffect(() => {
           justify-content: center;
           align-items: center;
           gap: 15px;
+        }
+        .content-wrap{
+          display: flex;
+          flex-direction:column;
+          gap: 20px;
+        }
+        .row-elements{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+        .element {
+          width: 150px;
         }
         .ok-btn {
           margin-top: 20px;
@@ -87,6 +177,7 @@ useEffect(() => {
         .ok-btn:active {
           border: 1px solid #2372db;
         }
+
       `}</style>
     </div>
   );

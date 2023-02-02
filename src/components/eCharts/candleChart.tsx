@@ -30,7 +30,7 @@ const CandleChart: React.FC<IChartProps> = ({
         color: "gray",
       },
     },
-    animationDuration: 100000,
+    
     grid:
       isGoBtnClicked == true
         ? {
@@ -86,7 +86,35 @@ const CandleChart: React.FC<IChartProps> = ({
           width: 1.5,
           color: "#739A7B",
         },
+        markPoint: {
+          data: [
+            {
+              type: 'max',
+              symbol: "pin",
+              symbolSize: 22,
+              label: {
+                show: false
+              },
+              itemStyle: {
+                color: "#f70202"
+              }, 
+            },
+            {
+            type: 'min',
+            symbol: "pin",
+            symbolSize: 22,
+            label: {
+              show: false
+            },
+            itemStyle: {
+              color: "#0af702"
+            },     
+            symbolRotate: 180,
+            },
+          ],
+        }, 
       },
+      
     ],
   };
 
