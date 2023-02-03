@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Modal } from "antd";
 import {IFineEcoData} from "@/types/iFineEcoData"
 import Image from "next/image";
+import { useRecoilState } from "recoil";
+import { riseOrFallState } from "recoil/atoms/economyAtom";
 
 interface IResultModalProps {
   isModalOpen: boolean;
@@ -44,6 +46,7 @@ const EcoResultModal: React.FC<IResultProps> = ({
   lastHalfData,
 }) => {
 
+  const [btnState, setBtnState] = useRecoilState(riseOrFallState);
   const [nasInitData, setNasInitData] = useState<IEcoResult | null>(null) ;
   const [nasLastData, setNasLastData] = useState<IEcoResult | null>(null) ;
 
@@ -54,6 +57,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
   const [dollarLastData, setDollarLastData] = useState<IEcoResult | null>(null) ;
 
 useEffect(() => {
+
+  console.log(btnState,"????");
+  
   if(firstHalfData !== undefined && firstHalfData !== null && lastHalfData !== undefined && lastHalfData !== null){
 
   const firstHalfNasData :Itest | any  = firstHalfData.nasdaq.candleData[firstHalfData.nasdaq.candleData.length  -1  ]  
@@ -111,14 +117,25 @@ useEffect(() => {
                 <div className="element">{nasInitData?.initNasDate} : ${nasInitData?.initNasPrice}</div>
                 <div className="element">{nasLastData?.lastNasDate} : ${nasLastData?.lastNasPrice} </div>
                 <div className="element">Rate of Return : {nasLastData?.nasRateOfReturn}%</div>
-                <Image alt="" src="/assets/correct.png" width={32} height={32}/>
+                {nasLastData?.nasRateOfReturn ? 
+                 nasLastData.nasRateOfReturn > 0 && btnState.nasdaq == true ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : nasLastData.nasRateOfReturn < 0 && btnState.nasdaq == false ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : <Image alt="" src="/assets/incorrect.png" width={32} height={32}/>
+                 : <Image alt="" src="/assets/equal.png" width={32} height={32}/>
+              }
+                
               </div>
               <div className="row-elements">
                 <Image alt="" src="/assets/dollar.png" width={32} height={32}/>
                 <div className="element">{dollarInitData?.initDollarDate} : ${dollarInitData?.initDollarPrice}</div>
                 <div className="element">{dollarLastData?.lastDollarDate} : ${dollarLastData?.lastDollarPrice} </div>
                 <div className="element">Rate of Return : {dollarLastData?.dollarRateOfReturn}%</div>
-                <Image alt="" src="/assets/incorrect.png" width={32} height={32}/>
+                {dollarLastData?.dollarRateOfReturn ? 
+                 dollarLastData.dollarRateOfReturn > 0 && btnState.dollar == true ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : dollarLastData.dollarRateOfReturn < 0 && btnState.dollar == false ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : <Image alt="" src="/assets/incorrect.png" width={32} height={32}/>
+                 : <Image alt="" src="/assets/equal.png" width={32} height={32}/>
+              }
               </div>
 
               <div className="row-elements">
@@ -126,6 +143,12 @@ useEffect(() => {
                 <div className="element">{goldInitData?.initGoldDate} : ${goldInitData?.initGoldPrice}</div>
                 <div className="element">{goldLastData?.lastGoldDate} : ${goldLastData?.lastGoldPrice} </div>
                 <div className="element">Rate of Return : {goldLastData?.goldRateOfReturn}%</div>
+                {goldLastData?.goldRateOfReturn ? 
+                 goldLastData.goldRateOfReturn > 0 && btnState.gold == true ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : goldLastData.goldRateOfReturn < 0 && btnState.dollar == false ? 
+                 <Image alt="" src="/assets/correct.png" width={32} height={32}/> : <Image alt="" src="/assets/incorrect.png" width={32} height={32}/>
+                 :<Image alt="" src="/assets/equal.png" width={32} height={32}/>
+              }
               </div>
             </div>
             <button onClick={handleCancel}className="ok-btn">
@@ -165,7 +188,7 @@ useEffect(() => {
           width: 80px;
           border: none;
           height: 30px;
-          border-radius: 8px;
+          border-radius: 3px;
           color: white;
           background: #3369aa;
           opacity: 0.8;

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import IconItSelf from "../common/iconItSelf";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
+import Image from "next/image";
 //import { authority } from '../../states/admin/atomAdmin';
 
 //const IconsWithImg = dynamic(() => import('../pageComponents/common/iconsWithImg'));
@@ -23,12 +24,18 @@ export default function JayTopBar() {
   return (
     <nav className="top-main">
       <div className="logo">
-        <h3>Jay Web</h3>
+      <Link href="/" legacyBehavior>
+          <a className="logo-content">
+          <Image alt="" src="/assets/jayLogo.png" width={32} height={32} style={{borderRadius: "5px"}}/>
+          Jay Web
+          </a>
+        </Link>
+        
       </div>
       <div className="right-side-menu">
-        <Link href="/" legacyBehavior>
+        <Link href="/home" legacyBehavior>
           <a>
-            <IconItSelf url={"/assets/about.png"} title={"TestPage1"} />
+            <IconItSelf url={"/assets/community.png"} title={"TestPage1"} />
           </a>
         </Link>
         <Link href="/composition" legacyBehavior>
@@ -41,6 +48,10 @@ export default function JayTopBar() {
       </div>
       <style jsx>
         {`
+          a {
+            text-decoration: none;
+            color: white;
+          }
           .top-main {
             height: 100%;
             display: flex;
@@ -51,10 +62,17 @@ export default function JayTopBar() {
           }
           .right-side-menu {
             display: flex;
-            gap: 20px;
+            gap: 40px;
+            margin-right: 40px;
           }
           .logo {
             margin-left: 20px;
+          }
+          .logo-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
           }
         `}
       </style>

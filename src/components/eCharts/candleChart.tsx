@@ -20,7 +20,7 @@ const CandleChart: React.FC<IChartProps> = ({
   isGoBtnClicked,
   isRefrBtnClicked,
 }) => {
-  if (candleData) console.log(candleData.localDate, "이차트!!");
+ 
 
   const option = {
     title: {
