@@ -32,10 +32,6 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, gold: true });
       case "Nasdaq":
         return setBtnState({ ...btnState, nasdaq: true });
-      case "US Interest Rates":
-        return setBtnState({ ...btnState, usInterestRate: true });
-      case "US Unemployment Rates":
-        return setBtnState({ ...btnState, usUnemployRate: true });
       case "Vix":
         return setBtnState({ ...btnState, vix: true });
       default:
@@ -52,10 +48,6 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, gold: false });
       case "Nasdaq":
         return setBtnState({ ...btnState, nasdaq: false });
-      case "US Interest Rates":
-        return setBtnState({ ...btnState, usInterestRate: false });
-      case "US Unemployment Rates":
-        return setBtnState({ ...btnState, usUnemployRate: false });
       case "Vix":
         return setBtnState({ ...btnState, vix: false });
       default:
@@ -68,8 +60,6 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
       dollar: null,
       gold: null,
       nasdaq: null,
-      usInterestRate: null,
-      usUnemployRate: null,
       vix: null,
     });
     setIsRiseBtnClicked(false);

@@ -56,8 +56,6 @@ export default function Home() {
       dollar: null,
       gold: null,
       nasdaq: null,
-      usInterestRate: null,
-      usUnemployRate: null,
       vix: null,
     });
     refetch();
@@ -79,9 +77,7 @@ export default function Home() {
             {btnState.dollar !== null &&
             btnState.gold !== null &&
             btnState.nasdaq !== null &&
-            btnState.vix !== null &&
-            btnState.usUnemployRate !== null &&
-            btnState.usInterestRate !== null ? (
+            btnState.vix !== null ? (
               <div className="btn-wrap">
                 {isGoBtnClicked == false ? (
                   <button
@@ -121,8 +117,12 @@ export default function Home() {
                 )}
               </div>
             ) : (
-              <div style={{ margin: "7px" }}>
-                Please click all of &quot; Up or Down &quot; buttons below
+              <div className="guide-text">
+                Click all &nbsp;
+                <Image alt="" src="/assets/up.png" width={15} height={20} />
+                &nbsp;
+                <Image alt="" src="/assets/down.png" width={15} height={20} />
+                &nbsp; buttons
               </div>
             )}
             <EcoResultModal
@@ -302,6 +302,7 @@ export default function Home() {
               <div className="chart-wrap">
                 <LineChart
                   title="US Interest Rates"
+                  id="usInterestRate"
                   maxYaxis={5}
                   data={
                     fineEcodata?.firstHalfData?.usInterestRate.series
@@ -314,6 +315,7 @@ export default function Home() {
                     <div className="result-wrap">
                       <LineChart
                         title=" Next 6 months"
+                        id="usInterestRate"
                         maxYaxis={5}
                         isGoBtnClicked={isGoBtnClicked}
                         isRefrBtnClicked={isRefrBtnClicked}
@@ -340,6 +342,13 @@ export default function Home() {
           width: 100%;
           height: 100%;
           z-index: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .guide-text {
+          margin: 7px;
+          color: #3369aa;
           display: flex;
           justify-content: center;
           align-items: center;

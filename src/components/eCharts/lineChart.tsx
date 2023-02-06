@@ -1,6 +1,7 @@
 import React from "react";
 import EChartsNextForReactCore from "echarts-next-for-react";
 import ECharts, { EChartsReactProps } from "echarts-for-react";
+import { StringGradients } from "antd/es/progress/progress";
 
 interface IChartProps {
   data?: {
@@ -15,6 +16,7 @@ interface IChartProps {
   isRefrBtnClicked?: boolean;
   maxYaxis?: number;
   title?: string;
+  id?: string;
 }
 
 const LineChart: React.FC<IChartProps> = ({
@@ -22,12 +24,14 @@ const LineChart: React.FC<IChartProps> = ({
   isGoBtnClicked,
   maxYaxis,
   title,
+  id,
 }) => {
   if (data) console.log(data, "line chart");
 
   const option = {
     title: {
       text: title,
+      left: "13%",
       textStyle: {
         fontSize: 20,
         color: "gray",
@@ -91,10 +95,10 @@ const LineChart: React.FC<IChartProps> = ({
         type: "line",
         lineStyle: {
           width: 2,
-          color: title == "US Interest Rates" ? "#f7f72f" : "#EC1B24",
+          color: id == "usInterestRate" ? "#f7f72f" : "#EC1B24",
         },
         itemStyle: {
-          color: title == "US Interest Rates" ? "#f7f72f" : "#EC1B24",
+          color: id == "usInterestRate" ? "#f7f72f" : "#EC1B24",
         },
       },
     ],

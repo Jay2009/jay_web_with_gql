@@ -23,6 +23,7 @@ const CandleChart: React.FC<IChartProps> = ({
   const option = {
     title: {
       text: title,
+      left: "13%",
       textStyle: {
         fontSize: 20,
         color: "gray",
@@ -94,7 +95,7 @@ const CandleChart: React.FC<IChartProps> = ({
               symbolSize: 22,
 
               itemStyle: {
-                color: "#f70202",
+                color: "#0af702",
               },
             },
             {
@@ -103,7 +104,7 @@ const CandleChart: React.FC<IChartProps> = ({
               symbolSize: 22,
 
               itemStyle: {
-                color: "#0af702",
+                color: "#f70202",
               },
               symbolRotate: 180,
             },
