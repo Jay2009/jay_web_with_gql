@@ -87,41 +87,6 @@ export const bakeEcodata = selector({
         nasdaq: { localDate: lastNasdaqLoc, candleData: lastNasdaqCdle },
       };
 
-      // US 10 years treasury data division into 2 parts (first half year and last half year)
-      let us10YTrsuryLocDate = data.oneYearEco.us10yTreasury.localDate;
-      let us10YTrsuryCdleData = data.oneYearEco.us10yTreasury.candleData;
-      let firstUs10YTrsuryLoc = us10YTrsuryLocDate.slice(
-        0,
-        us10YTrsuryLocDate.length / 2
-      );
-      let firstUs10YTrsuryCdle = us10YTrsuryCdleData.slice(
-        0,
-        us10YTrsuryCdleData.length / 2
-      );
-      let lastUs10YTrsuryLoc = us10YTrsuryLocDate.slice(
-        us10YTrsuryLocDate.length / 2,
-        us10YTrsuryLocDate.length
-      );
-      let lastUs10YTrsuryCdle = us10YTrsuryCdleData.slice(
-        us10YTrsuryCdleData.length / 2,
-        us10YTrsuryCdleData.length
-      );
-
-      firstHalfData = {
-        ...firstHalfData,
-        us10yTreasury: {
-          localDate: firstUs10YTrsuryLoc,
-          candleData: firstUs10YTrsuryCdle,
-        },
-      };
-      lastHalfData = {
-        ...lastHalfData,
-        us10yTreasury: {
-          localDate: lastUs10YTrsuryLoc,
-          candleData: lastUs10YTrsuryCdle,
-        },
-      };
-
       // Vix data division into 2 parts (first half year and last half year)
       let vixLocDate = data.oneYearEco.vix.localDate;
       let vixCdleData = data.oneYearEco.vix.candleData;
@@ -150,11 +115,11 @@ export const bakeEcodata = selector({
 
       // US interest rates data dividing into 2 parts (first half year and last half year)
       let usInterRateData = data.oneYearEco.usInterestRate.series;
-      let maxLength = Math.ceil(usInterRateData.length / 2);
-      let firstUsInterRateData = usInterRateData.slice(0, maxLength);
+      let maxUsInterLength = Math.ceil(usInterRateData.length / 2);
+      let firstUsInterRateData = usInterRateData.slice(0, maxUsInterLength);
 
       let lastUsInterRateData = usInterRateData.slice(
-        maxLength,
+        maxUsInterLength,
         usInterRateData.length
       );
 
@@ -168,6 +133,32 @@ export const bakeEcodata = selector({
         ...lastHalfData,
         usInterestRate: {
           series: lastUsInterRateData,
+        },
+      };
+
+      // US unemployment rates data dividing into 2 parts (first half year and last half year)
+      let usUnemployRateData = data.oneYearEco.usUnemployRate.series;
+      let maxUsUnemplyLength = Math.ceil(usUnemployRateData.length / 2);
+      let firstUsUnemplyRateData = usUnemployRateData.slice(
+        0,
+        maxUsUnemplyLength
+      );
+
+      let lastUsUnemployRateData = usUnemployRateData.slice(
+        maxUsUnemplyLength,
+        usUnemployRateData.length
+      );
+
+      firstHalfData = {
+        ...firstHalfData,
+        usUnemploymentRate: {
+          series: firstUsUnemplyRateData,
+        },
+      };
+      lastHalfData = {
+        ...lastHalfData,
+        usUnemploymentRate: {
+          series: lastUsUnemployRateData,
         },
       };
     }

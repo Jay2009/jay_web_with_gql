@@ -20,8 +20,6 @@ const CandleChart: React.FC<IChartProps> = ({
   isGoBtnClicked,
   isRefrBtnClicked,
 }) => {
- 
-
   const option = {
     title: {
       text: title,
@@ -30,7 +28,7 @@ const CandleChart: React.FC<IChartProps> = ({
         color: "gray",
       },
     },
-    
+
     grid:
       isGoBtnClicked == true
         ? {
@@ -70,6 +68,7 @@ const CandleChart: React.FC<IChartProps> = ({
         type: "cross",
       },
     },
+
     dataZoom: [
       {
         type: "inside",
@@ -80,6 +79,7 @@ const CandleChart: React.FC<IChartProps> = ({
     series: [
       {
         type: "candlestick",
+        name: title,
         data: candleData?.candleData,
         animationDuration: 3000,
         lineStyle: {
@@ -89,32 +89,30 @@ const CandleChart: React.FC<IChartProps> = ({
         markPoint: {
           data: [
             {
-              type: 'max',
+              type: "max",
               symbol: "pin",
               symbolSize: 22,
-              label: {
-                show: false
-              },
+
               itemStyle: {
-                color: "#f70202"
-              }, 
+                color: "#f70202",
+              },
             },
             {
-            type: 'min',
-            symbol: "pin",
-            symbolSize: 22,
-            label: {
-              show: false
-            },
-            itemStyle: {
-              color: "#0af702"
-            },     
-            symbolRotate: 180,
+              type: "min",
+              symbol: "pin",
+              symbolSize: 22,
+
+              itemStyle: {
+                color: "#0af702",
+              },
+              symbolRotate: 180,
             },
           ],
-        }, 
+          label: {
+            show: false,
+          },
+        },
       },
-      
     ],
   };
 

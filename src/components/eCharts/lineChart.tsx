@@ -4,18 +4,26 @@ import ECharts, { EChartsReactProps } from "echarts-for-react";
 
 interface IChartProps {
   data?: {
-    usInterestRate: {
-      series: number[]
-    },
-  } | null
+    usInterestRate?: {
+      series: number[];
+    };
+    usUnemployRate?: {
+      series: number[];
+    };
+  } | null;
   isGoBtnClicked?: boolean;
   isRefrBtnClicked?: boolean;
   maxYaxis?: number;
   title?: string;
 }
 
-const LineChart: React.FC<IChartProps> = ({ data, isGoBtnClicked, maxYaxis , title }) => {
-  if (data) console.log("line chart");
+const LineChart: React.FC<IChartProps> = ({
+  data,
+  isGoBtnClicked,
+  maxYaxis,
+  title,
+}) => {
+  if (data) console.log(data, "line chart");
 
   const option = {
     title: {
@@ -26,19 +34,20 @@ const LineChart: React.FC<IChartProps> = ({ data, isGoBtnClicked, maxYaxis , tit
       },
     },
 
-    grid: isGoBtnClicked == true
-    ? {
-        top: "15%",
-        left: "0%",
-        right: "7%",
-        bottom: "15%",
-      }
-    : {
-        top: "15%",
-        left: "15%",
-        right: "0%",
-        bottom: "15%",
-      },
+    grid:
+      isGoBtnClicked == true
+        ? {
+            top: "15%",
+            left: "0%",
+            right: "7%",
+            bottom: "15%",
+          }
+        : {
+            top: "15%",
+            left: "15%",
+            right: "0%",
+            bottom: "15%",
+          },
     xAxis: {
       type: "time",
       axisLine: {
@@ -76,12 +85,16 @@ const LineChart: React.FC<IChartProps> = ({ data, isGoBtnClicked, maxYaxis , tit
     ],
     series: [
       {
+        name: title,
         data: data,
         showSymbol: false,
         type: "line",
         lineStyle: {
           width: 2,
-          color: "#f7f72f",
+          color: title == "US Interest Rates" ? "#f7f72f" : "#EC1B24",
+        },
+        itemStyle: {
+          color: title == "US Interest Rates" ? "#f7f72f" : "#EC1B24",
         },
       },
     ],

@@ -5,7 +5,7 @@ export interface IRiseOrFallBtn {
   gold?: boolean | null;
   nasdaq?: boolean | null;
   usInterestRate?: boolean | null;
-  us10yTreasury?: boolean | null;
+  usUnemployRate?: boolean | null;
   vix?: boolean | null;
 }
 
@@ -21,7 +21,7 @@ export const riseOrFallState = atom<IRiseOrFallBtn>({
     gold: null,
     nasdaq: null,
     usInterestRate: null,
-    us10yTreasury: null,
+    usUnemployRate: null,
     vix: null,
   },
 });

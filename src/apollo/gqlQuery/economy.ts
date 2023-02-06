@@ -25,9 +25,8 @@ const ALL_ECONOMY_IDX = gql`
         localDate
         candleData
       }
-      us10yTreasury {
-        localDate
-        candleData
+      usUnemployRate {
+        series
       }
     }
   }

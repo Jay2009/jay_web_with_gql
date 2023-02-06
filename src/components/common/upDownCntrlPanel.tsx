@@ -11,7 +11,7 @@ export interface IRiseOrFallBtn {
   gold?: boolean | null;
   nasdaq?: boolean | null;
   usInterestRate?: boolean | null;
-  us10yTreasury?: boolean | null;
+  usUnemployRate?: boolean | null;
   vix?: boolean | null;
 }
 
@@ -34,8 +34,8 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, nasdaq: true });
       case "US Interest Rates":
         return setBtnState({ ...btnState, usInterestRate: true });
-      case "US 10y Treasury":
-        return setBtnState({ ...btnState, us10yTreasury: true });
+      case "US Unemployment Rates":
+        return setBtnState({ ...btnState, usUnemployRate: true });
       case "Vix":
         return setBtnState({ ...btnState, vix: true });
       default:
@@ -54,8 +54,8 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         return setBtnState({ ...btnState, nasdaq: false });
       case "US Interest Rates":
         return setBtnState({ ...btnState, usInterestRate: false });
-      case "US 10y Treasury":
-        return setBtnState({ ...btnState, us10yTreasury: false });
+      case "US Unemployment Rates":
+        return setBtnState({ ...btnState, usUnemployRate: false });
       case "Vix":
         return setBtnState({ ...btnState, vix: false });
       default:
@@ -69,7 +69,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
       gold: null,
       nasdaq: null,
       usInterestRate: null,
-      us10yTreasury: null,
+      usUnemployRate: null,
       vix: null,
     });
     setIsRiseBtnClicked(false);
@@ -120,10 +120,11 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
 
       <style jsx>{`
         .result-control {
-          width: 435px;
+          width: 430px;
           height: 200px;
-          margin-top: 20px;
-          margin-left: 10px;
+          margin-top: 30px;
+          margin-left: 5px;
+          padding-right: 11px;
           display: flex;
           flex-direction: column;
           justify-content: center;

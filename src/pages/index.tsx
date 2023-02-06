@@ -57,7 +57,7 @@ export default function Home() {
       gold: null,
       nasdaq: null,
       usInterestRate: null,
-      us10yTreasury: null,
+      usUnemployRate: null,
       vix: null,
     });
     refetch();
@@ -79,8 +79,8 @@ export default function Home() {
             {btnState.dollar !== null &&
             btnState.gold !== null &&
             btnState.nasdaq !== null &&
-            btnState.vix !== null && 
-            btnState.us10yTreasury !== null &&
+            btnState.vix !== null &&
+            btnState.usUnemployRate !== null &&
             btnState.usInterestRate !== null ? (
               <div className="btn-wrap">
                 {isGoBtnClicked == false ? (
@@ -129,204 +129,208 @@ export default function Home() {
               isModalOpen={isModalOpen}
               handleCancel={handleCancel}
               firstHalfData={
-                fineEcodata?.firstHalfData
-                ?
-              fineEcodata.firstHalfData
-                : null}
-                lastHalfData={
-                  fineEcodata?.lastHalfData
-                  ?
-                fineEcodata.lastHalfData
-                  : null}
+                fineEcodata?.firstHalfData ? fineEcodata.firstHalfData : null
+              }
+              lastHalfData={
+                fineEcodata?.lastHalfData ? fineEcodata.lastHalfData : null
+              }
             />
           </div>
 
           <div className="echarts-wrap">
             <div className="chart-layer">
-              <CandleChart
-                title="Dollar Index"
-                maxYaxis={120}
-                candleData={
-                  fineEcodata?.firstHalfData?.dollar
-                    ? fineEcodata?.firstHalfData?.dollar
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <CandleChart
-                      title=" Next 6 months"
-                      maxYaxis={120}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={
-                        fineEcodata?.lastHalfData?.dollar
-                          ? fineEcodata?.lastHalfData?.dollar
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain right-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="Dollar" />
-              )}
-
-              <CandleChart
-                title="Nasdaq Index"
-                maxYaxis={17000}
-                candleData={
-                  fineEcodata?.firstHalfData?.nasdaq
-                    ? fineEcodata?.firstHalfData?.nasdaq
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <CandleChart
-                      title=" Next 6 months"
-                      maxYaxis={17000}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={
-                        fineEcodata?.lastHalfData?.nasdaq
-                          ? fineEcodata?.lastHalfData?.nasdaq
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain left-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="Nasdaq" />
-              )}
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Dollar"
+                  maxYaxis={120}
+                  candleData={
+                    fineEcodata?.firstHalfData?.dollar
+                      ? fineEcodata?.firstHalfData?.dollar
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={120}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.dollar
+                            ? fineEcodata?.lastHalfData?.dollar
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain left-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Dollar" />
+                )}
+              </div>
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Nasdaq"
+                  maxYaxis={17000}
+                  candleData={
+                    fineEcodata?.firstHalfData?.nasdaq
+                      ? fineEcodata?.firstHalfData?.nasdaq
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={17000}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.nasdaq
+                            ? fineEcodata?.lastHalfData?.nasdaq
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain right-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Nasdaq" />
+                )}
+              </div>
             </div>
             <div className="chart-layer">
-              <CandleChart
-                title="Gold Index"
-                maxYaxis={2100}
-                candleData={
-                  fineEcodata?.firstHalfData?.gold
-                    ? fineEcodata?.firstHalfData?.gold
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <CandleChart
-                      title=" Next 6 months"
-                      maxYaxis={2100}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={
-                        fineEcodata?.lastHalfData?.gold
-                          ? fineEcodata?.lastHalfData?.gold
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain right-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="Gold" />
-              )}
-
-              <CandleChart
-                title="Vix Index"
-                maxYaxis={90}
-                candleData={
-                  fineEcodata?.firstHalfData?.vix
-                    ? fineEcodata?.firstHalfData?.vix
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <CandleChart
-                      title=" Next 6 months"
-                      maxYaxis={90}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={
-                        fineEcodata?.lastHalfData?.vix
-                          ? fineEcodata?.lastHalfData?.vix
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain left-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="Vix" />
-              )}
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Gold"
+                  maxYaxis={2100}
+                  candleData={
+                    fineEcodata?.firstHalfData?.gold
+                      ? fineEcodata?.firstHalfData?.gold
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={2100}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.gold
+                            ? fineEcodata?.lastHalfData?.gold
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain right-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Gold" />
+                )}
+              </div>
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Vix"
+                  maxYaxis={90}
+                  candleData={
+                    fineEcodata?.firstHalfData?.vix
+                      ? fineEcodata?.firstHalfData?.vix
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={90}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.vix
+                            ? fineEcodata?.lastHalfData?.vix
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain left-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Vix" />
+                )}
+              </div>
             </div>
             <div className="chart-layer">
-              <CandleChart
-                title="US 10y Treasury Index"
-                maxYaxis={5}
-                candleData={
-                  fineEcodata?.firstHalfData?.us10yTreasury
-                    ? fineEcodata?.firstHalfData?.us10yTreasury
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <CandleChart
-                      title=" Next 6 months"
-                      maxYaxis={5}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      candleData={
-                        fineEcodata?.lastHalfData?.us10yTreasury
-                          ? fineEcodata?.lastHalfData?.us10yTreasury
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain right-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="US 10y Treasury" />
-              )}
-
-
-              <LineChart
-                title="US Interest Rates Index"
-                maxYaxis={5}
-                data={
-                  fineEcodata?.firstHalfData?.usInterestRate.series
-                    ? fineEcodata?.firstHalfData?.usInterestRate.series
-                    : null
-                }
-              />
-              {isGoBtnClicked == true ? (
-                <>
-                  <div className="result-wrap">
-                    <LineChart
-                      title=" Next 6 months"
-                      maxYaxis={5}
-                      isGoBtnClicked={isGoBtnClicked}
-                      isRefrBtnClicked={isRefrBtnClicked}
-                      data={
-                        fineEcodata?.lastHalfData?.usInterestRate.series
-                          ? fineEcodata?.lastHalfData?.usInterestRate.series
-                          : null
-                      }
-                    />
-                  </div>
-                  <div className="chart-curtain left-chart"></div>
-                </>
-              ) : (
-                <UpDownCntrlPanel title="US Interest Rates" />
-              )}
+              <div className="chart-wrap">
+                <LineChart
+                  title="US Unemployment Rates"
+                  maxYaxis={15}
+                  data={
+                    fineEcodata?.firstHalfData?.usUnemploymentRate.series
+                      ? fineEcodata?.firstHalfData?.usUnemploymentRate.series
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <LineChart
+                        title=" Next 6 months"
+                        maxYaxis={15}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        data={
+                          fineEcodata?.lastHalfData?.usUnemploymentRate.series
+                            ? fineEcodata?.lastHalfData?.usUnemploymentRate
+                                .series
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain right-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="US Unemployment Rates" />
+                )}
+              </div>
+              <div className="chart-wrap">
+                <LineChart
+                  title="US Interest Rates"
+                  maxYaxis={5}
+                  data={
+                    fineEcodata?.firstHalfData?.usInterestRate.series
+                      ? fineEcodata?.firstHalfData?.usInterestRate.series
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <LineChart
+                        title=" Next 6 months"
+                        maxYaxis={5}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        data={
+                          fineEcodata?.lastHalfData?.usInterestRate.series
+                            ? fineEcodata?.lastHalfData?.usInterestRate.series
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain left-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="US Interest Rates" />
+                )}
+              </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -339,29 +343,32 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 30px;
         }
         .control-area {
+          display: flex;
           width: 100%;
           height: 10%;
-          display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         }
         .echarts-wrap {
           display: flex;
-          flex-direction: column;
-          gap: 5px;
           width: 100%;
-          height: 100%;
+          height: 90%;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
         .chart-layer {
           display: flex;
           width: 100%;
-          height:100%;
-          justify-content:center;
-          align-items:center;
+          height: 100%;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .chart-wrap {
+          display: flex;
         }
         .main-title {
           font-weight: normal;
@@ -392,32 +399,44 @@ export default function Home() {
         }
         .result-wrap {
           positon: relative;
+          z-index: 0;
         }
 
         .chart-curtain {
           background: #091a30;
           position: absolute;
-          z-index: 10;
           width: 0px;
         }
         .left-chart {
-          left: 440px;
+          left: 470px;
           height: 250px;
           animation: moveToRight 2.5s linear;
+          z-index: 10;
         }
         .right-chart {
-          right: -50px;
+          right: 460px;
+
           height: 250px;
-          animation: moveToRight 5s linear;
+          animation: moveToRight2 2.5s linear;
+        }
+        @keyframes moveToRight2 {
+          0% {
+            transform: translate(460px, 0);
+            width: 460px;
+          }
+          to {
+            transform: translate(460px, 0);
+            width: 0px;
+          }
         }
 
         @keyframes moveToRight {
           0% {
             transform: translate(0, 0);
-            width: 450px;
+            width: 470px;
           }
           to {
-            transform: translate(450px, 0);
+            transform: translate(470px, 0);
             width: 0px;
           }
         }
