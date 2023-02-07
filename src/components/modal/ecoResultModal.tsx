@@ -237,66 +237,33 @@ const EcoResultModal: React.FC<IResultProps> = ({
   return (
     <div>
       <Modal
-        title="Result Details"
         centered={true}
         open={isModalOpen}
         onCancel={handleCancel}
         width={850}
         footer
       >
+        <span className="main-title">Result Details</span>
         <div className="body-wrap">
           <div className="content-wrap">
             <div className="row-elements">
-              <Image alt="" src="/assets/nasdaq.png" width={32} height={32} />
-              <div className="element">
-                {nasInitData?.initNasDate} : ${nasInitData?.initNasPrice}
+              <div className="element"></div>
+              <div className="element column-title">
+                {nasInitData?.initNasDate}
               </div>
-              <div className="element">
-                {nasLastData?.lastNasDate} : ${nasLastData?.lastNasPrice}{" "}
+              <div className="element column-title">
+                {nasLastData?.lastNasDate}
               </div>
-              <div className="element">
-                Rate of Return : {nasLastData?.nasRateOfReturn}%
-              </div>
-              {nasLastData?.nasRateOfReturn ? (
-                nasLastData.nasRateOfReturn > 0 && btnState.nasdaq == true ? (
-                  <Image
-                    alt=""
-                    src="/assets/correct.png"
-                    width={32}
-                    height={32}
-                  />
-                ) : nasLastData.nasRateOfReturn < 0 &&
-                  btnState.nasdaq == false ? (
-                  <Image
-                    alt=""
-                    src="/assets/correct.png"
-                    width={32}
-                    height={32}
-                  />
-                ) : (
-                  <Image
-                    alt=""
-                    src="/assets/incorrect.png"
-                    width={32}
-                    height={32}
-                  />
-                )
-              ) : (
-                <Image alt="" src="/assets/equal.png" width={32} height={32} />
-              )}
+              <div className="element column-title">Rate of Return</div>
+              <div className="element column-title">Your choice</div>
             </div>
+
             <div className="row-elements">
               <Image alt="" src="/assets/dollar.png" width={32} height={32} />
+              <div className="element">{dollarInitData?.initDollarPrice}</div>
+              <div className="element">{dollarLastData?.lastDollarPrice}</div>
               <div className="element">
-                {dollarInitData?.initDollarDate} : $
-                {dollarInitData?.initDollarPrice}
-              </div>
-              <div className="element">
-                {dollarLastData?.lastDollarDate} : $
-                {dollarLastData?.lastDollarPrice}{" "}
-              </div>
-              <div className="element">
-                Rate of Return : {dollarLastData?.dollarRateOfReturn}%
+                {dollarLastData?.dollarRateOfReturn}%
               </div>
               {dollarLastData?.dollarRateOfReturn ? (
                 dollarLastData.dollarRateOfReturn > 0 &&
@@ -330,15 +297,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image alt="" src="/assets/gold.png" width={32} height={32} />
-              <div className="element">
-                {goldInitData?.initGoldDate} : ${goldInitData?.initGoldPrice}
-              </div>
-              <div className="element">
-                {goldLastData?.lastGoldDate} : ${goldLastData?.lastGoldPrice}{" "}
-              </div>
-              <div className="element">
-                Rate of Return : {goldLastData?.goldRateOfReturn}%
-              </div>
+              <div className="element">{goldInitData?.initGoldPrice}</div>
+              <div className="element">{goldLastData?.lastGoldPrice}</div>
+              <div className="element">{goldLastData?.goldRateOfReturn}%</div>
               {goldLastData?.goldRateOfReturn ? (
                 goldLastData.goldRateOfReturn > 0 && btnState.gold == true ? (
                   <Image
@@ -370,15 +331,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image alt="" src="/assets/fear.png" width={32} height={32} />
-              <div className="element">
-                {vixInitData?.initVixDate} : ${vixInitData?.initVixPrice}
-              </div>
-              <div className="element">
-                {vixLastData?.lastVixDate} : ${vixLastData?.lastVixPrice}{" "}
-              </div>
-              <div className="element">
-                Rate of Return : {vixLastData?.vixRateOfReturn}%
-              </div>
+              <div className="element">{vixInitData?.initVixPrice}</div>
+              <div className="element">{vixLastData?.lastVixPrice}</div>
+              <div className="element">{vixLastData?.vixRateOfReturn}%</div>
               {vixLastData?.vixRateOfReturn ? (
                 vixLastData.vixRateOfReturn > 0 && btnState.vix == true ? (
                   <Image
@@ -406,6 +361,40 @@ const EcoResultModal: React.FC<IResultProps> = ({
                 <Image alt="" src="/assets/equal.png" width={32} height={32} />
               )}
             </div>
+
+            <div className="row-elements">
+              <Image alt="" src="/assets/nasdaq.png" width={32} height={32} />
+              <div className="element">{nasInitData?.initNasPrice}</div>
+              <div className="element">{nasLastData?.lastNasPrice}</div>
+              <div className="element">{nasLastData?.nasRateOfReturn}%</div>
+              {nasLastData?.nasRateOfReturn ? (
+                nasLastData.nasRateOfReturn > 0 && btnState.nasdaq == true ? (
+                  <Image
+                    alt=""
+                    src="/assets/correct.png"
+                    width={32}
+                    height={32}
+                  />
+                ) : nasLastData.nasRateOfReturn < 0 &&
+                  btnState.nasdaq == false ? (
+                  <Image
+                    alt=""
+                    src="/assets/correct.png"
+                    width={32}
+                    height={32}
+                  />
+                ) : (
+                  <Image
+                    alt=""
+                    src="/assets/incorrect.png"
+                    width={32}
+                    height={32}
+                  />
+                )
+              ) : (
+                <Image alt="" src="/assets/equal.png" width={32} height={32} />
+              )}
+            </div>
           </div>
           <button onClick={handleCancel} className="ok-btn">
             OK
@@ -413,6 +402,14 @@ const EcoResultModal: React.FC<IResultProps> = ({
         </div>
       </Modal>
       <style jsx>{`
+        .main-title {
+          display: flex;
+          font-weight: bold;
+          font-size: 20px;
+          justify-content: center;
+          align-items: center;
+          color: #3369aa;
+        }
         .body-wrap {
           margin-top: 40px;
           margin-bottom: 40px;
@@ -428,6 +425,7 @@ const EcoResultModal: React.FC<IResultProps> = ({
           flex-direction: column;
           gap: 20px;
         }
+
         .row-elements {
           display: flex;
           justify-content: center;
@@ -436,6 +434,12 @@ const EcoResultModal: React.FC<IResultProps> = ({
         }
         .element {
           width: 150px;
+          color: gray;
+        }
+
+        .column-title {
+          font-size: 15px;
+          color: white;
         }
         .ok-btn {
           margin-top: 20px;

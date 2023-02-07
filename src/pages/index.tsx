@@ -13,6 +13,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { economyState, riseOrFallState } from "recoil/atoms/economyAtom";
 import { bakeEcodata } from "recoil/selectors/economySelector";
 import EcoResultModal from "@/components/modal/ecoResultModal";
+import FedDataDscript from "@/components/common/fedDataDscript";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
@@ -71,9 +72,14 @@ export default function Home() {
       <div className="main-body">
         <div className="right-main">
           <div className="control-area">
-            <h2 className="main-title">
-              No more trading, but trainning your self with real data.
-            </h2>
+            <div>
+              <span className="main-title">
+                No more trading, but trainning your self with &nbsp;
+              </span>
+              <span className="main-title emphasis-word">
+                &quot; Real economy data. &quot;
+              </span>
+            </div>
             {btnState.dollar !== null &&
             btnState.gold !== null &&
             btnState.nasdaq !== null &&
@@ -85,7 +91,7 @@ export default function Home() {
                     onClick={handleOkBtn}
                     disabled={data ? false : true}
                   >
-                    Next 6months &nbsp;
+                    See result &nbsp;
                     <Image
                       alt=""
                       src="/assets/bar-chart.png"
@@ -118,11 +124,11 @@ export default function Home() {
               </div>
             ) : (
               <div className="guide-text">
-                Click all &nbsp;
+                Click all the &nbsp;
                 <Image alt="" src="/assets/up.png" width={15} height={20} />
-                &nbsp;
+                &nbsp;or&nbsp;
                 <Image alt="" src="/assets/down.png" width={15} height={20} />
-                &nbsp; buttons
+                &nbsp; buttons to see your result
               </div>
             )}
             <EcoResultModal
@@ -141,7 +147,7 @@ export default function Home() {
             <div className="chart-layer">
               <div className="chart-wrap">
                 <CandleChart
-                  title="Dollar"
+                  title="U.S Dollar index"
                   maxYaxis={120}
                   candleData={
                     fineEcodata?.firstHalfData?.dollar
@@ -168,6 +174,70 @@ export default function Home() {
                   </>
                 ) : (
                   <UpDownCntrlPanel title="Dollar" />
+                )}
+              </div>
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Gold"
+                  maxYaxis={2100}
+                  candleData={
+                    fineEcodata?.firstHalfData?.gold
+                      ? fineEcodata?.firstHalfData?.gold
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={2100}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.gold
+                            ? fineEcodata?.lastHalfData?.gold
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain right-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Gold" />
+                )}
+              </div>
+            </div>
+            <div className="chart-layer">
+              <div className="chart-wrap">
+                <CandleChart
+                  title="Vix"
+                  maxYaxis={90}
+                  candleData={
+                    fineEcodata?.firstHalfData?.vix
+                      ? fineEcodata?.firstHalfData?.vix
+                      : null
+                  }
+                />
+                {isGoBtnClicked == true ? (
+                  <>
+                    <div className="result-wrap">
+                      <CandleChart
+                        title=" Next 6 months"
+                        maxYaxis={90}
+                        isGoBtnClicked={isGoBtnClicked}
+                        isRefrBtnClicked={isRefrBtnClicked}
+                        candleData={
+                          fineEcodata?.lastHalfData?.vix
+                            ? fineEcodata?.lastHalfData?.vix
+                            : null
+                        }
+                      />
+                    </div>
+                    <div className="chart-curtain left-chart"></div>
+                  </>
+                ) : (
+                  <UpDownCntrlPanel title="Vix" />
                 )}
               </div>
               <div className="chart-wrap">
@@ -204,72 +274,8 @@ export default function Home() {
             </div>
             <div className="chart-layer">
               <div className="chart-wrap">
-                <CandleChart
-                  title="Gold"
-                  maxYaxis={2100}
-                  candleData={
-                    fineEcodata?.firstHalfData?.gold
-                      ? fineEcodata?.firstHalfData?.gold
-                      : null
-                  }
-                />
-                {isGoBtnClicked == true ? (
-                  <>
-                    <div className="result-wrap">
-                      <CandleChart
-                        title=" Next 6 months"
-                        maxYaxis={2100}
-                        isGoBtnClicked={isGoBtnClicked}
-                        isRefrBtnClicked={isRefrBtnClicked}
-                        candleData={
-                          fineEcodata?.lastHalfData?.gold
-                            ? fineEcodata?.lastHalfData?.gold
-                            : null
-                        }
-                      />
-                    </div>
-                    <div className="chart-curtain right-chart"></div>
-                  </>
-                ) : (
-                  <UpDownCntrlPanel title="Gold" />
-                )}
-              </div>
-              <div className="chart-wrap">
-                <CandleChart
-                  title="Vix"
-                  maxYaxis={90}
-                  candleData={
-                    fineEcodata?.firstHalfData?.vix
-                      ? fineEcodata?.firstHalfData?.vix
-                      : null
-                  }
-                />
-                {isGoBtnClicked == true ? (
-                  <>
-                    <div className="result-wrap">
-                      <CandleChart
-                        title=" Next 6 months"
-                        maxYaxis={90}
-                        isGoBtnClicked={isGoBtnClicked}
-                        isRefrBtnClicked={isRefrBtnClicked}
-                        candleData={
-                          fineEcodata?.lastHalfData?.vix
-                            ? fineEcodata?.lastHalfData?.vix
-                            : null
-                        }
-                      />
-                    </div>
-                    <div className="chart-curtain left-chart"></div>
-                  </>
-                ) : (
-                  <UpDownCntrlPanel title="Vix" />
-                )}
-              </div>
-            </div>
-            <div className="chart-layer">
-              <div className="chart-wrap">
                 <LineChart
-                  title="US Unemployment Rates"
+                  title="U.S Unemployment Rate"
                   maxYaxis={15}
                   data={
                     fineEcodata?.firstHalfData?.usUnemploymentRate.series
@@ -296,12 +302,12 @@ export default function Home() {
                     <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
-                  <UpDownCntrlPanel title="US Unemployment Rates" />
+                  <FedDataDscript title="U.S Unemployment rate" />
                 )}
               </div>
               <div className="chart-wrap">
                 <LineChart
-                  title="US Interest Rates"
+                  title="U.S Interest Rate"
                   id="usInterestRate"
                   maxYaxis={5}
                   data={
@@ -329,7 +335,7 @@ export default function Home() {
                     <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
-                  <UpDownCntrlPanel title="US Interest Rates" />
+                  <FedDataDscript title="U.S Interest Rate" />
                 )}
               </div>
             </div>
@@ -348,7 +354,8 @@ export default function Home() {
         }
         .guide-text {
           margin: 7px;
-          color: #3369aa;
+          font-size: 18px;
+          color: #4b93e5;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -358,7 +365,7 @@ export default function Home() {
           width: 100%;
           height: 10%;
           flex-direction: column;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
         }
         .echarts-wrap {
@@ -380,9 +387,25 @@ export default function Home() {
           display: flex;
         }
         .main-title {
-          font-weight: normal;
+          font-weight: 10;
+          color: #abacad;
+          font-size: 20px;
+          animation: fadein 3s ease-in-out;
         }
+        @keyframes fadein {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .emphasis-word {
+          font-weight: 10;
+          font-style: italic;
 
+          font-size: 20px;
+        }
         .btn-wrap {
           display: flex;
           gap: 30px;

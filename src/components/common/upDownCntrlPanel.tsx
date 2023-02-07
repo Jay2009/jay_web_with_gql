@@ -74,7 +74,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
             <div style={{ position: "absolute" }}>
               <div className="control-wrap">
                 <div>6 months later,</div>
-                {title}
+                {title} index
                 <div className="btn" onClick={handleRiseBtn}>
                   <Image alt="" src="/assets/up.png" width={35} height={40} />
                 </div>
@@ -123,6 +123,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         }
         .control-wrap {
           display: flex;
+          color: gray;
           flex-direction: column;
           justify-content: center;
           align-items: center;
