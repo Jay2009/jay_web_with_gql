@@ -14,6 +14,7 @@ import { economyState, riseOrFallState } from "recoil/atoms/economyAtom";
 import { bakeEcodata } from "recoil/selectors/economySelector";
 import EcoResultModal from "@/components/modal/ecoResultModal";
 import FedDataDscript from "@/components/common/fedDataDscript";
+import { Modal } from "antd";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
@@ -27,6 +28,12 @@ export default function Home() {
   const [isRefrBtnClicked, setIsRefrBtnClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isIntroConfirmed, setIsIntroConfirmed] = useState(false);
+
+  const handleIntroConfirm = () => {
+    setIsIntroConfirmed(false);
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -37,6 +44,7 @@ export default function Home() {
 
   useEffect(() => {
     console.log(error, "errorrrrrrrr");
+    setIsIntroConfirmed(true);
     if (data) {
       setEcoData(data);
     }
@@ -77,7 +85,7 @@ export default function Home() {
                 No more trading, but trainning your self with &nbsp;
               </span>
               <span className="main-title emphasis-word">
-                &quot; Real economy data. &quot;
+                &quot;Real economy data&quot;.
               </span>
             </div>
             {btnState.dollar !== null &&
@@ -355,7 +363,7 @@ export default function Home() {
         .guide-text {
           margin: 7px;
           font-size: 18px;
-          color: #4b93e5;
+          color: #757575;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -387,7 +395,7 @@ export default function Home() {
           display: flex;
         }
         .main-title {
-          font-weight: 10;
+          font-weight: 400;
           color: #abacad;
           font-size: 20px;
           animation: fadein 3s ease-in-out;
@@ -401,9 +409,8 @@ export default function Home() {
           }
         }
         .emphasis-word {
-          font-weight: 10;
+          font-weight: 400;
           font-style: italic;
-
           font-size: 20px;
         }
         .btn-wrap {

@@ -6,33 +6,34 @@ import React, { useEffect } from "react";
 import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
+import MarsCommunityTable from "@/components/tables/marsCommunityTable";
 
-const ManageUser = () => {
+const Community = () => {
   const getUrl = GetUrlTitle();
 
   return (
     <div className="nav-frame">
       <div className="top-nav">
-        <JayTopBar />{" "}
+        <JayTopBar />
       </div>
       <div className="main-body">
         <JaySideBar />
         <div className="right-main">
           <span className="url-path-txt">{getUrl}</span>
-          {/* <MgUserWholeTable /> */}
+          <div className="table-area">
+            <MarsCommunityTable />
+          </div>
         </div>
       </div>
 
       <style jsx>{`
-        .top-layer {
+        .table-area {
           display: flex;
-          flex-direction: row;
-          height: 35%;
-          gap: 20px;
+          margin-top: 20px;
         }
       `}</style>
     </div>
   );
 };
 
-export default ManageUser;
+export default Community;

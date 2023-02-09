@@ -10,6 +10,8 @@ import IconItSelf from "../common/iconItSelf";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import Image from "next/image";
+import IconWithImg from "../common/iconWithImg";
+
 //import { authority } from '../../states/admin/atomAdmin';
 
 //const IconsWithImg = dynamic(() => import('../pageComponents/common/iconsWithImg'));
@@ -24,23 +26,36 @@ export default function JayTopBar() {
   return (
     <nav className="top-main">
       <div className="logo">
-      <Link href="/" legacyBehavior>
+        <Link href="/" legacyBehavior>
           <a className="logo-content">
-          <Image alt="" src="/assets/jayLogo.png" width={32} height={32} style={{borderRadius: "5px"}}/>
-          Jay Web
+            <Image
+              alt=""
+              src="/assets/jayLogo.png"
+              width={32}
+              height={32}
+              style={{ borderRadius: "5px" }}
+            />
+            Jay Web
           </a>
         </Link>
-        
       </div>
       <div className="right-side-menu">
-        <Link href="/home" legacyBehavior>
+        <Link href="/mars" legacyBehavior>
           <a>
-            <IconItSelf url={"/assets/community.png"} title={"TestPage1"} />
+            <IconWithImg
+              url={"/assets/mars.png"}
+              title="Mars"
+              active={filteredPath[1] == "mars" ? true : false}
+            />
           </a>
         </Link>
         <Link href="/composition" legacyBehavior>
           <a>
-            <IconItSelf url={"/assets/about.png"} title={"TestPage2"} />
+            <IconWithImg
+              url={"/assets/earth.png"}
+              title="Earth"
+              active={filteredPath[1] == "mars/ddd" ? true : false}
+            />
           </a>
         </Link>
 
@@ -62,7 +77,7 @@ export default function JayTopBar() {
           }
           .right-side-menu {
             display: flex;
-            gap: 40px;
+            gap: 20px;
             margin-right: 40px;
           }
           .logo {

@@ -61,31 +61,31 @@ const JaySideBar = () => {
     setIsSubClicked(!isSubClicked);
   };
 
-  if (filteredPath[1] == "home") {
+  if (filteredPath[1] == "mars") {
     links = [
       {
         link: "Main",
-        path: "/home",
+        path: "/mars",
         imgUrl: "/assets/main-page.png",
       },
       {
         link: "Community",
-        path: "/home/community",
+        path: "/mars/community",
         imgUrl: "/assets/community.png",
       },
       {
         link: "About",
-        path: "/home/about/jayWeb",
+        path: "/mars/about/jayWeb",
         imgUrl: "/assets/about.png",
         subMenu: [
           {
             link: "JayWeb",
-            path: "/home/about/jayWeb",
+            path: "/mars/about/jayWeb",
             imgUrl: "/assets/browser.png",
           },
           {
             link: "Developer",
-            path: "/home/about/developer",
+            path: "/mars/about/developer",
             imgUrl: "/assets/developer.png",
           },
         ],
@@ -339,7 +339,7 @@ const JaySideBar = () => {
           .txt {
             display: flex;
             white-space: nowrap;
-            transition: 0.4s;
+            transition: 0.3s;
             justify-content: space-between;
             align-items: center;
           }
@@ -468,6 +468,7 @@ const JaySideBar = () => {
             color: white;
             opacity: 1;
             transition: 0.25s;
+            cursor: pointer;
           }
           a {
             text-decoration-line: none;
