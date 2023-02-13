@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { ConfigProvider, theme } from "antd";
 import { ApolloProvider } from "@apollo/client";
 import { RecoilRoot } from "recoil";
-import Client from "../apollo/client";
+import { Client } from "../apollo/client";
 import "../styles/navBar.css";
 
 export default function App({ Component, pageProps }: AppProps) {

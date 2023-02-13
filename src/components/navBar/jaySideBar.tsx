@@ -28,7 +28,7 @@ let stringBool = "";
 const JaySideBar = () => {
   const router = useRouter();
   const filteredPath = router.pathname.split("/", 3);
-  console.log(filteredPath[1], "psthhh");
+  // console.log(filteredPath[1], "psthhh");
 
   const [isCollapsed, setIsCollapsed, removeCookie] = useCookies([COOKIE_KEY]);
   const [isSubClicked, setIsSubClicked] = useState(true);
@@ -44,7 +44,7 @@ const JaySideBar = () => {
       // window.addEventListener("load", handleReload);
       window.addEventListener("unload", handleReload);
     }
-  }, [isCollapsed[COOKIE_KEY]]);
+  }, [isCollapsed]);
 
   const onSlider = () => {
     let myBool = isCollapsed?.collapse?.toLowerCase() === "true";

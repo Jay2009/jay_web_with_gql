@@ -11,6 +11,10 @@ import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import Image from "next/image";
 import IconWithImg from "../common/iconWithImg";
+import { useQuery } from "@apollo/client";
+import { ICurrentUserData } from "@/types/iApollo";
+import { currentUserVar, GET_CURRENT_USER } from "@/apollo/cache";
+import UserInfoLogout from "./userInfoLogout";
 
 //import { authority } from '../../states/admin/atomAdmin';
 
@@ -21,7 +25,18 @@ export default function JayTopBar() {
   const router = useRouter();
   const filteredPath: string[] = router.pathname.split("/", 2);
 
-  useEffect(() => {}, []);
+  const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
+  const user = currentUser?.data?.user;
+  //console.log(user, "userrrrr inner text");
+  const [localStoreUser, setLocalStoreUser] = useState({});
+  useEffect(() => {
+    setLocalStoreUser(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
+
+    if (user == null) {
+      router.push("/login");
+      //console.log(user, "userrrrrrrrrrrr@@@@@@@@@@@@");
+    }
+  }, [user]);
 
   return (
     <nav className="top-main">
@@ -59,7 +74,7 @@ export default function JayTopBar() {
           </a>
         </Link>
 
-        {/* <UserInfo /> */}
+        <UserInfoLogout />
       </div>
       <style jsx>
         {`

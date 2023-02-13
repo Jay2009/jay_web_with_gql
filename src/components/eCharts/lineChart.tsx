@@ -26,8 +26,6 @@ const LineChart: React.FC<IChartProps> = ({
   title,
   id,
 }) => {
-  if (data) console.log(data, "line chart");
-
   const option = {
     title: {
       text: title,
@@ -105,7 +103,14 @@ const LineChart: React.FC<IChartProps> = ({
   };
 
   return (
-    <ECharts style={{ width: "48%", height: "250px" }} option={option} />
+    <ECharts
+      style={
+        isGoBtnClicked != undefined && isGoBtnClicked == true
+          ? { width: "100%", height: "250px" }
+          : { width: "48%", height: "250px" }
+      }
+      option={option}
+    />
   );
 };
 

@@ -118,7 +118,14 @@ const CandleChart: React.FC<IChartProps> = ({
   };
 
   return (
-    <ECharts style={{ width: "48%", height: "250px" }} option={option} />
+    <ECharts
+      style={
+        isGoBtnClicked != undefined && isGoBtnClicked == true
+          ? { width: "100%", height: "250px" }
+          : { width: "48%", height: "250px" }
+      }
+      option={option}
+    />
   );
 };
 

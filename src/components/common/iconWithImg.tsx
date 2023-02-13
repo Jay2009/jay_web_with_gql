@@ -9,7 +9,7 @@ interface IMenuIconProps {
 
 const IconWithImg: React.FC<IMenuIconProps> = (props) => {
   const { url, title, active } = props;
-  console.log(active, "pattth");
+
   return (
     <>
       <div className={active == true ? "menu-info active" : "menu-info"}>

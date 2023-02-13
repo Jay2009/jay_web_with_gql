@@ -28,6 +28,11 @@ const LOGIN = gql`
     }
   }
 `;
+const LOGOUT = gql`
+  mutation {
+    logout
+  }
+`;
 
 const ALL_USERS = gql`
   query allUser {
@@ -108,6 +113,7 @@ export {
   SIGNUP,
   ALL_USERS,
   LOGIN,
+  LOGOUT,
   GET_USER,
   ADD_USER,
   UPDATE_USER,

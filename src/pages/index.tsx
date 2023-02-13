@@ -15,6 +15,9 @@ import { bakeEcodata } from "recoil/selectors/economySelector";
 import EcoResultModal from "@/components/modal/ecoResultModal";
 import FedDataDscript from "@/components/common/fedDataDscript";
 import { Modal } from "antd";
+import { ICurrentUserData } from "@/types/iApollo";
+import { GET_CURRENT_USER } from "@/apollo/cache";
+import { Router, useRouter } from "next/router";
 
 export default function Home() {
   const getUrl = GetUrlTitle();
@@ -43,13 +46,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log(error, "errorrrrrrrr");
     setIsIntroConfirmed(true);
     if (data) {
       setEcoData(data);
     }
   }, [data]);
-  console.log(btnState, "버튼 상태들@!@@@");
 
   //console.log(fineEcodata, "recoil 에서 나온 데이터 달러임당!!!");
 
@@ -69,8 +70,6 @@ export default function Home() {
     });
     refetch();
   };
-
-  console.log(btnState, "btn stateee@!@@@");
 
   return (
     <div className="nav-frame">
@@ -182,7 +181,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <UpDownCntrlPanel title="Dollar" />
+                    <UpDownCntrlPanel title="Dollar" />
                   </div>
                 )}
               </div>
@@ -215,7 +214,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <UpDownCntrlPanel title="Gold" />
+                    <UpDownCntrlPanel title="Gold" />
                   </div>
                 )}
               </div>
@@ -250,7 +249,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <UpDownCntrlPanel title="Vix" />
+                    <UpDownCntrlPanel title="Vix" />
                   </div>
                 )}
               </div>
@@ -283,7 +282,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <UpDownCntrlPanel title="Nasdaq" />
+                    <UpDownCntrlPanel title="Nasdaq" />
                   </div>
                 )}
               </div>
@@ -319,7 +318,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <FedDataDscript title="U.S Unemployment rate" />
+                    <FedDataDscript title="U.S Unemployment rate" />
                   </div>
                 )}
               </div>
@@ -354,7 +353,7 @@ export default function Home() {
                   </>
                 ) : (
                   <div className="result-wrap">
-                  <FedDataDscript title="U.S Interest Rate" />
+                    <FedDataDscript title="U.S Interest Rate" />
                   </div>
                 )}
               </div>
@@ -472,14 +471,13 @@ export default function Home() {
         }
         .right-chart {
           right: 460px;
-
           height: 250px;
           animation: moveToRight2 2.5s linear;
         }
         @keyframes moveToRight2 {
           0% {
             transform: translate(460px, 0);
-            width: 460px;
+            width: 100%;
           }
           to {
             transform: translate(460px, 0);
@@ -490,7 +488,7 @@ export default function Home() {
         @keyframes moveToRight {
           0% {
             transform: translate(0, 0);
-            width: 470px;
+            width: 100%;
           }
           to {
             transform: translate(470px, 0);

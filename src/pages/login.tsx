@@ -8,12 +8,17 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { loggedInUserId } from "../../recoil/atoms/adminAtom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { ALL_USERS, LOGIN } from "../apollo/gqlQuery/user";
+import { ALL_USERS, LOGIN, LOGOUT } from "../apollo/gqlQuery/user";
 import { Modal } from "antd";
 import { ILoginFormData } from "../types/iRctHookForm";
 import UserRegisterModal from "../components/modal/userRegisterModal";
-import { ICurrentUserData, ILoginData, ILoginVars } from "../types/iApollo";
-import { GET_CURRENT_USER } from "../apollo/cache";
+import {
+  ICurrentUserData,
+  ILoginData,
+  ILoginVars,
+  ILogoutData,
+} from "../types/iApollo";
+import { currentUserVar, GET_CURRENT_USER } from "../apollo/cache";
 import Loading from "../components/common/loading";
 import Error from "../components/common/error";
 
@@ -25,8 +30,9 @@ const Login = () => {
   const router = useRouter();
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
+  const user = currentUser.data?.user;
   const [login, loginResult] = useMutation<ILoginData, ILoginVars>(LOGIN);
-
+  const [logout, logoutResult] = useMutation<ILogoutData>(LOGOUT);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
@@ -35,15 +41,25 @@ const Login = () => {
   //const [getUserAuth, { data, loading, error }] = useLazyQuery(USER_AUTH);
   //console.log(data, loading, error, "all userssssss");
 
+  // useEffect(() => {
+  //   console.log(logoutResult.data, "????????@@#@#");
+  // }, [logoutResult.data]);
+
   useEffect(() => {
+    console.log(loginResult.data?.login, "login 데이터어어어");
+
     if (loginResult.data?.login) {
-      console.log(loginResult.data);
-      alert("로그인에 성공했습니다.");
+      currentUserVar({ ...loginResult.data.login });
+      localStorage.setItem(
+        "loggedinUser",
+        JSON.stringify({ ...loginResult.data.login })
+      );
+      alert("로그인 성공.");
       router.push("/");
     } else if (loginResult.data?.login === null) {
-      alert("로그인 실패.");
+      alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
     }
-  }, [loginResult.data, router]);
+  }, [loginResult.data]);
   if (currentUser.data?.user) router.push("/");
   const {
     register,
@@ -62,6 +78,7 @@ const Login = () => {
   };
 
   const onValid = (formData: ILoginFormData) => {
+    console.log(formData, "form 데이터@@");
     login({ variables: { userId: formData.id, userPw: formData.pw } });
     //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };

@@ -9,7 +9,6 @@ export const bakeEcodata = selector({
     // baking dollar idx
     if (get(economyState) !== null) {
       let data: any = get(economyState);
-      console.log(data, "datttttttttttt");
 
       // dollar data division into 2 parts (first half year and last half year)
       let dollarLocDate = data.oneYearEco.dollar.localDate;

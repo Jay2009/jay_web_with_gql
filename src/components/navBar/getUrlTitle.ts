@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const GetUrlTitle = () => {
   const router = useRouter();
   // const filteredPath = router.pathname.split('/', 3);
-  console.log(router, "routerrrrrrr");
+  // console.log(router, "routerrrrrrr");
   switch (router.pathname) {
     case "/mars":
       return "Main";

@@ -42,9 +42,9 @@ const UserRegisterModal: React.FC<IloginProps> = ({
   useEffect(() => {
     if (signupResult.data?.signup === true) {
       alert("회원가입에 성공했습니다");
-      router.push("/");
+      handleCancel();
     }
-  }, [router, signupResult.data]);
+  }, [signupResult.data]);
 
   const onValid = (formData: IRegisterFormData) => {
     console.log({ ...formData }, "success!!");
