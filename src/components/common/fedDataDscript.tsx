@@ -52,7 +52,8 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
 
       <style jsx>{`
         .result-control {
-          width: 430px;
+          display: flex;
+          width:100%;
           height: 200px;
           margin-top: 30px;
           margin-left: 5px;

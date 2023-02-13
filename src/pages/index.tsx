@@ -181,7 +181,9 @@ export default function Home() {
                     <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <UpDownCntrlPanel title="Dollar" />
+                  </div>
                 )}
               </div>
               <div className="chart-wrap">
@@ -212,7 +214,9 @@ export default function Home() {
                     <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <UpDownCntrlPanel title="Gold" />
+                  </div>
                 )}
               </div>
             </div>
@@ -245,7 +249,9 @@ export default function Home() {
                     <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <UpDownCntrlPanel title="Vix" />
+                  </div>
                 )}
               </div>
               <div className="chart-wrap">
@@ -276,7 +282,9 @@ export default function Home() {
                     <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <UpDownCntrlPanel title="Nasdaq" />
+                  </div>
                 )}
               </div>
             </div>
@@ -310,7 +318,9 @@ export default function Home() {
                     <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <FedDataDscript title="U.S Unemployment rate" />
+                  </div>
                 )}
               </div>
               <div className="chart-wrap">
@@ -343,7 +353,9 @@ export default function Home() {
                     <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
+                  <div className="result-wrap">
                   <FedDataDscript title="U.S Interest Rate" />
+                  </div>
                 )}
               </div>
             </div>
@@ -386,13 +398,14 @@ export default function Home() {
         }
         .chart-layer {
           display: flex;
-          width: 100%;
+          width: 98%;
           height: 100%;
           justify-content: space-between;
           align-items: center;
         }
         .chart-wrap {
           display: flex;
+          width:50%;
         }
         .main-title {
           font-weight: 400;
@@ -437,10 +450,15 @@ export default function Home() {
           opacity: 1;
         }
         .result-wrap {
-          positon: relative;
+          width:48%;
+          height:1
+          position: relative;
           z-index: 0;
         }
-
+        .control-wrap {
+          display:flex;
+          width:100%;
+        }
         .chart-curtain {
           background: #091a30;
           position: absolute;

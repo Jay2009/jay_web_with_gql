@@ -105,7 +105,7 @@ const LineChart: React.FC<IChartProps> = ({
   };
 
   return (
-    <ECharts style={{ width: "450px", height: "250px" }} option={option} />
+    <ECharts style={{ width: "48%", height: "250px" }} option={option} />
   );
 };
 
