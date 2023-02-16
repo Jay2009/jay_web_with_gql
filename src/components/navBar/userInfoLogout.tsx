@@ -12,9 +12,18 @@ import IconWithImg from "../common/iconWithImg";
 import Link from "next/link";
 import { ICurrentUserData, ILogoutData } from "@/types/iApollo";
 import { currentUserVar, GET_CURRENT_USER } from "@/apollo/cache";
-import { GET_USER, LOGOUT } from "@/apollo/gqlQuery/user";
+import { SINGLE_USER, LOGOUT } from "@/apollo/gqlQuery/user";
+import UserEditModal from "../modal/userEditModal";
+import { loggedInUserId } from "recoil/atoms/userAtom";
 
-let localLoginId: string;
+let localLoginId: string | null;
+
+interface ILocalLoginObj {
+  authority: string;
+  name: string;
+  token: string;
+  userId: string;
+}
 
 const UserInfoLogout: React.FC = () => {
   const router = useRouter();
@@ -24,31 +33,46 @@ const UserInfoLogout: React.FC = () => {
 
   const [isSettingClicked, setIsSettingClicked] = useState(false);
   const [isLogoutClicked, setIsLogoutClicked] = useState(false);
+
+  const [localStoreUser, setLocalStoreUser] = useState<ILocalLoginObj>();
+
   // const [userauthority, setUserAuthority] = useRecoilState(userAuthority);
 
   // const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
-  // const [recoilLoggedInUser, setRecoilLoggedInUser] = useRecoilState(loggedInUserId);
+  const [recoilLoggedInUser, setRecoilLoggedInUser] =
+    useRecoilState(loggedInUserId);
 
-  // const { loading, error, data, refetch } = useQuery(GET_USER, {
-  //   variables: {
-  //     userId: recoilLoggedInUser ? recoilLoggedInUser : localLoginId,
-  //   },
-  // });
+  const { loading, error, data, refetch } = useQuery(SINGLE_USER, {
+    variables: {
+      userId: recoilLoggedInUser ? recoilLoggedInUser : localLoginId,
+    },
+  });
+
+  useEffect(() => {
+    localLoginId = JSON.parse(
+      localStorage.getItem("loggedinUser") || "{}"
+    ).userId;
+    // if (data) {
+    // 	setUserAuthority(data.getUser.authority);
+    // }
+  }, [data]);
 
   useEffect(() => {
     //console.log(user, "user%%%%%%%%%%%%%");
+    setLocalStoreUser(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
   }, [user]);
 
   useEffect(() => {
     console.log(logoutResult.data, "my user name@@@@@");
     if (logoutResult.data?.logout === true) {
+      localStorage.removeItem("loggedinUser");
       currentUserVar(null);
       alert("로그아웃에 성공.");
       router.push("/login");
     } else if (logoutResult.data?.logout === false) {
       alert("로그아웃에 실패.");
     }
-  }, [logoutResult.data, router]);
+  }, [logoutResult.data]);
 
   const onSetting = () => {
     setIsSettingClicked(true);
@@ -87,27 +111,20 @@ const UserInfoLogout: React.FC = () => {
         </a>
       </Link> */}
       <div className="user-area">
-        <div className="user-area-icon">
+        <div className="user-area-icon" onClick={onSetting}>
+          <div>{data?.singleUser.name}</div>
+          &nbsp;
           <Image alt="" src="/assets/astronaut.png" width={32} height={32} />
         </div>
-        <div>
-          <div>{user?.name}</div>
-          {/* {data?.getUser.name}
-          <br />
-          <span>{data?.getUser.department}</span> */}
-        </div>
-        <div className="user-setting" onClick={onSetting}>
-          <Image alt="" src="/assets/setting.png" width={24} height={24} />
-        </div>
-        {/* <ULogoutserInfoEdit
-					userData={data?.getUser}
-					showModal={isSettingClicked}
-					handleCancel={handleSettingCancel}
-					refetchUserTable={refetch}
-					destroyEditModal={destroyEditModal}
-				/> */}
+        <UserEditModal
+          localStoreUser={localStoreUser ? localStoreUser : null}
+          showModal={isSettingClicked}
+          refetchUserInfo={refetch}
+          handleCancel={handleSettingCancel}
+          destroyAll={destroyEditModal}
+        />
 
-        <div className="user-setting" onClick={onLogOut}>
+        <div className="user-logout" onClick={onLogOut}>
           <Image alt="" src="/assets/logout.png" width={24} height={24} />
         </div>
         <Modal
@@ -154,18 +171,25 @@ const UserInfoLogout: React.FC = () => {
           width: 42px;
           height: 42px;
           border: none;
+          opacity: 0.7;
+          color: #3a7df2;
+        }
+        .user-area-icon:hover {
+          cursor: pointer;
+          opacity: 1;
         }
         .user-area span {
           font-size: 14px;
           font-weight: 500;
         }
-        .user-setting {
+        .user-logout {
+          margin-left: 40px;
           display: flex;
           justify-content: center;
           align-items: center;
-          opacity: 0.8;
+          opacity: 0.7;
         }
-        .user-setting:hover {
+        .user-logout:hover {
           cursor: pointer;
           opacity: 1;
         }

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { loggedInUserId } from "../../recoil/atoms/adminAtom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { ALL_USERS, LOGIN, LOGOUT } from "../apollo/gqlQuery/user";
 import { Modal } from "antd";
@@ -21,6 +20,7 @@ import {
 import { currentUserVar, GET_CURRENT_USER } from "../apollo/cache";
 import Loading from "../components/common/loading";
 import Error from "../components/common/error";
+import { loggedInUserId } from "recoil/atoms/userAtom";
 
 let isRefreshed = false;
 let localLoginId: string;
@@ -30,13 +30,12 @@ const Login = () => {
   const router = useRouter();
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
-  const user = currentUser.data?.user;
-  const [login, loginResult] = useMutation<ILoginData, ILoginVars>(LOGIN);
-  const [logout, logoutResult] = useMutation<ILogoutData>(LOGOUT);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
     useRecoilState(loggedInUserId);
+  const user = currentUser.data?.user;
+  const [login, loginResult] = useMutation<ILoginData, ILoginVars>(LOGIN);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //const [getUserAuth, { data, loading, error }] = useLazyQuery(USER_AUTH);
   //console.log(data, loading, error, "all userssssss");
@@ -44,6 +43,9 @@ const Login = () => {
   // useEffect(() => {
   //   console.log(logoutResult.data, "????????@@#@#");
   // }, [logoutResult.data]);
+  useEffect(() => {
+    console.log(user, "context user");
+  }, [user]);
 
   useEffect(() => {
     console.log(loginResult.data?.login, "login 데이터어어어");
@@ -80,6 +82,7 @@ const Login = () => {
   const onValid = (formData: ILoginFormData) => {
     console.log(formData, "form 데이터@@");
     login({ variables: { userId: formData.id, userPw: formData.pw } });
+    setRecoilLoggedInUser(formData.id);
     //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
 
@@ -310,8 +313,7 @@ const Login = () => {
           box-shadow: 4px 4px 12px #4f5054;
         }
         .input-id:focus,
-        .input-pw:focus,
-        .form-input:focus {
+        .input-pw:focus {
           outline: none;
         }
 
@@ -356,20 +358,6 @@ const Login = () => {
           justify-content: center;
           align-items: center;
           gap: 30px;
-        }
-
-        .form-input {
-          height: 30px;
-          width: 90%;
-          background-color: #151b23;
-          border: none;
-          box-shadow: 4px 4px 12px #4f5054;
-          border-radius: 5px;
-          color: white;
-          font-size: 13px;
-        }
-        .form-input-txt {
-          width: 80px;
         }
         .btn-form-create {
           width: 80px;

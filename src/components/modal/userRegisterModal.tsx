@@ -43,6 +43,8 @@ const UserRegisterModal: React.FC<IloginProps> = ({
     if (signupResult.data?.signup === true) {
       alert("회원가입에 성공했습니다");
       handleCancel();
+    } else if (signupResult.data?.signup === false) {
+      alert("회원가입에 실패했습니다");
     }
   }, [signupResult.data]);
 
@@ -80,9 +82,13 @@ const UserRegisterModal: React.FC<IloginProps> = ({
                   autoComplete="off"
                   {...register("formId", {
                     required: "please enter user ID",
+                    minLength: {
+                      message: "Minimum length is 3",
+                      value: 3,
+                    },
                     maxLength: {
-                      message: "Please enter ID within 12 character long",
-                      value: 12,
+                      message: "Maximum length is 20",
+                      value: 20,
                     },
                     validate: {
                       noSpace: (value) =>
@@ -103,7 +109,18 @@ const UserRegisterModal: React.FC<IloginProps> = ({
                   type="text"
                   autoComplete="off"
                   {...register("formPw", {
-                    required: "please enter password",
+                    minLength: {
+                      message: "Minimum length is 5 long",
+                      value: 5,
+                    },
+                    maxLength: {
+                      message: "Maximum length is 30 long",
+                      value: 30,
+                    },
+                    validate: {
+                      noSpace: (value) =>
+                        !value.includes(" ") || "Please enter without space.",
+                    },
                   })}
                   className="form-input"
                   placeholder="Password"
@@ -119,6 +136,14 @@ const UserRegisterModal: React.FC<IloginProps> = ({
                   autoComplete="off"
                   {...register("formName", {
                     required: "please enter name",
+                    minLength: {
+                      message: "Minimum length is 3 long",
+                      value: 3,
+                    },
+                    maxLength: {
+                      message: "Maximum length is 8 long",
+                      value: 8,
+                    },
                   })}
                   className="form-input"
                   placeholder="Name or Nickname"
@@ -147,7 +172,20 @@ const UserRegisterModal: React.FC<IloginProps> = ({
       </Modal>
       <style jsx>{`
         .form-input:focus {
-          outline: none;
+          transition: 0.4s;
+          border: none;
+          outline: 1px solid #707070;
+        }
+        .btn-form-create {
+          margin-top: 20px;
+          margin-bottom: -30px;
+          width: 80px;
+          border: none;
+          height: 30px;
+          border-radius: 8px;
+          color: white;
+          background: #3369aa;
+          opacity: 0.8;
         }
         .btn-form-create:hover {
           cursor: pointer;
@@ -156,7 +194,6 @@ const UserRegisterModal: React.FC<IloginProps> = ({
         .btn-form-create:active {
           border: 1px solid #2372db;
         }
-
         .form-wrap {
           margin-top: 40px;
           margin-bottom: 40px;
@@ -187,24 +224,12 @@ const UserRegisterModal: React.FC<IloginProps> = ({
           box-shadow: 4px 4px 12px #4f5054;
           border-radius: 5px;
           color: white;
-          font-size: 13px;
+          font-size: 15px;
         }
         .error-msg {
           margin-left: 63px;
           color: rgb(255, 71, 92);
           fontsize: 15px;
-        }
-
-        .btn-form-create {
-          margin-top: 20px;
-          margin-bottom: -30px;
-          width: 80px;
-          border: none;
-          height: 30px;
-          border-radius: 8px;
-          color: white;
-          background: #3369aa;
-          opacity: 0.8;
         }
       `}</style>
     </div>

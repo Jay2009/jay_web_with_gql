@@ -30,11 +30,15 @@ export default function JayTopBar() {
   //console.log(user, "userrrrr inner text");
   const [localStoreUser, setLocalStoreUser] = useState({});
   useEffect(() => {
-    setLocalStoreUser(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
-
-    if (user == null) {
-      router.push("/login");
-      //console.log(user, "userrrrrrrrrrrr@@@@@@@@@@@@");
+    if (localStorage.getItem("loggedinUser")) {
+      currentUserVar(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
+    }
+    if (localStorage.getItem("loggedinUser") == null) {
+      if (user == null) {
+        localStorage.removeItem("loggedinUser");
+        currentUserVar(null);
+        router.push("/login");
+      }
     }
   }, [user]);
 

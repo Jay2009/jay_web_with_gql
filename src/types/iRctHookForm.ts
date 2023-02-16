@@ -18,3 +18,14 @@ export interface IRegisterFormData {
   formPw: string;
   formName: string;
 }
+
+export interface IProfilChangeFormData {
+  userId: string;
+  name: string;
+  userPw?: string | null | undefined;
+  errors?: {
+    id: {
+      message: string;
+    };
+  };
+}

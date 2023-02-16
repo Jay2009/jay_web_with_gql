@@ -2,7 +2,7 @@ import { selector } from "recoil";
 import { economyState } from "recoil/atoms/economyAtom";
 
 export const bakeEcodata = selector({
-  key: "bakeEcodata",
+  key: "bakeEcodataKey",
   get: ({ get }) => {
     let firstHalfData;
     let lastHalfData;

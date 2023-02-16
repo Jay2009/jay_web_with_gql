@@ -6,14 +6,13 @@ const SIGNUP = gql`
   }
 `;
 
-const GET_USER = gql`
+const SINGLE_USER = gql`
   query singleUser($userId: String!) {
     singleUser(userId: $userId) {
       id
       userId
       name
       authority
-      post
     }
   }
 `;
@@ -114,7 +113,7 @@ export {
   ALL_USERS,
   LOGIN,
   LOGOUT,
-  GET_USER,
+  SINGLE_USER,
   ADD_USER,
   UPDATE_USER,
   DELETE_USERS,

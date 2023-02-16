@@ -8,12 +8,12 @@ export interface IRiseOrFallBtn {
 }
 
 export const economyState = atom({
-  key: "economyState",
+  key: "economyStateKey",
   default: null,
 });
 
 export const riseOrFallState = atom<IRiseOrFallBtn>({
-  key: "riseOrFallState",
+  key: "riseOrFallStateKey",
   default: {
     dollar: null,
     gold: null,
