@@ -7,6 +7,7 @@ import { Radio } from "antd";
 import type { RadioChangeEvent } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import JayBtn from "../common/jayBtn";
+import AddMarsPostModal from "../modal/addMarsPostModal";
 
 interface DataType {
   key: string;
@@ -26,13 +27,25 @@ const MarsCommunityTable = () => {
   const [isDeleteClicked, setIsDeleteClicked] = useState(false);
   const [isTitleClicked, setIsTitleClicked] = useState(false);
 
-  const handleAdd = (key: string) => {
-    console.log(key, "keyy");
+  const handleAdd = () => {
+    setIsAddClicked(true);
+  };
+  const handleAddCancel = () => {
+    setIsAddClicked(false);
   };
 
-  const handleDelete = (key: string) => {
-    console.log(key, "keyy");
-  };
+  // const handleUpdate = (key: string) => {
+  //   console.log(key, "keyy");
+  // };
+  // const handleUpdateCancel = () => {};
+
+  // const handleDelete = (key: string) => {
+  //   console.log(key, "keyy");
+  // };
+  // const handleDeleteCancel = () => {};
+
+  // const handleContentModal = () => {};
+  // const handleContentModalCancel = () => {};
 
   const columns: ColumnsType<DataType> = [
     {
@@ -48,6 +61,11 @@ const MarsCommunityTable = () => {
       key: "title",
       align: "center",
       width: "500px",
+      render: (_, record) => (
+        <Space size="middle">
+          {/* <a onClick={handleContentModal}>{record.title}</a> */}
+        </Space>
+      ),
     },
     {
       title: "Tags",
@@ -93,8 +111,8 @@ const MarsCommunityTable = () => {
       width: "100px",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => handleDelete(record.key)}>Edit</a>
-          <a>Delete</a>
+          {/* <a onClick={() => handleDelete(record.key)}>Edit</a>
+          <a>Delete</a> */}
         </Space>
       ),
     },
@@ -254,8 +272,12 @@ const MarsCommunityTable = () => {
     <div className="whole-wrap">
       <div className="control-area">
         <div>Search</div>
-        <JayBtn width="80px" name="Add post" />
+        <div onClick={handleAdd}>Add post</div>
       </div>
+      <AddMarsPostModal
+        isModalOpen={isAddClicked}
+        handleCancel={handleAddCancel}
+      />
       <Table
         columns={columns}
         dataSource={data}

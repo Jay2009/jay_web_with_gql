@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
-import { IRegisterFormData } from "../../types/iRctHookForm";
+import { IPostFormData, IRegisterFormData } from "../../types/iRctHookForm";
 import { GET_CURRENT_USER } from "../../apollo/cache";
 import { SIGNUP } from "../../apollo/gqlQuery/user";
 import {
@@ -13,14 +13,15 @@ import {
 } from "../../types/iApollo";
 import { useRouter } from "next/router";
 
-interface IloginProps {
+interface IAddPostProps {
   isModalOpen: boolean;
   handleCancel: () => void;
 }
+const tags = ["", "option1", "option2", "option3"];
 
 const regExpEngNum = /^[A-Za-z0-9]*$/;
 
-const UserRegisterModal: React.FC<IloginProps> = ({
+const AddMarsPostModal: React.FC<IAddPostProps> = ({
   isModalOpen,
   handleCancel,
 }) => {
@@ -34,29 +35,24 @@ const UserRegisterModal: React.FC<IloginProps> = ({
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<IRegisterFormData>();
+  } = useForm<IPostFormData>();
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
+  const user = currentUser.data?.user;
+
   const [signup, signupResult] = useMutation<ISignupData, ISignupVars>(SIGNUP);
 
-  useEffect(() => {
-    if (signupResult.data?.signup === true) {
-      alert("회원가입에 성공했습니다");
-      handleCancel();
-    } else if (signupResult.data?.signup === false) {
-      alert("회원가입에 실패했습니다");
-    }
-  }, [signupResult.data]);
+  useEffect(() => {}, []);
 
-  const onValid = (formData: IRegisterFormData) => {
-    console.log({ ...formData }, "success!!");
-    signup({
-      variables: {
-        userId: formData.formId,
-        userPw: formData.formPw,
-        name: formData.formName,
-      },
-    });
+  const onValid = (formData: IPostFormData) => {
+    // console.log({ ...formData }, "success!!");
+    // signup({
+    //   variables: {
+    //     userId: formData.formId,
+    //     userPw: formData.formPw,
+    //     name: formData.formName,
+    //   },
+    // });
   };
   const onInvalid = (error: any) => {
     console.log(error, "error");
@@ -65,76 +61,55 @@ const UserRegisterModal: React.FC<IloginProps> = ({
   return (
     <div>
       <Modal
-        title="Create Account"
+        title="Create Post"
         centered={true}
         open={isModalOpen}
         onCancel={handleCancel}
-        width={380}
+        width={800}
         footer
       >
         <form onSubmit={handleSubmit(onValid, onInvalid)}>
           <div className="form-wrap">
             <div className="form-input-wrap">
               <div className="form-input-row">
-                <div className="input-title">ID</div>
+                <div className="input-title">Title</div>
                 <input
                   type="text"
                   autoComplete="off"
-                  {...register("formId", {
-                    required: "please enter user ID",
+                  {...register("title", {
+                    required: "please write title",
                     minLength: {
                       message: "Minimum length is 3",
                       value: 3,
                     },
                     maxLength: {
-                      message: "Maximum length is 20",
-                      value: 20,
-                    },
-                    validate: {
-                      noSpace: (value) =>
-                        regExpEngNum.test(value) ||
-                        "Only Alphabets or numbers are acceptable",
+                      message: "Maximum length is 30",
+                      value: 30,
                     },
                   })}
                   className="form-input"
                   placeholder="Account"
                 />
               </div>
-              <div className="error-msg">{errors?.formId?.message}</div>
+              <div className="error-msg">{errors?.title?.message}</div>
             </div>
             <div className="form-input-wrap">
               <div className="form-input-row">
-                <div className="input-title">PW</div>
-                <input
-                  type="text"
-                  autoComplete="off"
-                  {...register("formPw", {
-                    minLength: {
-                      message: "Minimum length is 5 long",
-                      value: 5,
-                    },
-                    maxLength: {
-                      message: "Maximum length is 30 long",
-                      value: 30,
-                    },
-                    validate: {
-                      noSpace: (value) =>
-                        !value.includes(" ") || "Please enter without space.",
-                    },
-                  })}
-                  className="form-input"
-                  placeholder="Password"
-                />
+                <select {...register("tags", {})}>
+                  {tags.map((data) => (
+                    <option key={data}>{data}</option>
+                  ))}
+                </select>
               </div>
-              <div className="error-msg">{errors?.formPw?.message}</div>
+              <div className="error-msg">{errors?.tags?.message}</div>
             </div>
             <div className="form-input-wrap">
               <div className="form-input-row">
-                <div className="input-title">NAME</div>
-                <input
+                <div className="input-title">Content</div>
+                <textarea
                   type="text"
                   autoComplete="off"
-                  {...register("formName", {
+                  {...register("content", {
                     required: "please enter name",
                     minLength: {
                       message: "Minimum length is 3 long",
@@ -149,21 +124,9 @@ const UserRegisterModal: React.FC<IloginProps> = ({
                   placeholder="Name or Nickname"
                 />
               </div>
-              <div className="error-msg">{errors?.formName?.message}</div>
+              <div className="error-msg">{errors?.content?.message}</div>
             </div>
 
-            {signupResult.data?.signup === false ? (
-              <div
-                style={{
-                  color: "rgb(255, 71, 92)",
-                  fontSize: "15px",
-                }}
-              >
-                ID is already in use
-              </div>
-            ) : (
-              ""
-            )}
             <button type="submit" className="btn-form-create">
               OK
             </button>
@@ -236,4 +199,4 @@ const UserRegisterModal: React.FC<IloginProps> = ({
   );
 };
 
-export default UserRegisterModal;
+export default AddMarsPostModal;

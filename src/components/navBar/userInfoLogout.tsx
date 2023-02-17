@@ -166,9 +166,9 @@ const UserInfoLogout: React.FC = () => {
         }
         .user-area-icon {
           display: flex;
+          width: auto;
           justify-content: center;
           align-items: center;
-          width: 42px;
           height: 42px;
           border: none;
           opacity: 0.7;

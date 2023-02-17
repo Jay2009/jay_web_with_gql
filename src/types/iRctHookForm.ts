@@ -19,6 +19,17 @@ export interface IRegisterFormData {
   formName: string;
 }
 
+export interface IPostFormData {
+  errors?: {
+    id: {
+      message: string;
+    };
+  };
+  title: string;
+  content: string;
+  tags?: [string];
+}
+
 export interface IProfilChangeFormData {
   userId: string;
   name: string;

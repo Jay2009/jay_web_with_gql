@@ -46,15 +46,9 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
     formState: { errors },
   } = useForm<IProfilChangeFormData>();
 
-  const [wholeUserInput, setWholeUserInput] = useState({});
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isPwBtnClicked, setIsPwBtnClciked] = useState(false);
-
-  const showConfirmModal = () => {
-    setIsConfirmModalOpen(true);
-  };
-
-  const [completedSave, setCompletedSave] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
 
   useEffect(() => {
     if (localStoreUser) {
@@ -65,36 +59,55 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
 
   const onValid = (formData: IProfilChangeFormData) => {
     console.log(formData, "fild value@@@@");
-
     allInput = { ...formData, token: localStoreUser?.token };
+    localStorage.setItem(
+      "loggedinUser",
+      JSON.stringify({ ...formData, token: localStoreUser?.token })
+    );
     console.log(allInput, "all input");
     updateUser({ variables: { input: allInput } });
     showConfirmModal();
   };
 
   const onInValid = () => {};
-  const handleConfirmModalClose = () => {
-    setIsConfirmModalOpen(false);
+
+  const showConfirmModal = () => {
+    setIsConfirmModalOpen(true);
   };
 
   const destroyAllModal = () => {
     destroyAll();
     setIsConfirmModalOpen(false);
     Modal.destroyAll();
-    setCompletedSave(true);
     setIsPwBtnClciked(false);
+    setIsEditClicked(false);
   };
 
-  const onClickChangePwBtn = () => {
+  const handleChangePwBtn = () => {
     setIsPwBtnClciked(true);
+  };
+
+  const handleEditBtn = () => {
+    setIsEditClicked(true);
   };
 
   return (
     <>
       <Modal
-        title="Edit User Info"
+        title="User Info"
         open={showModal}
-        onCancel={handleCancel}
+        onCancel={() => {
+          setIsEditClicked(false);
+          setValue(
+            "userId",
+            JSON.parse(localStorage.getItem("loggedinUser") || "{}").userId
+          );
+          setValue(
+            "name",
+            JSON.parse(localStorage.getItem("loggedinUser") || "{}").name
+          );
+          handleCancel();
+        }}
         cancelButtonProps={{ disabled: true }}
         footer={true}
         width={850}
@@ -140,6 +153,7 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
                 }}
               >
                 <input
+                  disabled={!isEditClicked}
                   {...register("name", {
                     required: "Please enter name.",
                     minLength: {
@@ -174,69 +188,79 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
                 </div>
               </div>
             </div>
-            <div className="input-row">
-              <span>User PW</span>
-              <div
-                style={{
-                  position: "relative",
-                }}
-              >
-                {isPwBtnClicked == true ? (
-                  <input
-                    placeholder="New Password"
-                    {...register("userPw", {
-                      maxLength: {
-                        message: "Maximum length is 30 long",
-                        value: 30,
-                      },
-                      validate: {
-                        noSpace: (value) =>
-                          !value?.includes(" ") ||
-                          "Please enter without space.",
-                      },
-                    })}
-                    type="text"
-                    className="input-edit"
-                    style={{
-                      borderRadius: "9px",
-                      width: 150,
-                    }}
-                  />
-                ) : (
-                  <div className="change-btn-wrap">
-                    <button
-                      className="btn-change-pw"
-                      onClick={onClickChangePwBtn}
-                    >
-                      Change
-                    </button>
-                  </div>
-                )}
+            {isEditClicked == true ? (
+              <div className="input-row">
+                <span>User PW</span>
                 <div
                   style={{
-                    position: "absolute",
-                    left: 0,
-                    color: "rgb(255, 71, 92)",
-                    fontSize: "12px",
+                    position: "relative",
                   }}
                 >
-                  {errors?.userPw?.message}
+                  {isPwBtnClicked == true ? (
+                    <input
+                      placeholder="New Password"
+                      {...register("userPw", {
+                        maxLength: {
+                          message: "Maximum length is 30 long",
+                          value: 30,
+                        },
+                        validate: {
+                          noSpace: (value) =>
+                            !value?.includes(" ") ||
+                            "Please enter without space.",
+                        },
+                      })}
+                      type="text"
+                      className="input-edit"
+                      style={{
+                        borderRadius: "9px",
+                        width: 150,
+                      }}
+                    />
+                  ) : (
+                    <div className="change-btn-wrap">
+                      <button
+                        className="btn-change-pw"
+                        onClick={handleChangePwBtn}
+                      >
+                        Change
+                      </button>
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      color: "rgb(255, 71, 92)",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {errors?.userPw?.message}
+                  </div>
                 </div>
               </div>
+            ) : (
+              ""
+            )}
+          </div>
+          {isEditClicked == true ? (
+            <div className="btn-area">
+              <button type="submit" className="btn">
+                Complete
+              </button>
             </div>
-          </div>
-
-          <div className="btn-area">
-            <button type="submit" className="btn">
-              Edit Complete
-            </button>
-          </div>
+          ) : (
+            <div className="btn-area">
+              <div onClick={handleEditBtn} className="btn edit">
+                Edit info
+              </div>
+            </div>
+          )}
         </form>
       </Modal>
 
       <ConfirmModal
-        msg="Are you sure to complete your modification?"
-        onCancel={handleConfirmModalClose}
+        msg="Edit success!"
         destroyAll={destroyAllModal}
         showModal={isConfirmModalOpen}
         refetchData={refetchUserInfo}
@@ -250,14 +274,20 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
           align-items: center;
         }
         .btn {
-          height: 32px;
+          display: flex;
+          height: 35px;
           width: 120px;
           border: none;
-          height: 30px;
           border-radius: 8px;
           color: white;
           background: #3369aa;
           opacity: 0.8;
+          justify-content: center;
+          align-items: center;
+        }
+        .edit {
+          width: 80px;
+          background: #484b4f;
         }
         .btn:hover {
           cursor: pointer;

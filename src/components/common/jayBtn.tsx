@@ -1,6 +1,7 @@
 interface IBtnProps {
   width?: string | number;
   name?: string;
+  onClick?: () => void;
 }
 
 const JayBtn: React.FC<IBtnProps> = ({ width, name }) => {

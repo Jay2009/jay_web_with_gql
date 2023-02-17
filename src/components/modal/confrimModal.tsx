@@ -8,27 +8,19 @@ import { isRefetchedUser } from "recoil/atoms/userAtom";
 interface Iprops {
   showModal: boolean;
   msg: string;
-  onCancel: () => void;
+
   refetchData: () => void;
   destroyAll: () => void;
 }
 
 const ConfirmModal: React.FC<Iprops> = (props) => {
-  const { msg, onCancel, destroyAll, showModal, refetchData } = props;
+  const { msg, destroyAll, showModal, refetchData } = props;
 
   //const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
-
   const destroyConfirmModal = () => {
-    setIsConfirmClicked(true);
     refetchData();
     destroyAll();
-  };
-
-  const confirmModalClosed = () => {
-    //setRefetchedUser(true);
-    setIsConfirmClicked(false);
-    onCancel();
   };
 
   // useEffect(() => {
@@ -42,7 +34,7 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
       <>
         <Modal
           open={showModal}
-          onCancel={confirmModalClosed}
+          onCancel={destroyConfirmModal}
           cancelButtonProps={{ disabled: true }}
           footer={true}
           width={600}
@@ -53,11 +45,8 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           <div className="confirm-wrap">
             <h3>{msg}</h3>
             <div className="btn-area">
-              <div className="btn btn-save" onClick={destroyConfirmModal}>
-                확인
-              </div>
-              <div className="btn btn-delete" onClick={onCancel}>
-                취소
+              <div className="btn" onClick={destroyConfirmModal}>
+                Confirm
               </div>
             </div>
           </div>
@@ -78,42 +67,21 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           gap: 15px;
         }
         .btn {
-          width: 85px;
-          height: 35px;
-          font-size: 14px;
-          font-weight: normal;
-          padding: 5px 0;
-          border-radius: 20px;
-          border: none;
-          cursor: pointer;
-          text-align: center;
-        }
-        .btn-save {
-          color: #2cabff;
-          border: 1px solid #2cabff;
-          opacity: 0.8;
-          background-color: #06283e;
-        }
-        .btn-delete {
-          color: #ff6060;
-          border: 1px solid #ff6060;
-          opacity: 0.8;
-          background-color: #201f2d;
-        }
-        .btn-save:hover {
-          border: 1px solid #2cabff;
-          opacity: 1;
-        }
-        .btn-delete:hover {
-          border: 1px solid #ff6060;
-          opacity: 1;
-        }
-        .completed-add-user {
-          margin-top: 30px;
           display: flex;
-          flex-direction: column;
+          height: 35px;
+          width: 80px;
+          border: none;
+          border-radius: 8px;
+          color: white;
+          background: #3369aa;
+          opacity: 0.8;
           justify-content: center;
           align-items: center;
+        }
+
+        .btn:hover {
+          cursor: pointer;
+          opacity: 1;
         }
       `}</style>
     </>
