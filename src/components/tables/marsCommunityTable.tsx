@@ -272,7 +272,7 @@ const MarsCommunityTable = () => {
     <div className="whole-wrap">
       <div className="control-area">
         <div>Search</div>
-        <div onClick={handleAdd}>Add post</div>
+        <div className="btn" onClick={handleAdd}>Add post</div>
       </div>
       <AddMarsPostModal
         isModalOpen={isAddClicked}
@@ -292,6 +292,25 @@ const MarsCommunityTable = () => {
         style={{ width: "100%", height: "auto" }}
       />
       <style jsx>{`
+        .btn {
+          display: flex;
+          width: 100px;
+          color: white;
+          justify-content: center;
+          align-items: center;
+          background-color: #3369aa;
+          border-radius: 3px;
+          height: 35px;
+          opacity: 0.8;
+          transition: 0.4s;
+          border: none;
+          box-shadow: 4px 4px 12px #4f5054;
+          outline: none;
+        }
+        .btn:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
         .whole-wrap {
           width: 100%;
           display: flex;

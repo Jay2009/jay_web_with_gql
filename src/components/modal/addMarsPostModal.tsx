@@ -17,7 +17,7 @@ interface IAddPostProps {
   isModalOpen: boolean;
   handleCancel: () => void;
 }
-const tags = ["", "option1", "option2", "option3"];
+const tags = ["", "Real estate", "Stock", "Bank"];
 
 const regExpEngNum = /^[A-Za-z0-9]*$/;
 
@@ -42,9 +42,20 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
 
   const [signup, signupResult] = useMutation<ISignupData, ISignupVars>(SIGNUP);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    let tagList = [];
+    if(getValues("tags")){
+    console.log(getValues("tags"), "tag is ??");
+   
+  }
+  }, [getValues("tags")]);
 
   const onValid = (formData: IPostFormData) => {
+    watch();
+    console.log(watch(), "watchh");
+    
+    
+    
     // console.log({ ...formData }, "success!!");
     // signup({
     //   variables: {
@@ -77,7 +88,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                   type="text"
                   autoComplete="off"
                   {...register("title", {
-                    required: "please write title",
+                    required: "Please write title",
                     minLength: {
                       message: "Minimum length is 3",
                       value: 3,
@@ -88,17 +99,20 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                     },
                   })}
                   className="form-input"
-                  placeholder="Account"
+                  placeholder="Title"
                 />
               </div>
               <div className="error-msg">{errors?.title?.message}</div>
             </div>
             <div className="form-input-wrap">
               <div className="form-input-row">
-                <select {...register("tags", {})}>
-                  {tags.map((data) => (
-                    <option key={data}>{data}</option>
-                  ))}
+              <div className="input-title">tags</div>
+                <select className="form-input"  {...register("tags", {})}>
+                <option ></option>
+                    <option >a</option>
+                    <option >b</option>
+                    <option >c</option>
+                 
                 </select>
               </div>
               <div className="error-msg">{errors?.tags?.message}</div>
@@ -107,21 +121,20 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
               <div className="form-input-row">
                 <div className="input-title">Content</div>
                 <textarea
-                  type="text"
                   autoComplete="off"
                   {...register("content", {
-                    required: "please enter name",
+                    required: "Please write any content",
                     minLength: {
-                      message: "Minimum length is 3 long",
+                      message: "Minimum length is 3 text long",
                       value: 3,
                     },
                     maxLength: {
-                      message: "Maximum length is 8 long",
-                      value: 8,
+                      message: "Maximum length is 500 text long",
+                      value: 500,
                     },
                   })}
-                  className="form-input"
-                  placeholder="Name or Nickname"
+                  className="form-input text-area"
+                  placeholder="Write"
                 />
               </div>
               <div className="error-msg">{errors?.content?.message}</div>
@@ -158,10 +171,9 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
           border: 1px solid #2372db;
         }
         .form-wrap {
-          margin-top: 40px;
-          margin-bottom: 40px;
+          margin:40px;
           display: flex;
-          width: 100%;
+          width: 80%;
           flex-direction: column;
           justify-content: center;
           align-items: center;
@@ -173,11 +185,11 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
         .form-input-row {
           display: flex;
           width: 100%;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
         }
         .input-title {
-          width: 60px;
+          width: 80px;
         }
         .form-input {
           height: 30px;
@@ -188,6 +200,11 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
           border-radius: 5px;
           color: white;
           font-size: 15px;
+        }
+        .text-area{
+          width: 80%;
+          height: 250px;
+         resize: none;
         }
         .error-msg {
           margin-left: 63px;
