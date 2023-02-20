@@ -28,9 +28,6 @@ export interface IPostFormData {
   title: string;
   content: string;
   tags?: [string];
-  option1?:string;
-  option2?:string;
-  option3?:string;
 }
 
 export interface IProfilChangeFormData {

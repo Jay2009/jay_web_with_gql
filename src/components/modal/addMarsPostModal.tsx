@@ -5,19 +5,20 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { IPostFormData, IRegisterFormData } from "../../types/iRctHookForm";
 import { GET_CURRENT_USER } from "../../apollo/cache";
-import { SIGNUP } from "../../apollo/gqlQuery/user";
+import { ADD_POST, SIGNUP } from "../../apollo/gqlQuery/user";
 import {
   ICurrentUserData,
   ISignupData,
   ISignupVars,
 } from "../../types/iApollo";
 import { useRouter } from "next/router";
+import ConfirmModal from "./confrimModal";
 
 interface IAddPostProps {
   isModalOpen: boolean;
   handleCancel: () => void;
 }
-const tags = ["", "Real estate", "Stock", "Bank"];
+const tags = ["", "Real estate", "Stock", "others"];
 
 const regExpEngNum = /^[A-Za-z0-9]*$/;
 
@@ -41,9 +42,16 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   const user = currentUser.data?.user;
 
   const [signup, signupResult] = useMutation<ISignupData, ISignupVars>(SIGNUP);
+  const [createPost, {data,loading,error}] = useMutation(ADD_POST); 
+
+  const [isStockClicked, setIsStockClicked] = useState(false);
+  const [isRealEstateClicked, setIsRealEstateClicked] = useState(false);
+  const [isOthersClicked, setIsOthersClicked] = useState(false);
+  const [tagList, setTagList] = useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   useEffect(() => {
-    let tagList = [];
+    
     if(getValues("tags")){
     console.log(getValues("tags"), "tag is ??");
    
@@ -51,13 +59,12 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   }, [getValues("tags")]);
 
   const onValid = (formData: IPostFormData) => {
-    watch();
-    console.log(watch(), "watchh");
-    
-    
+    let bakedPostData = {...formData, tags: tagList, writer: user?.userId }
+    createPost({ variables: { input: bakedPostData } });
+    setIsConfirmModalOpen(true);
     
     // console.log({ ...formData }, "success!!");
-    // signup({
+    // signup({W
     //   variables: {
     //     userId: formData.formId,
     //     userPw: formData.formPw,
@@ -68,6 +75,50 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   const onInvalid = (error: any) => {
     console.log(error, "error");
   };
+
+
+  const destroyAllModal = () => {
+    Modal.destroyAll();
+  };
+
+  const handleActive = (event : any) => {
+    console.log(event.target.id, "id!!!");
+    if(event.target.id == "stock"){
+      setIsStockClicked(true)
+      setTagList([...tagList, event.target.id  ])
+    }
+    if(event.target.id == "realEstate"){
+      setIsRealEstateClicked(true)
+      setTagList([...tagList, event.target.id  ])
+    }
+    if(event.target.id == "others"){
+      setIsOthersClicked(true)
+      setTagList([...tagList, event.target.id  ])
+    }
+  };
+
+  const handleTagDeactive = (event : any) => {
+    if(event.target.id == "stock"){
+      let filter = tagList.filter((element)=> element != event.target.id)
+      setTagList(filter)
+      setIsStockClicked(false)
+      
+    }
+    if(event.target.id == "realEstate"){
+      let filter = tagList.filter((element)=> element != event.target.id)
+      setTagList(filter)
+      setIsRealEstateClicked(false)
+      
+    }
+    if(event.target.id == "others"){
+      let filter = tagList.filter((element)=> element != event.target.id)
+      setTagList(filter)
+      setIsOthersClicked(false)
+    }
+  };
+
+
+
 
   return (
     <div>
@@ -106,19 +157,39 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
             </div>
             <div className="form-input-wrap">
               <div className="form-input-row">
-              <div className="input-title">tags</div>
+              <div className="input-title">Tag</div>
                 <div className="tags">
-                  <div className="btn stock">stock</div>
-                  <div className="btn real-estate">button1</div>
-                  <div className="btn bank">button1</div>
+                  {isStockClicked ? 
+                  <div className="tag-wrap">
+                    <div className="stock clicked"  >Stock</div>
+                    <div className="tag-close"  onClick={handleTagDeactive}><span id="stock">&#215;</span>	</div>
+                  </div>
+                   :  <div className="none-btn stock-deactive" id="stock" onClick={handleActive}>Stock</div>}
+
+                   {isRealEstateClicked ? 
+                  <div className="tag-wrap">
+                    <div className="real-estate clicked"  >Real estate</div>
+                    <div className="tag-close"  onClick={handleTagDeactive}><span id="realEstate">&#215;</span>	</div>
+                  </div>
+                   :  <div className="none-btn realEstate-deactive" id="realEstate" onClick={handleActive}>Real estate</div>}
+                  
+                  {isOthersClicked ? 
+                  <div className="tag-wrap">
+                    <div className="others clicked"  >Others</div>
+                    <div className="tag-close"  onClick={handleTagDeactive}><span id="others">&#215;</span>	</div>
+                  </div>
+                   :  <div className="none-btn others-deactive" id="others" onClick={handleActive}>Others</div>}
+                  
                 </div>
               </div>
+              
               <div className="error-msg">{errors?.tags?.message}</div>
             </div>
             <div className="form-input-wrap">
               <div className="form-input-row">
                 <div className="input-title">Content</div>
                 <textarea
+                maxLength={500}
                   autoComplete="off"
                   {...register("content", {
                     required: "Please write any content",
@@ -137,71 +208,161 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
               </div>
               <div className="error-msg">{errors?.content?.message}</div>
             </div>
-
-            <button type="submit" className="btn ok">
-              OK
+            <div className="tags-textArea">
+            <div className="tags-textArea-wrap">
+            {tagList.length > 0 ? "Tags -" : ""}
+            {tagList[0]?<div># {tagList[0] } </div> :""}
+            {tagList[1]?<div># {tagList[1] } </div>: ""}
+            {tagList[2]?<div># {tagList[2] } </div>: ""}
+            </div>
+            </div>
+            <button type="submit" className="btn-post">
+                  Post
             </button>
+            <ConfirmModal
+        msg="Edit success!"
+        destroyAll={destroyAllModal}
+        showModal={isConfirmModalOpen}
+        refetchData={refetchUserInfo}
+      />
           </div>
         </form>
       </Modal>
       <style jsx>{`
-        .form-input:focus {
-          transition: 0.4s;
-          border: none;
-          outline: 1px solid #707070;
+        .none-btn{
+          display: flex;
+          align-items:center;
+          justify-content:center;
+          width: 70px;
+          height: 30px;
+          border-radius: 8px;
+          border: 1px solid #6a6a6a;
+          color: #6a6a6a;
+          background: none;
+          opacity: 0.8;
+          font-size: 12px;
+          height: 25px;
+          border-radius: 5px;
         }
-        .btn {
+        .btn-post {
           display: flex;
           align-items:center;
           justify-content:center;
           border: none;
-          width: 60px;
+          width: 80px;
           height: 30px;
-          border-radius: 8px;
+          margin-top:20px;
+          margin-bottom:-20px;
+          margin-left: 110px;
+          border-radius: 3px;
           color: white;
           background: #3369aa;
           opacity: 0.8;
         }
-        .btn:hover {
+        .btn-post:hover  {
           cursor: pointer;
           opacity: 1;
         }
-        .btn:active {
+        .btn-post:active {
           border: 1px solid #2372db;
         }
+        .none-btn:hover{
+          cursor: pointer;
+          opacity: 1;
+          
+        }
+        .stock-deactive:hover{
+          border: 1px solid #243060;
+          color: #384da6;
+        }
+        .realEstate-deactive:hover{
+          color: #66b834;
+          border: 1px solid #304927;
+        }
+        .others-deactive:hover{
+          color: #d9663b;
+          border: 1px solid #4d2920;
+        }
+        
         .tags{
           display: flex;
           justify-content:center;
           align-items:center;
-          gap: 20px;
+          gap: 10px;
+        }
+        .tag-wrap{
+          position: relative;
+        }
+        
+        .tag-close{
+          position: absolute;
+          bottom:15px;
+          right:-10px;
+          width: 25px;
+          height: 25px;
+          color:gray;
+          text-align:center;
+          text-justify:center;
+        }
+        .tag-close:hover{
+          cursor:pointer;
+        }
+        .tags-textArea {
+          position:absolute;
+          right: 150px;
+         bottom: 125px;
+        }
+        .tags-textArea-wrap{
+          display:flex;
+          gap: 10px;
+          color:gray;
+        }
+        span{
+          display: flex;
+          justify-content:center;
+          align-items:center;
+          font-size: 25px;
+          margin-top:-8px;
+        }
+        .clicked{
+          display: flex;
+          justify-content:center;
+          align-items:center;
         }
         .stock{
-          width: 60px;
+          width: 70px;
           height: 25px;
           border-radius: 5px;
           color: #384da6;
           background: #131629;
           border: 1px solid #243060;
+          text-align:center;
+          text-justify:center;
+          font-size:12px;
         }
         .real-estate{
-          width: 60px;
+          width: 70px;
           height: 25px;
           border-radius: 5px;
           color: #66b834;
           background: #162312;
           border: 1px solid #304927;
+          text-align:center;
+          text-justify:center;
+          font-size:12px;
         }
-        .bank{
-          width: 60px;
+        .others{
+          width: 70px;
           height: 25px;
           border-radius: 5px;
-          color: #384da6;
-          background: #131629;
-          border: 1px solid #1a2346;
+          color: #d9663b;
+          background: #2b1611;
+          border: 1px solid #4d2920;
+          text-align:center;
+          text-justify:center;
+          font-size:12px;
         }
-        .ok {
-          width: 80px;
-        }
+        
         .form-wrap {
           margin:40px;
           display: flex;
@@ -225,6 +386,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
         }
         .form-input {
           height: 30px;
+          padding-left:15px;
           width: 80%;
           background-color: #151b23;
           border: none;
@@ -233,15 +395,21 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
           color: white;
           font-size: 15px;
         }
+        .form-input:focus {
+          transition: 0.4s;
+          border: none;
+          outline: 1px solid #707070;
+        }
         .text-area{
           width: 80%;
-          height: 250px;
+          height: 300px;
          resize: none;
         }
         .error-msg {
-          margin-left: 63px;
+          height: 15px;
+          margin-left: 110px;
           color: rgb(255, 71, 92);
-          fontsize: 15px;
+          font-size: 13px;
         }
       `}</style>
     </div>

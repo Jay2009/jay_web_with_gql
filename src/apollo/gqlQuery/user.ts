@@ -64,13 +64,15 @@ const ADD_USER = gql`
   mutation createUser($input: UserCreateInput!) {
     createUser(input: $input) {
       id
+      writer
+      tags
     }
   }
 `;
 
 const ADD_POST = gql`
-  mutation createUser($input: PostInput!) {
-    createUser(input: $input) {
+  mutation createPost($input: PostInput!) {
+    createPost(input: $input) {
       id
     }
   }

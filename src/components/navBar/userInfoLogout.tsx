@@ -55,6 +55,8 @@ const UserInfoLogout: React.FC = () => {
     // if (data) {
     // 	setUserAuthority(data.getUser.authority);
     // }
+    console.log(data,"heyy");
+    
   }, [data]);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ const UserInfoLogout: React.FC = () => {
       </Link> */}
       <div className="user-area">
         <div className="user-area-icon" onClick={onSetting}>
-          <div>{data?.singleUser.name}</div>
+          <div>{ data?.singleUser?.name}</div>
           &nbsp;
           <Image alt="" src="/assets/astronaut.png" width={32} height={32} />
         </div>
