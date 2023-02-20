@@ -107,13 +107,11 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
             <div className="form-input-wrap">
               <div className="form-input-row">
               <div className="input-title">tags</div>
-                <select className="form-input"  {...register("tags", {})}>
-                <option ></option>
-                    <option >a</option>
-                    <option >b</option>
-                    <option >c</option>
-                 
-                </select>
+                <div className="tags">
+                  <div className="btn stock">stock</div>
+                  <div className="btn real-estate">button1</div>
+                  <div className="btn bank">button1</div>
+                </div>
               </div>
               <div className="error-msg">{errors?.tags?.message}</div>
             </div>
@@ -140,7 +138,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
               <div className="error-msg">{errors?.content?.message}</div>
             </div>
 
-            <button type="submit" className="btn-form-create">
+            <button type="submit" className="btn ok">
               OK
             </button>
           </div>
@@ -152,23 +150,57 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
           border: none;
           outline: 1px solid #707070;
         }
-        .btn-form-create {
-          margin-top: 20px;
-          margin-bottom: -30px;
-          width: 80px;
+        .btn {
+          display: flex;
+          align-items:center;
+          justify-content:center;
           border: none;
+          width: 60px;
           height: 30px;
           border-radius: 8px;
           color: white;
           background: #3369aa;
           opacity: 0.8;
         }
-        .btn-form-create:hover {
+        .btn:hover {
           cursor: pointer;
           opacity: 1;
         }
-        .btn-form-create:active {
+        .btn:active {
           border: 1px solid #2372db;
+        }
+        .tags{
+          display: flex;
+          justify-content:center;
+          align-items:center;
+          gap: 20px;
+        }
+        .stock{
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+          color: #384da6;
+          background: #131629;
+          border: 1px solid #243060;
+        }
+        .real-estate{
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+          color: #66b834;
+          background: #162312;
+          border: 1px solid #304927;
+        }
+        .bank{
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+          color: #384da6;
+          background: #131629;
+          border: 1px solid #1a2346;
+        }
+        .ok {
+          width: 80px;
         }
         .form-wrap {
           margin:40px;
