@@ -30,6 +30,8 @@ export default function JayTopBar() {
   //console.log(user, "userrrrr inner text");
   const [localStoreUser, setLocalStoreUser] = useState({});
   useEffect(() => {
+    console.log(user, "로그인시 유저 있어??");
+    
     if (localStorage.getItem("loggedinUser")) {
       currentUserVar(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
     }

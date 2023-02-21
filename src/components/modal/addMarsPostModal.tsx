@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { IPostFormData, IRegisterFormData } from "../../types/iRctHookForm";
 import { GET_CURRENT_USER } from "../../apollo/cache";
-import { ADD_POST, SIGNUP } from "../../apollo/gqlQuery/user";
+import { ADD_POST, ALL_POSTS, SIGNUP } from "../../apollo/gqlQuery/user";
 import {
   ICurrentUserData,
   ISignupData,
@@ -42,14 +42,15 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   const user = currentUser.data?.user;
 
   const [signup, signupResult] = useMutation<ISignupData, ISignupVars>(SIGNUP);
-  const [createPost, {data,loading,error}] = useMutation(ADD_POST); 
+  const [createPost, {}] = useMutation(ADD_POST); 
+  const { data, loading, error, refetch } = useQuery(ALL_POSTS);
 
   const [isStockClicked, setIsStockClicked] = useState(false);
   const [isRealEstateClicked, setIsRealEstateClicked] = useState(false);
   const [isOthersClicked, setIsOthersClicked] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
+  const [bakedPostData, setBakedPostData] = useState({});
   useEffect(() => {
     
     if(getValues("tags")){
@@ -59,8 +60,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   }, [getValues("tags")]);
 
   const onValid = (formData: IPostFormData) => {
-    let bakedPostData = {...formData, tags: tagList, writer: user?.userId }
-    createPost({ variables: { input: bakedPostData } });
+    setBakedPostData({...formData, tags: tagList, writer: user?.userId })
     setIsConfirmModalOpen(true);
     
     // console.log({ ...formData }, "success!!");
@@ -78,6 +78,8 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
 
 
   const destroyAllModal = () => {
+    setIsConfirmModalOpen(false)
+    handleCancel()
     Modal.destroyAll();
   };
 
@@ -219,15 +221,16 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
             <button type="submit" className="btn-post">
                   Post
             </button>
-            <ConfirmModal
-        msg="Edit success!"
-        destroyAll={destroyAllModal}
-        showModal={isConfirmModalOpen}
-        refetchData={refetchUserInfo}
-      />
+            
           </div>
         </form>
       </Modal>
+      <ConfirmModal
+        msg="Post created!"
+        destroyAll={destroyAllModal}
+        showModal={isConfirmModalOpen}
+        refetchData={refetch}
+      />
       <style jsx>{`
         .none-btn{
           display: flex;

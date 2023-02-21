@@ -40,7 +40,6 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           width={600}
           centered={true}
           className="modal"
-          zIndex={11}
         >
           <div className="confirm-wrap">
             <h3>{msg}</h3>
