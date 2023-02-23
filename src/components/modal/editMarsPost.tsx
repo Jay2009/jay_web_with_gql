@@ -7,6 +7,7 @@ import { IPostFormData } from "../../types/iRctHookForm";
 import { GET_CURRENT_USER } from "../../apollo/cache";
 import { ADD_POST, ALL_POSTS, SIGNUP } from "../../apollo/gqlQuery/user";
 import {
+  IAddPostData,
   ICurrentUserData,
   ISignupData,
   ISignupVars,
@@ -18,15 +19,16 @@ interface IAddPostProps {
   isModalOpen: boolean;
   handleCancel: () => void;
   refetch: () => void;
+  clickedPost: IAddPostData | null;
 }
-const tags = ["", "Real estate", "Stock", "others"];
 
 const regExpEngNum = /^[A-Za-z0-9]*$/;
 
-const AddMarsPostModal: React.FC<IAddPostProps> = ({
+const EditMarsPostModal: React.FC<IAddPostProps> = ({
   isModalOpen,
   handleCancel,
   refetch,
+  clickedPost,
 }) => {
   const router = useRouter();
 
@@ -52,18 +54,17 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [bakedPostData, setBakedPostData] = useState({});
 
+  useEffect(() => {
+    if (clickedPost) {
+      setValue("title", clickedPost.title);
+      setValue("content", clickedPost.content);
+      setValue("tags", clickedPost.tags);
+    }
+  }, [clickedPost]);
+
   const onValid = (formData: IPostFormData) => {
     setBakedPostData({ ...formData, tags: tagList, writer: user?.userId });
     setIsConfirmModalOpen(true);
-
-    // console.log({ ...formData }, "success!!");
-    // signup({W
-    //   variables: {
-    //     userId: formData.formId,
-    //     userPw: formData.formPw,
-    //     name: formData.formName,
-    //   },
-    // });
   };
   const onInvalid = (error: any) => {
     console.log(error, "error");
@@ -120,7 +121,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   return (
     <div>
       <Modal
-        title="Create Post"
+        title="Edit post"
         centered={true}
         open={isModalOpen}
         onCancel={handleCancel}
@@ -235,7 +236,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
               <div className="error-msg">{errors?.content?.message}</div>
             </div>
             <div className="tags-textArea">
-              <div className="tags-textArea-wrap">
+              <div className="tags-textArea-wrap" {...register("tags")}>
                 {tagList.length > 0 ? "Tags -" : ""}
                 {tagList[0] ? <div># {tagList[0]} </div> : ""}
                 {tagList[1] ? <div># {tagList[1]} </div> : ""}
@@ -446,4 +447,4 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   );
 };
 
-export default AddMarsPostModal;
+export default EditMarsPostModal;

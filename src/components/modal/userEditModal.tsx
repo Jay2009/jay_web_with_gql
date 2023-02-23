@@ -49,6 +49,7 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isPwBtnClicked, setIsPwBtnClciked] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
+  const [bakedUserData, setBakedUserData] = useState({});
 
   useEffect(() => {
     if (localStoreUser) {
@@ -59,13 +60,12 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
 
   const onValid = (formData: IProfilChangeFormData) => {
     console.log(formData, "fild value@@@@");
-    allInput = { ...formData, token: localStoreUser?.token };
+    setBakedUserData({ ...formData, token: localStoreUser?.token });
     localStorage.setItem(
       "loggedinUser",
       JSON.stringify({ ...formData, token: localStoreUser?.token })
     );
-    console.log(allInput, "all input");
-    updateUser({ variables: { input: allInput } });
+    console.log({ ...formData, token: localStoreUser?.token }, "all input");
     showConfirmModal();
   };
 
@@ -73,6 +73,9 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
 
   const showConfirmModal = () => {
     setIsConfirmModalOpen(true);
+  };
+  const handleConfirmCancel = () => {
+    setIsConfirmModalOpen(false);
   };
 
   const destroyAllModal = () => {
@@ -246,7 +249,7 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
           {isEditClicked == true ? (
             <div className="btn-area">
               <button type="submit" className="btn">
-                Complete
+                Save
               </button>
             </div>
           ) : (
@@ -260,10 +263,13 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
       </Modal>
 
       <ConfirmModal
-        msg="Edit success!"
+        msg="Are you sure to save the change?"
         destroyAll={destroyAllModal}
         showModal={isConfirmModalOpen}
         refetchData={refetchUserInfo}
+        handleClose={handleConfirmCancel}
+        bakedData={bakedUserData}
+        gqlFn={updateUser}
       />
 
       <style jsx>{`
@@ -276,7 +282,7 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
         .btn {
           display: flex;
           height: 35px;
-          width: 120px;
+          width: 80px;
           border: none;
           border-radius: 8px;
           color: white;

@@ -4,23 +4,35 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRecoilState } from "recoil";
 import { isRefetchedUser } from "recoil/atoms/userAtom";
+import { IAddPostData } from "@/types/iApollo";
 
 interface Iprops {
   showModal: boolean;
   msg: string;
-
+  bakedData: IAddPostData | {};
+  gqlFn: (arg: {}) => void;
   refetchData: () => void;
   destroyAll: () => void;
+  handleClose: () => void;
 }
 
 const ConfirmModal: React.FC<Iprops> = (props) => {
-  const { msg, destroyAll, showModal, refetchData } = props;
+  const {
+    msg,
+    destroyAll,
+    showModal,
+    refetchData,
+    gqlFn,
+    bakedData,
+    handleClose,
+  } = props;
 
   //const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
   const destroyConfirmModal = () => {
-    refetchData();
     destroyAll();
+    gqlFn({ variables: { input: bakedData } });
+    refetchData();
   };
 
   // useEffect(() => {
@@ -34,7 +46,7 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
       <>
         <Modal
           open={showModal}
-          onCancel={destroyConfirmModal}
+          onCancel={handleClose}
           cancelButtonProps={{ disabled: true }}
           footer={true}
           width={600}
@@ -44,8 +56,11 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           <div className="confirm-wrap">
             <h3>{msg}</h3>
             <div className="btn-area">
-              <div className="btn" onClick={destroyConfirmModal}>
+              <div className="btn confirm" onClick={destroyConfirmModal}>
                 Confirm
+              </div>
+              <div className="btn delete" onClick={handleClose}>
+                Cancel
               </div>
             </div>
           </div>
@@ -69,13 +84,21 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           display: flex;
           height: 35px;
           width: 80px;
+          transition: 0.4s;
           border: none;
+          box-shadow: 4px 4px 12px #4f5054;
           border-radius: 8px;
           color: white;
-          background: #3369aa;
           opacity: 0.8;
           justify-content: center;
           align-items: center;
+        }
+        .confirm {
+          background: #3369aa;
+        }
+
+        .delete {
+          background: tomato;
         }
 
         .btn:hover {

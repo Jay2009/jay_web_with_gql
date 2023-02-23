@@ -56,6 +56,8 @@ const ALL_POSTS = gql`
       title
       writer
       content
+      createdAt
+      tags
     }
   }
 `;

@@ -39,3 +39,16 @@ export interface ISignupVars {
 export interface ICurrentUserData {
   user: IUser;
 }
+
+export interface IAddPostData {
+  errors?: {
+    id: {
+      message: string;
+    };
+  };
+  title: string;
+  writer?: string;
+  content: string;
+  tags?: [string];
+  createdAt?: string;
+}

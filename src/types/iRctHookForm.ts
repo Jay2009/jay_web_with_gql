@@ -28,6 +28,7 @@ export interface IPostFormData {
   title: string;
   content: string;
   tags?: [string];
+  writer?: string;
 }
 
 export interface IProfilChangeFormData {
