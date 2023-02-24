@@ -5,7 +5,12 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { IPostFormData } from "../../types/iRctHookForm";
 import { GET_CURRENT_USER } from "../../apollo/cache";
-import { ADD_POST, ALL_POSTS, SIGNUP } from "../../apollo/gqlQuery/user";
+import {
+  ADD_POST,
+  ALL_POSTS,
+  SIGNUP,
+  UPDATE_POST,
+} from "../../apollo/gqlQuery/user";
 import {
   IAddPostData,
   ICurrentUserData,
@@ -19,7 +24,7 @@ interface IAddPostProps {
   isModalOpen: boolean;
   handleCancel: () => void;
   refetch: () => void;
-  clickedPost: IAddPostData | null;
+  clickedEditData: IAddPostData | null;
 }
 
 const regExpEngNum = /^[A-Za-z0-9]*$/;
@@ -28,7 +33,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
   isModalOpen,
   handleCancel,
   refetch,
-  clickedPost,
+  clickedEditData,
 }) => {
   const router = useRouter();
 
@@ -46,25 +51,42 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
   const user = currentUser.data?.user;
 
   const [signup, signupResult] = useMutation<ISignupData, ISignupVars>(SIGNUP);
-  const [createPost, {}] = useMutation(ADD_POST);
+  const [updatePost, {}] = useMutation(UPDATE_POST);
   const [isStockClicked, setIsStockClicked] = useState(false);
   const [isRealEstateClicked, setIsRealEstateClicked] = useState(false);
   const [isOthersClicked, setIsOthersClicked] = useState(false);
-  const [tagList, setTagList] = useState<string[]>([]);
+  const [tagList, setTagList] = useState<string[] | undefined>([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [bakedPostData, setBakedPostData] = useState({});
 
   useEffect(() => {
-    if (clickedPost) {
-      setValue("title", clickedPost.title);
-      setValue("content", clickedPost.content);
-      setValue("tags", clickedPost.tags);
+    if (clickedEditData) {
+      setValue("title", clickedEditData.title);
+      setValue("content", clickedEditData.content);
+      setValue("tags", clickedEditData.tags);
+      setTagList(clickedEditData.tags);
+      console.log(clickedEditData.tags, "dddddd");
+
+      if (clickedEditData.tags) {
+        setIsStockClicked(clickedEditData.tags.includes("stock"));
+        setIsRealEstateClicked(clickedEditData.tags.includes("realEstate"));
+        setIsOthersClicked(clickedEditData.tags.includes("others"));
+      }
     }
-  }, [clickedPost]);
+  }, [clickedEditData]);
 
   const onValid = (formData: IPostFormData) => {
-    setBakedPostData({ ...formData, tags: tagList, writer: user?.userId });
+    console.log(clickedEditData, "Clicked post@@@@@@@@@@@@@@@@");
+
+    setBakedPostData({
+      ...formData,
+      tags: tagList,
+      writer: user?.userId,
+      id: clickedEditData?.id,
+      createdAt: clickedEditData?.createdAt,
+    });
     setIsConfirmModalOpen(true);
+    refetch();
   };
   const onInvalid = (error: any) => {
     console.log(error, "error");
@@ -84,17 +106,17 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
     setTagList([]);
   };
 
-  const handleActive = (event: any) => {
+  const handleTagActive = (event: any) => {
     console.log(event.target.id, "id!!!");
-    if (event.target.id == "stock") {
+    if (tagList && event.target.id == "stock") {
       setIsStockClicked(true);
       setTagList([...tagList, event.target.id]);
     }
-    if (event.target.id == "realEstate") {
+    if (tagList && event.target.id == "realEstate") {
       setIsRealEstateClicked(true);
       setTagList([...tagList, event.target.id]);
     }
-    if (event.target.id == "others") {
+    if (tagList && event.target.id == "others") {
       setIsOthersClicked(true);
       setTagList([...tagList, event.target.id]);
     }
@@ -102,17 +124,17 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
 
   const handleTagDeactive = (event: any) => {
     if (event.target.id == "stock") {
-      let filter = tagList.filter((element) => element != event.target.id);
+      let filter = tagList?.filter((element) => element != event.target.id);
       setTagList(filter);
       setIsStockClicked(false);
     }
     if (event.target.id == "realEstate") {
-      let filter = tagList.filter((element) => element != event.target.id);
+      let filter = tagList?.filter((element) => element != event.target.id);
       setTagList(filter);
       setIsRealEstateClicked(false);
     }
     if (event.target.id == "others") {
-      let filter = tagList.filter((element) => element != event.target.id);
+      let filter = tagList?.filter((element) => element != event.target.id);
       setTagList(filter);
       setIsOthersClicked(false);
     }
@@ -168,7 +190,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn stock-deactive"
                       id="stock"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Stock
                     </div>
@@ -185,7 +207,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn realEstate-deactive"
                       id="realEstate"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Real estate
                     </div>
@@ -202,7 +224,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn others-deactive"
                       id="others"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Others
                     </div>
@@ -237,22 +259,28 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
             </div>
             <div className="tags-textArea">
               <div className="tags-textArea-wrap" {...register("tags")}>
-                {tagList.length > 0 ? "Tags -" : ""}
-                {tagList[0] ? <div># {tagList[0]} </div> : ""}
-                {tagList[1] ? <div># {tagList[1]} </div> : ""}
-                {tagList[2] ? <div># {tagList[2]} </div> : ""}
+                {tagList ? (
+                  <>
+                    {tagList.length > 0 ? "Tags -" : ""}
+                    {tagList[0] ? <div># {tagList[0]} </div> : ""}
+                    {tagList[1] ? <div># {tagList[1]} </div> : ""}
+                    {tagList[2] ? <div># {tagList[2]} </div> : ""}
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
             <button type="submit" className="btn-post">
-              Post
+              Edit
             </button>
           </div>
         </form>
       </Modal>
       <ConfirmModal
-        msg="Are you sure to post?"
+        msg="Are you sure to complete the change?"
         destroyAll={destroyAllModal}
-        gqlFn={createPost}
+        gqlFn={updatePost}
         bakedData={bakedPostData ? bakedPostData : {}}
         showModal={isConfirmModalOpen}
         handleClose={handleClose}

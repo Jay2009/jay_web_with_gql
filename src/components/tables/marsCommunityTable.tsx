@@ -1,26 +1,27 @@
 import { Select, Input, Table, Space, Tag, Button, Modal } from "antd";
 import { useState } from "react";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRecoilState } from "recoil";
-import { Radio } from "antd";
-import type { RadioChangeEvent } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import JayBtn from "../common/jayBtn";
 import AddMarsPostModal from "../modal/addMarsPostModal";
-import { ALL_POSTS } from "@/apollo/gqlQuery/user";
+import { ALL_POSTS, DELETE_POST } from "@/apollo/gqlQuery/user";
 import { ICurrentUserData } from "@/types/iApollo";
 import { GET_CURRENT_USER } from "@/apollo/cache";
 import EditMarsPostModal from "../modal/editMarsPost";
+import ConfirmModal from "../modal/confrimModal";
 
 interface DataType {
+  push(element: DataType): unknown;
   id: string;
   title: string;
   writer: string;
+  content: string;
   createdAt: string;
   tags: string[];
 }
-interface ITest {
+interface IElement {
   [x: string]: string;
 }
 const { Option } = Select;
@@ -28,17 +29,24 @@ const { Option } = Select;
 const MarsCommunityTable = () => {
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const user = currentUser.data?.user;
+  const [deletePost, {}] = useMutation(DELETE_POST);
+
   const { data, loading, error, refetch } = useQuery(ALL_POSTS);
-  const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isAddClicked, setIsAddClicked] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [isDeleteClicked, setIsDeleteClicked] = useState(false);
   const [isTitleClicked, setIsTitleClicked] = useState(false);
   const [key, setKey] = useState("");
-  const [clickedPost, setClickedPost] = useState();
+  const [deleteKey, setDeleteKey] = useState("");
+  const [clickedEditData, setClickedEditData] = useState();
+  const [clickedTitle, setClickedTitle] = useState<DataType>();
+  const [selectVal, setSelectVal] = useState("All");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchData, setSearchData] = useState<DataType[]>([]);
 
   const handleAdd = () => {
     setIsAddClicked(true);
+    setSearchData([]);
   };
   const handleAddCancel = () => {
     setIsAddClicked(false);
@@ -46,31 +54,86 @@ const MarsCommunityTable = () => {
 
   const handleEdit = (key: string) => {
     const clickedData = data.allPost.find(
-      (element: ITest) => element.id === key
+      (element: IElement) => element.id === key
     );
-    console.log(clickedData, "Clicked Dataaaaaaa@@@@@");
-
-    setClickedPost({
+    setClickedEditData({
       ...clickedData,
     });
     setIsEditClicked(true);
+    setSearchData([]);
   };
   const handleEditCancel = () => {
     setIsEditClicked(false);
   };
 
   const handleDelete = (key: string) => {
-    console.log(key, "key and delete");
+    setIsDeleteClicked(true);
+    setDeleteKey(key);
+    setSearchData([]);
   };
-  // const handleDeleteCancel = () => {};
+  const handleDeleteCancel = () => {
+    setIsDeleteClicked(false);
+  };
 
   const handleContentModal = (key: string) => {
-    console.log(key);
+    console.log(key, "title 눌렀을때 key 는???");
+    const clickedData = data.allPost.find(
+      (element: IElement) => element.id === key
+    );
+    setClickedTitle({ ...clickedData });
+    console.log(clickedData, "when Clicked title");
     setKey(key);
     setIsTitleClicked(true);
   };
   const handleContentModalCancel = () => {
     setIsTitleClicked(false);
+  };
+
+  //search functions
+  const handleSelect = (value: string) => {
+    setSearchInput("");
+    console.log(`selected ${value}`);
+    setSelectVal(value);
+  };
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    setSearchInput(val);
+  };
+  const handleSelectTag = (value: string) => {
+    console.log(value);
+    setSearchInput(value);
+  };
+
+  const handleSearch = () => {
+    let searchResult: DataType[] = [];
+    if (selectVal == "All") {
+      setSearchData(data.allPost);
+    }
+    if (selectVal == "Title") {
+      data.allPost.filter((element: DataType) => {
+        if (element.title.includes(searchInput) == true) {
+          searchResult.push(element);
+        }
+      });
+      setSearchData(searchResult);
+    }
+    if (selectVal == "Writer") {
+      data.allPost.filter((element: DataType) => {
+        if (element.writer.includes(searchInput) == true) {
+          searchResult.push(element);
+        }
+      });
+      setSearchData(searchResult);
+    }
+    if (selectVal == "Tag") {
+      data.allPost.filter((element: DataType) => {
+        let test = element.tags.find((item) => item == searchInput);
+        if (test && test.includes(searchInput) == true) {
+          searchResult.push(element);
+        }
+      });
+      setSearchData(searchResult);
+    }
   };
 
   const columns: ColumnsType<DataType> = [
@@ -80,6 +143,8 @@ const MarsCommunityTable = () => {
       key: "id",
       align: "center",
       width: "50px",
+      defaultSortOrder: "descend",
+      sorter: (a: any, b: any) => a.id - b.id,
     },
     {
       title: "Title",
@@ -103,14 +168,14 @@ const MarsCommunityTable = () => {
       width: "200px",
       render: (_, { tags }) => (
         <>
-          {tags.map((tag) => {
-            let color = tag.length > 7 ? "green" : "geekblue";
-            if (tag === "others") {
+          {tags.map((tags) => {
+            let color = tags.length > 7 ? "green" : "geekblue";
+            if (tags === "others") {
               color = "volcano";
             }
             return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
+              <Tag color={color} key={tags}>
+                {tags.toUpperCase()}
               </Tag>
             );
           })}
@@ -153,66 +218,81 @@ const MarsCommunityTable = () => {
     },
   ];
 
-  // const mockData: DataType[] = [
-  //   {
-  //     id: "1",
-  //     title: "John Brown",
-  //     writer: 32,
-  //     createdAt: "123123",
-  //     tags: ["nice", "developer"],
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Jim Green",
-  //     writer: 42,
-  //     createdAt: "123123",
-  //     tags: ["loser"],
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "Joe Black",
-  //     writer: 32,
-  //     createdAt: "4444",
-  //     tags: ["cool", "teacher"],
-  //   },
-  //   {
-  //     id: "4",
-  //     title: "John Brown",
-  //     writer: 32,
-  //     createdAt: "123123",
-  //     tags: ["nice", "developer"],
-  //   },
-  //   {
-  //     id: "5",
-  //     title: "Jim Green",
-  //     writer: 42,
-  //     createdAt: "123123",
-  //     tags: ["loser"],
-  //   },
-  // ];
-
   return (
     <div className="whole-wrap">
       <div className="control-area">
-        <div>Search</div>
+        <div className="search-wrap">
+          <span>Search by</span>
+          <Select
+            defaultValue="All"
+            style={{ width: 100 }}
+            onChange={handleSelect}
+            options={[
+              { value: "All", label: "All" },
+              { value: "Title", label: "Title" },
+              { value: "Writer", label: "Writer" },
+              { value: "Tag", label: "Tag" },
+            ]}
+          />
+          {selectVal == "Tag" ? (
+            <Select
+              style={{ width: 150 }}
+              onChange={handleSelectTag}
+              options={[
+                { value: "stock", label: "Stock" },
+                { value: "realEstate", label: "Real Estate" },
+                { value: "others", label: "Others" },
+              ]}
+            />
+          ) : (
+            <Input
+              placeholder="type keyword"
+              onChange={handleChangeInput}
+              value={searchInput}
+              maxLength={10}
+              style={{ width: 150 }}
+              disabled={selectVal == "All" ? true : false}
+            />
+          )}
+
+          <div className="btn search" onClick={handleSearch}>
+            Search
+          </div>
+        </div>
         <div className="btn" onClick={handleAdd}>
           Add post
         </div>
       </div>
+      {searchData.length > 0 ? (
+        <Table
+          columns={columns}
+          dataSource={searchData}
+          size="small"
+          bordered
+          pagination={{
+            pageSize: 16,
+            position: ["bottomCenter"],
+            size: "default",
+            showSizeChanger: false,
+          }}
+          style={{ width: "100%", height: "auto" }}
+        />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={data?.allPost ? data.allPost : ""}
+          size="small"
+          bordered
+          pagination={{
+            pageSize: 16,
+            position: ["bottomCenter"],
+            size: "default",
+            showSizeChanger: false,
+          }}
+          style={{ width: "100%", height: "auto" }}
+        />
+      )}
 
-      <Table
-        columns={columns}
-        dataSource={data?.allPost ? data.allPost : ""}
-        size="small"
-        bordered
-        pagination={{
-          pageSize: 16,
-          position: ["bottomCenter"],
-          size: "default",
-          showSizeChanger: false,
-        }}
-        style={{ width: "100%", height: "auto" }}
-      />
       <AddMarsPostModal
         isModalOpen={isAddClicked}
         handleCancel={handleAddCancel}
@@ -221,26 +301,36 @@ const MarsCommunityTable = () => {
       <EditMarsPostModal
         isModalOpen={isEditClicked}
         handleCancel={handleEditCancel}
-        clickedPost={clickedPost ? clickedPost : null}
+        clickedEditData={clickedEditData ? clickedEditData : null}
         refetch={refetch}
+      />
+      {/* This is for delete modal */}
+      <ConfirmModal
+        msg="Are you sure to delete the post?"
+        gqlFn={deletePost}
+        destroyAll={handleDeleteCancel}
+        bakedData={deleteKey ? deleteKey : ""}
+        showModal={isDeleteClicked}
+        handleClose={handleDeleteCancel}
+        refetchData={refetch}
       />
       {/* This modal is for looking up at the content */}
       <Modal
-        title={"Title - " + data?.allPost[key]?.title}
+        title={"Title - " + clickedTitle?.title}
         centered={true}
         open={isTitleClicked}
         onCancel={handleContentModalCancel}
         width={800}
         footer
       >
-        <div className="show-content">{data?.allPost[key]?.content}</div>
+        <div className="show-content">{clickedTitle?.content}</div>
         <div className="tag-and-writer">
           <div className="tags">
-            {data?.allPost[key]?.tags.map((tag: string) => (
+            {clickedTitle?.tags.map((tag: string) => (
               <div key={tag}># {tag}</div>
             ))}
           </div>
-          <div>Created by - {data?.allPost[key]?.writer}</div>
+          <div>Created by - {clickedTitle?.writer}</div>
         </div>
       </Modal>
       <style jsx>{`
@@ -259,6 +349,11 @@ const MarsCommunityTable = () => {
           box-shadow: 4px 4px 12px #4f5054;
           outline: none;
         }
+        .search {
+          width: 60px;
+          background-color: #303030;
+          font-size: 14px;
+        }
         .btn:hover {
           cursor: pointer;
           opacity: 1;
@@ -271,8 +366,18 @@ const MarsCommunityTable = () => {
         .control-area {
           display: flex;
           justify-content: space-between;
-          align-itmes: center;
+          align-items: center;
           margin-bottom: 20px;
+        }
+        .search-wrap {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          text-align: center;
+        }
+        .search-wrap:first-child {
+          white-space: nowrap;
         }
         .show-content {
           background: #151b23;

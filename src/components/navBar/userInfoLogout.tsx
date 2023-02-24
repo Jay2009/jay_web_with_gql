@@ -55,8 +55,7 @@ const UserInfoLogout: React.FC = () => {
     // if (data) {
     // 	setUserAuthority(data.getUser.authority);
     // }
-    console.log(data,"heyy");
-    
+    console.log(data, "heyy");
   }, [data]);
 
   useEffect(() => {
@@ -114,7 +113,7 @@ const UserInfoLogout: React.FC = () => {
       </Link> */}
       <div className="user-area">
         <div className="user-area-icon" onClick={onSetting}>
-          <div>{ data?.singleUser?.name}</div>
+          <div>{data?.singleUser?.name}</div>
           &nbsp;
           <Image alt="" src="/assets/astronaut.png" width={32} height={32} />
         </div>
@@ -141,13 +140,13 @@ const UserInfoLogout: React.FC = () => {
           zIndex={11}
         >
           <div className="confirm-wrap">
-            <h3>로그아웃 하시겠습니까?</h3>
+            <h3>Are you sure to log out?</h3>
             <div className="btn-area">
-              <div className="btn btn-save" onClick={handleLogOutConfirm}>
-                확인
+              <div className="btn confirm" onClick={handleLogOutConfirm}>
+                Confirm
               </div>
-              <div className="btn btn-delete" onClick={handleLoginCancel}>
-                취소
+              <div className="btn delete" onClick={handleLoginCancel}>
+                Cancel
               </div>
             </div>
           </div>
@@ -208,34 +207,28 @@ const UserInfoLogout: React.FC = () => {
           gap: 15px;
         }
         .btn {
-          width: 85px;
+          display: flex;
           height: 35px;
-          font-size: 14px;
-          font-weight: normal;
-          padding: 5px 0;
-          border-radius: 20px;
+          width: 80px;
+          transition: 0.4s;
           border: none;
+          box-shadow: 4px 4px 12px #4f5054;
+          border-radius: 8px;
+          color: white;
+          opacity: 0.8;
+          justify-content: center;
+          align-items: center;
+        }
+        .confirm {
+          background: #3369aa;
+        }
+
+        .delete {
+          background: tomato;
+        }
+
+        .btn:hover {
           cursor: pointer;
-          text-align: center;
-        }
-        .btn-save {
-          color: #2cabff;
-          border: 1px solid #2cabff;
-          opacity: 0.8;
-          background-color: #06283e;
-        }
-        .btn-delete {
-          color: #ff6060;
-          border: 1px solid #ff6060;
-          opacity: 0.8;
-          background-color: #201f2d;
-        }
-        .btn-save:hover {
-          border: 1px solid #2cabff;
-          opacity: 1;
-        }
-        .btn-delete:hover {
-          border: 1px solid #ff6060;
           opacity: 1;
         }
         .completed-add-user {

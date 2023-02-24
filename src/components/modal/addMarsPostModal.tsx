@@ -83,7 +83,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
     setTagList([]);
   };
 
-  const handleActive = (event: any) => {
+  const handleTagActive = (event: any) => {
     console.log(event.target.id, "id!!!");
     if (event.target.id == "stock") {
       setIsStockClicked(true);
@@ -167,7 +167,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn stock-deactive"
                       id="stock"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Stock
                     </div>
@@ -184,7 +184,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn realEstate-deactive"
                       id="realEstate"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Real estate
                     </div>
@@ -201,7 +201,7 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                     <div
                       className="none-btn others-deactive"
                       id="others"
-                      onClick={handleActive}
+                      onClick={handleTagActive}
                     >
                       Others
                     </div>

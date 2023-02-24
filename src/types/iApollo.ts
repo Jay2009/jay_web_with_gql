@@ -46,6 +46,7 @@ export interface IAddPostData {
       message: string;
     };
   };
+  id: string;
   title: string;
   writer?: string;
   content: string;

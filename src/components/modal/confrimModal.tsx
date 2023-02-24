@@ -9,7 +9,7 @@ import { IAddPostData } from "@/types/iApollo";
 interface Iprops {
   showModal: boolean;
   msg: string;
-  bakedData: IAddPostData | {};
+  bakedData: IAddPostData | {} | string | null;
   gqlFn: (arg: {}) => void;
   refetchData: () => void;
   destroyAll: () => void;
@@ -30,6 +30,8 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
   //const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
   const destroyConfirmModal = () => {
+    console.log(bakedData, "baked data$%!@%$#^#$^^&&&&&");
+
     destroyAll();
     gqlFn({ variables: { input: bakedData } });
     refetchData();

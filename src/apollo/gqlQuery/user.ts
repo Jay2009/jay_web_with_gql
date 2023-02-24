@@ -89,8 +89,8 @@ const UPDATE_USER = gql`
 `;
 
 const UPDATE_POST = gql`
-  mutation updateUser($input: PostUpdateInput!) {
-    updateUser(input: $input) {
+  mutation updatePost($input: PostUpdateInput!) {
+    updatePost(input: $input) {
       id
     }
   }
@@ -104,9 +104,9 @@ const DELETE_USERS = gql`
   }
 `;
 
-const DELETE_POSTS = gql`
-  mutation deleteUsers($userIds: [String!]!) {
-    deleteUsers(userIds: $userIds) {
+const DELETE_POST = gql`
+  mutation deletePost($input: String!) {
+    deletePost(input: $input) {
       id
     }
   }
@@ -124,5 +124,5 @@ export {
   ALL_POSTS,
   ADD_POST,
   UPDATE_POST,
-  DELETE_POSTS,
+  DELETE_POST,
 };
