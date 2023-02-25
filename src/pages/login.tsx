@@ -37,22 +37,12 @@ const Login = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //const [getUserAuth, { data, loading, error }] = useLazyQuery(USER_AUTH);
-  //console.log(data, loading, error, "all userssssss");
-
-  // useEffect(() => {
-  //   console.log(logoutResult.data, "????????@@#@#");
-  // }, [logoutResult.data]);
-  useEffect(() => {
-    console.log(user, "context user");
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   useEffect(() => {
-    console.log(loginResult.data?.login, "login 데이터어어어");
-
     if (loginResult.data?.login) {
       currentUserVar({ ...loginResult.data.login });
-      localStorage.setItem(
+      sessionStorage.setItem(
         "loggedinUser",
         JSON.stringify({ ...loginResult.data.login })
       );
@@ -80,15 +70,12 @@ const Login = () => {
   };
 
   const onValid = (formData: ILoginFormData) => {
-    console.log(formData, "form 데이터@@");
     login({ variables: { userId: formData.id, userPw: formData.pw } });
     setRecoilLoggedInUser(formData.id);
     //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
 
-  const onInValid = (error: any) => {
-    console.log(error, "error");
-  };
+  const onInValid = (error: any) => {};
 
   const showModal = () => {
     setIsModalOpen(true);

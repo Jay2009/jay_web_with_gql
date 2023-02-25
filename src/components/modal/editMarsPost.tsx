@@ -65,7 +65,6 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
       setValue("content", clickedEditData.content);
       setValue("tags", clickedEditData.tags);
       setTagList(clickedEditData.tags);
-      console.log(clickedEditData.tags, "dddddd");
 
       if (clickedEditData.tags) {
         setIsStockClicked(clickedEditData.tags.includes("stock"));
@@ -76,8 +75,6 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
   }, [clickedEditData]);
 
   const onValid = (formData: IPostFormData) => {
-    console.log(clickedEditData, "Clicked post@@@@@@@@@@@@@@@@");
-
     setBakedPostData({
       ...formData,
       tags: tagList,
@@ -88,9 +85,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
     setIsConfirmModalOpen(true);
     refetch();
   };
-  const onInvalid = (error: any) => {
-    console.log(error, "error");
-  };
+  const onInvalid = (error: any) => {};
   const handleClose = () => {
     setIsConfirmModalOpen(false);
   };
@@ -107,7 +102,6 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
   };
 
   const handleTagActive = (event: any) => {
-    console.log(event.target.id, "id!!!");
     if (tagList && event.target.id == "stock") {
       setIsStockClicked(true);
       setTagList([...tagList, event.target.id]);

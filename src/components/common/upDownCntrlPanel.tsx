@@ -21,7 +21,6 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
   const [isRiseBtnClicked, setIsRiseBtnClicked] = useState(false);
   const [isFallBtnClicked, setIsFallBtnClicked] = useState(false);
 
-  //console.log( "btnState");
   const handleRiseBtn = () => {
     setIsRiseBtnClicked(true);
     setIsFallBtnClicked(false);
@@ -111,12 +110,12 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
       <style jsx>{`
         .result-control {
           display: flex;
-          width:100%;
+          width: 100%;
           height: 200px;
           margin-top: 30px;
           margin-left: 5px;
           padding-right: 11px;
-          
+
           flex-direction: column;
           justify-content: center;
           align-items: center;

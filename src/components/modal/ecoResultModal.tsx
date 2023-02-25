@@ -64,8 +64,6 @@ const EcoResultModal: React.FC<IResultProps> = ({
   const [vixLastData, setVixLastData] = useState<IEcoResult | null>(null);
 
   useEffect(() => {
-    console.log(btnState, "????");
-
     if (
       firstHalfData !== undefined &&
       firstHalfData !== null &&

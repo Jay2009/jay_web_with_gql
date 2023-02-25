@@ -76,12 +76,10 @@ const MarsCommunityTable = () => {
   };
 
   const handleContentModal = (key: string) => {
-    console.log(key, "title 눌렀을때 key 는???");
     const clickedData = data.allPost.find(
       (element: IElement) => element.id === key
     );
     setClickedTitle({ ...clickedData });
-    console.log(clickedData, "when Clicked title");
     setKey(key);
     setIsTitleClicked(true);
   };
@@ -92,7 +90,6 @@ const MarsCommunityTable = () => {
   //search functions
   const handleSelect = (value: string) => {
     setSearchInput("");
-    console.log(`selected ${value}`);
     setSelectVal(value);
   };
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +97,6 @@ const MarsCommunityTable = () => {
     setSearchInput(val);
   };
   const handleSelectTag = (value: string) => {
-    console.log(value);
     setSearchInput(value);
   };
 
@@ -155,6 +151,22 @@ const MarsCommunityTable = () => {
       render: (_, record) => (
         <>
           <Space size="middle">
+            {user?.authority == "admin" && user?.userId == "admin" ? (
+              <div
+                style={{
+                  width: "50px",
+                  height: "20px",
+                  border: "0.5px solid gray",
+                  borderRadius: "5px",
+                  fontSize: "11px",
+                  opacity: "0.5",
+                }}
+              >
+                Notice
+              </div>
+            ) : (
+              ""
+            )}
             <a onClick={() => handleContentModal(record.id)}>{record.title}</a>
           </Space>
         </>
@@ -168,14 +180,14 @@ const MarsCommunityTable = () => {
       width: "200px",
       render: (_, { tags }) => (
         <>
-          {tags.map((tags) => {
-            let color = tags.length > 7 ? "green" : "geekblue";
-            if (tags === "others") {
-              color = "volcano";
+          {tags.map((tag) => {
+            let color = tag.length > 7 ? "green" : "geekblue";
+            if (tag === "others") {
+              color === "volcano";
             }
             return (
-              <Tag color={color} key={tags}>
-                {tags.toUpperCase()}
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
               </Tag>
             );
           })}
@@ -188,6 +200,25 @@ const MarsCommunityTable = () => {
       key: "writer",
       align: "center",
       width: "150px",
+      render: (_, writer) => (
+        <>
+          {user?.authority == "admin" && user?.userId == "admin" ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "7px",
+              }}
+            >
+              <div>{user?.userId}</div>
+              <Image alt="" src="/assets/star.png" width={15} height={15} />
+            </div>
+          ) : (
+            user?.userId
+          )}
+        </>
+      ),
     },
 
     {
@@ -204,7 +235,7 @@ const MarsCommunityTable = () => {
       width: "100px",
       render: (_, record) => (
         <Space size="middle">
-          {user?.userId == record.writer ? (
+          {user?.userId == record.writer || user?.authority == "admin" ? (
             <div>
               <a onClick={() => handleEdit(record.id)}>Edit</a>
               &nbsp;&nbsp;&nbsp;&nbsp;
@@ -266,6 +297,7 @@ const MarsCommunityTable = () => {
       {searchData.length > 0 ? (
         <Table
           columns={columns}
+          rowKey="id"
           dataSource={searchData}
           size="small"
           bordered
@@ -280,6 +312,7 @@ const MarsCommunityTable = () => {
       ) : (
         <Table
           columns={columns}
+          rowKey="id"
           dataSource={data?.allPost ? data.allPost : ""}
           size="small"
           bordered

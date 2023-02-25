@@ -55,19 +55,8 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   const onValid = (formData: IPostFormData) => {
     setBakedPostData({ ...formData, tags: tagList, writer: user?.userId });
     setIsConfirmModalOpen(true);
-
-    // console.log({ ...formData }, "success!!");
-    // signup({W
-    //   variables: {
-    //     userId: formData.formId,
-    //     userPw: formData.formPw,
-    //     name: formData.formName,
-    //   },
-    // });
   };
-  const onInvalid = (error: any) => {
-    console.log(error, "error");
-  };
+  const onInvalid = (error: any) => {};
   const handleClose = () => {
     setIsConfirmModalOpen(false);
   };
@@ -84,7 +73,6 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
   };
 
   const handleTagActive = (event: any) => {
-    console.log(event.target.id, "id!!!");
     if (event.target.id == "stock") {
       setIsStockClicked(true);
       setTagList([...tagList, event.target.id]);

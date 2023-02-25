@@ -20,7 +20,6 @@ import { GET_CURRENT_USER } from "@/apollo/cache";
 import { Router, useRouter } from "next/router";
 
 export default function Home() {
-  const getUrl = GetUrlTitle();
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
 
   const [btnState, setBtnState] = useRecoilState(riseOrFallState);
@@ -31,12 +30,6 @@ export default function Home() {
   const [isRefrBtnClicked, setIsRefrBtnClicked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isIntroConfirmed, setIsIntroConfirmed] = useState(false);
-
-  const handleIntroConfirm = () => {
-    setIsIntroConfirmed(false);
-  };
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -46,13 +39,10 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setIsIntroConfirmed(true);
     if (data) {
       setEcoData(data);
     }
   }, [data]);
-
-  //console.log(fineEcodata, "recoil 에서 나온 데이터 달러임당!!!");
 
   const handleOkBtn = () => {
     setIsRefrBtnClicked(false);
@@ -84,7 +74,7 @@ export default function Home() {
                 No more trading, but trainning your self with &nbsp;
               </span>
               <span className="main-title emphasis-word">
-                &quot;Real economy data&quot;.
+                &quot;Real economy data&quot;
               </span>
             </div>
             {btnState.dollar !== null &&
@@ -98,7 +88,7 @@ export default function Home() {
                     onClick={handleOkBtn}
                     disabled={data ? false : true}
                   >
-                    See result &nbsp;
+                    Next &nbsp;
                     <Image
                       alt=""
                       src="/assets/bar-chart.png"
@@ -109,7 +99,7 @@ export default function Home() {
                 ) : (
                   <>
                     <button className="btn" onClick={showModal}>
-                      Result details &nbsp;
+                      Result &nbsp;
                       <Image
                         alt=""
                         src="/assets/search.png"
@@ -117,8 +107,8 @@ export default function Home() {
                         height={20}
                       />
                     </button>
-                    <button className="btn" onClick={handleRefrBtn}>
-                      Try again &nbsp;
+                    <button className="btn refresh" onClick={handleRefrBtn}>
+                      Refresh &nbsp;
                       <Image
                         alt=""
                         src="/assets/refresh.png"
@@ -177,7 +167,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -210,7 +199,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -245,7 +233,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -278,7 +265,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -314,7 +300,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain right-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -349,7 +334,6 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="chart-curtain left-chart"></div>
                   </>
                 ) : (
                   <div className="result-wrap">
@@ -435,14 +419,18 @@ export default function Home() {
           justify-content: center;
           align-items: center;
           background-color: #3369aa;
-          border-radius: 3px;
-          width: 130px;
+          border-radius: 10px;
+          width: 95px;
           height: 35px;
           opacity: 0.8;
           transition: 0.4s;
           border: none;
+          font-size: 13px;
           box-shadow: 4px 4px 12px #4f5054;
           outline: none;
+        }
+        .refresh{
+          background-color: #4f4e4e;
         }
         .btn:hover {
           cursor: pointer;
@@ -453,46 +441,15 @@ export default function Home() {
           height:1
           position: relative;
           z-index: 0;
+          animation: fadeIn 3s linear;
         }
-        .control-wrap {
-          display:flex;
-          width:100%;
-        }
-        .chart-curtain {
-          background: #091a30;
-          position: absolute;
-          width: 0px;
-        }
-        .left-chart {
-          left: 470px;
-          height: 250px;
-          animation: moveToRight 2.5s linear;
-          z-index: 10;
-        }
-        .right-chart {
-          right: 460px;
-          height: 250px;
-          animation: moveToRight2 2.5s linear;
-        }
-        @keyframes moveToRight2 {
+        @keyframes fadeIn {
           0% {
-            transform: translate(460px, 0);
-            width: 100%;
+            opacity:0;
+            
           }
           to {
-            transform: translate(460px, 0);
-            width: 0px;
-          }
-        }
-
-        @keyframes moveToRight {
-          0% {
-            transform: translate(0, 0);
-            width: 100%;
-          }
-          to {
-            transform: translate(470px, 0);
-            width: 0px;
+            opacity:1;
           }
         }
       `}</style>

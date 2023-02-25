@@ -49,7 +49,6 @@ const UserRegisterModal: React.FC<IloginProps> = ({
   }, [signupResult.data]);
 
   const onValid = (formData: IRegisterFormData) => {
-    console.log({ ...formData }, "success!!");
     signup({
       variables: {
         userId: formData.formId,
@@ -58,9 +57,7 @@ const UserRegisterModal: React.FC<IloginProps> = ({
       },
     });
   };
-  const onInvalid = (error: any) => {
-    console.log(error, "error");
-  };
+  const onInvalid = (error: any) => {};
 
   return (
     <div>

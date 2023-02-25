@@ -59,13 +59,11 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
   }, [localStoreUser]);
 
   const onValid = (formData: IProfilChangeFormData) => {
-    console.log(formData, "fild value@@@@");
     setBakedUserData({ ...formData, token: localStoreUser?.token });
-    localStorage.setItem(
+    sessionStorage.setItem(
       "loggedinUser",
       JSON.stringify({ ...formData, token: localStoreUser?.token })
     );
-    console.log({ ...formData, token: localStoreUser?.token }, "all input");
     showConfirmModal();
   };
 
@@ -103,11 +101,11 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
           setIsEditClicked(false);
           setValue(
             "userId",
-            JSON.parse(localStorage.getItem("loggedinUser") || "{}").userId
+            JSON.parse(sessionStorage.getItem("loggedinUser") || "{}").userId
           );
           setValue(
             "name",
-            JSON.parse(localStorage.getItem("loggedinUser") || "{}").name
+            JSON.parse(sessionStorage.getItem("loggedinUser") || "{}").name
           );
           handleCancel();
         }}

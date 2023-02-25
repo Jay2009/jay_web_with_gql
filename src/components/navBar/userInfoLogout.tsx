@@ -50,23 +50,19 @@ const UserInfoLogout: React.FC = () => {
 
   useEffect(() => {
     localLoginId = JSON.parse(
-      localStorage.getItem("loggedinUser") || "{}"
+      sessionStorage.getItem("loggedinUser") || "{}"
     ).userId;
-    // if (data) {
-    // 	setUserAuthority(data.getUser.authority);
-    // }
-    console.log(data, "heyy");
   }, [data]);
 
   useEffect(() => {
-    //console.log(user, "user%%%%%%%%%%%%%");
-    setLocalStoreUser(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
+    setLocalStoreUser(
+      JSON.parse(sessionStorage.getItem("loggedinUser") || "{}")
+    );
   }, [user]);
 
   useEffect(() => {
-    console.log(logoutResult.data, "my user name@@@@@");
     if (logoutResult.data?.logout === true) {
-      localStorage.removeItem("loggedinUser");
+      sessionStorage.removeItem("loggedinUser");
       currentUserVar(null);
       alert("로그아웃에 성공.");
       router.push("/login");

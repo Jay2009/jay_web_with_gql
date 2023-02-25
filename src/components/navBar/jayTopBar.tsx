@@ -27,17 +27,16 @@ export default function JayTopBar() {
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const user = currentUser?.data?.user;
-  //console.log(user, "userrrrr inner text");
   const [localStoreUser, setLocalStoreUser] = useState({});
   useEffect(() => {
-    console.log(user, "로그인시 유저 있어??");
-    
-    if (localStorage.getItem("loggedinUser")) {
-      currentUserVar(JSON.parse(localStorage.getItem("loggedinUser") || "{}"));
+    if (sessionStorage.getItem("loggedinUser")) {
+      currentUserVar(
+        JSON.parse(sessionStorage.getItem("loggedinUser") || "{}")
+      );
     }
-    if (localStorage.getItem("loggedinUser") == null) {
+    if (sessionStorage.getItem("loggedinUser") == null) {
       if (user == null) {
-        localStorage.removeItem("loggedinUser");
+        sessionStorage.removeItem("loggedinUser");
         currentUserVar(null);
         router.push("/login");
       }

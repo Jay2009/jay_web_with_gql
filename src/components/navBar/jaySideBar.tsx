@@ -28,7 +28,6 @@ let stringBool = "";
 const JaySideBar = () => {
   const router = useRouter();
   const filteredPath = router.pathname.split("/", 3);
-  // console.log(filteredPath[1], "psthhh");
 
   const [isCollapsed, setIsCollapsed, removeCookie] = useCookies([COOKIE_KEY]);
   const [isSubClicked, setIsSubClicked] = useState(true);
