@@ -445,7 +445,7 @@ const EditMarsPostModal: React.FC<IAddPostProps> = ({
           border: none;
           box-shadow: 4px 4px 12px #4f5054;
           border-radius: 5px;
-          color: white;
+          color: #a4a4a4;
           font-size: 15px;
         }
         .form-input:focus {

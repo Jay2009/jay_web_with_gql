@@ -348,7 +348,7 @@ const UserEditModal: React.FC<IUserProps> = (props) => {
           width: 100%;
           border: none;
           box-shadow: 4px 4px 12px #4f5054;
-          color: white;
+          color: #a4a4a4;
           font-size: 15px;
           padding-left: 10px;
         }

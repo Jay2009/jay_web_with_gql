@@ -27,7 +27,6 @@ export default function JayTopBar() {
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const user = currentUser?.data?.user;
-  const [localStoreUser, setLocalStoreUser] = useState({});
   useEffect(() => {
     if (sessionStorage.getItem("loggedinUser")) {
       currentUserVar(
@@ -69,12 +68,12 @@ export default function JayTopBar() {
             />
           </a>
         </Link>
-        <Link href="/composition" legacyBehavior>
+        <Link href="/earth" legacyBehavior>
           <a>
             <IconWithImg
               url={"/assets/earth.png"}
               title="Earth"
-              active={filteredPath[1] == "mars/ddd" ? true : false}
+              active={filteredPath[1] == "earth" ? true : false}
             />
           </a>
         </Link>

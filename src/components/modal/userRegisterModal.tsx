@@ -41,10 +41,10 @@ const UserRegisterModal: React.FC<IloginProps> = ({
 
   useEffect(() => {
     if (signupResult.data?.signup === true) {
-      alert("회원가입에 성공했습니다");
+      alert("Sucess!");
       handleCancel();
     } else if (signupResult.data?.signup === false) {
-      alert("회원가입에 실패했습니다");
+      alert("Fail");
     }
   }, [signupResult.data]);
 

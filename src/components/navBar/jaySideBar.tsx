@@ -91,16 +91,37 @@ const JaySideBar = () => {
       },
     ];
   }
-
-  // if (filteredPath[1] == "admin") {
-  //   links = [
-  //     {
-  //       link: "User manage",
-  //       path: "/admin",
-  //       imgUrl: "/assets/icons/sideMenuIcons/admin.png",
-  //     },
-  //   ];
-  // }
+  if (filteredPath[1] == "earth") {
+    links = [
+      {
+        link: "Main",
+        path: "/earth",
+        imgUrl: "/assets/main-page.png",
+      },
+      {
+        link: "Community",
+        path: "/earth/community",
+        imgUrl: "/assets/community.png",
+      },
+      {
+        link: "About",
+        path: "/earth/about/jayWeb",
+        imgUrl: "/assets/about.png",
+        subMenu: [
+          {
+            link: "JayWeb",
+            path: "/earth/about/jayWeb",
+            imgUrl: "/assets/browser.png",
+          },
+          {
+            link: "Developer",
+            path: "/earth/about/developer",
+            imgUrl: "/assets/developer.png",
+          },
+        ],
+      },
+    ];
+  }
 
   return (
     <nav

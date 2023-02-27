@@ -46,10 +46,10 @@ const Login = () => {
         "loggedinUser",
         JSON.stringify({ ...loginResult.data.login })
       );
-      alert("로그인 성공.");
+      alert("Log in Sucess!");
       router.push("/");
     } else if (loginResult.data?.login === null) {
-      alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
+      alert("Please check your ID and Password again.");
     }
   }, [loginResult.data]);
   if (currentUser.data?.user) router.push("/");

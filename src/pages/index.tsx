@@ -419,7 +419,7 @@ export default function Home() {
           justify-content: center;
           align-items: center;
           background-color: #3369aa;
-          border-radius: 10px;
+          border-radius: 5px;
           width: 95px;
           height: 35px;
           opacity: 0.8;

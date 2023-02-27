@@ -102,24 +102,29 @@ const MarsCommunityTable = () => {
 
   const handleSearch = () => {
     let searchResult: DataType[] = [];
+    let isFoundData: boolean = false ;
     if (selectVal == "All") {
       setSearchData(data.allPost);
     }
     if (selectVal == "Title") {
+
       data.allPost.filter((element: DataType) => {
         if (element.title.includes(searchInput) == true) {
           searchResult.push(element);
+          isFoundData = element ? true : false;
         }
       });
-      setSearchData(searchResult);
+      isFoundData ? setSearchData(searchResult) : alert("Not found the result!")
     }
     if (selectVal == "Writer") {
+
       data.allPost.filter((element: DataType) => {
         if (element.writer.includes(searchInput) == true) {
           searchResult.push(element);
+          isFoundData = element ? true : false;
         }
       });
-      setSearchData(searchResult);
+      isFoundData ? setSearchData(searchResult) : alert("Not found the result!")
     }
     if (selectVal == "Tag") {
       data.allPost.filter((element: DataType) => {
@@ -151,7 +156,7 @@ const MarsCommunityTable = () => {
       render: (_, record) => (
         <>
           <Space size="middle">
-            {user?.authority == "admin" && user?.userId == "admin" ? (
+            { record?.writer == "admin" ? (
               <div
                 style={{
                   width: "50px",
@@ -159,7 +164,7 @@ const MarsCommunityTable = () => {
                   border: "0.5px solid gray",
                   borderRadius: "5px",
                   fontSize: "11px",
-                  opacity: "0.5",
+                  opacity: "0.7",
                 }}
               >
                 Notice
@@ -181,9 +186,15 @@ const MarsCommunityTable = () => {
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
-            let color = tag.length > 7 ? "green" : "geekblue";
+            let color ;
+            if(tag == "realEstate"){
+              color = "green"
+            }
+            if(tag == "stock"){
+              color = "geekblue"
+            }
             if (tag === "others") {
-              color === "volcano";
+              color = "volcano";
             }
             return (
               <Tag color={color} key={tag}>
@@ -202,7 +213,7 @@ const MarsCommunityTable = () => {
       width: "150px",
       render: (_, writer) => (
         <>
-          {user?.authority == "admin" && user?.userId == "admin" ? (
+          { writer?.writer == "admin" ? (
             <div
               style={{
                 display: "flex",
@@ -211,11 +222,11 @@ const MarsCommunityTable = () => {
                 gap: "7px",
               }}
             >
-              <div>{user?.userId}</div>
+              <div>{writer.writer}</div>
               <Image alt="" src="/assets/star.png" width={15} height={15} />
             </div>
           ) : (
-            user?.userId
+            <div>{writer.writer}</div>
           )}
         </>
       ),
@@ -349,7 +360,7 @@ const MarsCommunityTable = () => {
       />
       {/* This modal is for looking up at the content */}
       <Modal
-        title={"Title - " + clickedTitle?.title}
+        title={"\u00A0"+clickedTitle?.title}
         centered={true}
         open={isTitleClicked}
         onCancel={handleContentModalCancel}
@@ -419,6 +430,7 @@ const MarsCommunityTable = () => {
           min-height: 100px;
           margin-bottom: 10px;
           white-space: pre-wrap;
+          color: #a4a4a4;
         }
         .tag-and-writer {
           display: flex;

@@ -8,7 +8,7 @@ export interface IUser {
   name: string;
   userId: string;
   passwordHash: string;
-  authority: string[];
+  authority: string;
   token: string;
   post: string[];
 }

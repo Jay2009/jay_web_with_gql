@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import MgUserWholeTable from '../../components/pageComponents/admin/userManage/mgUserWholeTable';
 // import { userAuthority } from '../../states/admin/atomAdmin';
 import JaySideBar from "@/components/navBar/jaySideBar";
@@ -9,13 +9,13 @@ import JayTopBar from "@/components/navBar/jayTopBar";
 import Image from "next/image";
 import WorkInProgress from "@/components/common/workInprogress";
 
-const Jayweb = () => {
+const Developer = () => {
   const getUrl = GetUrlTitle();
 
   return (
     <div className="nav-frame">
       <div className="top-nav">
-        <JayTopBar />{" "}
+        <JayTopBar />
       </div>
       <div className="main-body">
         <JaySideBar />
@@ -37,4 +37,4 @@ const Jayweb = () => {
   );
 };
 
-export default Jayweb;
+export default Developer;

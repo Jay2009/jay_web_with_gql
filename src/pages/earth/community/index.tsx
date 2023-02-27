@@ -6,16 +6,17 @@ import React, { useEffect } from "react";
 import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
-import Image from "next/image";
+import MarsCommunityTable from "@/components/tables/marsCommunityTable";
 import WorkInProgress from "@/components/common/workInprogress";
 
-const Jayweb = () => {
+const Community = () => {
   const getUrl = GetUrlTitle();
+  console.log(getUrl, "hihi");
 
   return (
     <div className="nav-frame">
       <div className="top-nav">
-        <JayTopBar />{" "}
+        <JayTopBar />
       </div>
       <div className="main-body">
         <JaySideBar />
@@ -24,17 +25,8 @@ const Jayweb = () => {
           <WorkInProgress />
         </div>
       </div>
-
-      <style jsx>{`
-        .top-layer {
-          display: flex;
-          flex-direction: row;
-          height: 35%;
-          gap: 20px;
-        }
-      `}</style>
     </div>
   );
 };
 
-export default Jayweb;
+export default Community;

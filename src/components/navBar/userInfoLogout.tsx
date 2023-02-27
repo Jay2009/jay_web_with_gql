@@ -64,10 +64,10 @@ const UserInfoLogout: React.FC = () => {
     if (logoutResult.data?.logout === true) {
       sessionStorage.removeItem("loggedinUser");
       currentUserVar(null);
-      alert("로그아웃에 성공.");
+      alert("Log out sucess!");
       router.push("/login");
     } else if (logoutResult.data?.logout === false) {
-      alert("로그아웃에 실패.");
+      alert("Log out Fail.");
     }
   }, [logoutResult.data]);
 
