@@ -1,30 +1,15 @@
-import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import React, { useEffect, useState } from "react";
-// import MgUserWholeTable from '../../components/pageComponents/admin/userManage/mgUserWholeTable';
-// import { userAuthority } from '../../states/admin/atomAdmin';
+import React from "react";
+import SwiperCore, { Navigation, Pagination, Controller, Thumbs } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
 import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
 import Image from "next/image";
+SwiperCore.use([Navigation, Pagination, Controller, Thumbs]);
 
 const Developer = () => {
   const getUrl = GetUrlTitle();
-  const [isArrowClicked, setIsArrowClicked] = useState(false);
-
-  const handleToRight = () => {
-    setIsArrowClicked(true);
-  };
-  const handleToLeft = () => {
-    setIsArrowClicked(false);
-  };
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   return (
     <div className="nav-frame">
@@ -35,68 +20,78 @@ const Developer = () => {
         <JaySideBar />
         <div className="right-main">
           <span className="url-path-txt">{getUrl}</span>
-
           <div className="main-content">
-            <h3>Check Jay&#39;s other projects</h3>
-            <div className="img-wrap">
-              <div className="btn-arrow empty"></div>
-              <div className="content-frame">
-                <Image
-                  alt=""
-                  src="/assets/femco3.png"
-                  width={188}
-                  height={338}
-                  style={{ borderRadius: "10px" }}
-                />
-                <Image
-                  alt=""
-                  src="/assets/femco1.png"
-                  width={188}
-                  height={338}
-                  style={{ borderRadius: "10px" }}
-                />
-                <Image
-                  alt=""
-                  src="/assets/femco2.png"
-                  width={188}
-                  height={338}
-                  style={{ borderRadius: "10px" }}
-                />
-              </div>
-              <div className="btn-arrow first" onClick={handleToRight}>
-                <Image
-                  alt=""
-                  src="/assets/right-big-arrow.png"
-                  width={45}
-                  height={45}
-                />
-              </div>
-            </div>
-            <div>
-              Link to <a href="https://jay2009.github.io/famco">Femco</a>
-            </div>
-          </div>
-          <div className="main-content ">
-            <h3>Other projects & Contact</h3>
-            <div className="img-wrap">
-              <div className="btn-arrow" onClick={handleToLeft}>
-                <Image
-                  alt=""
-                  src="/assets/left-big-arrow.png"
-                  width={45}
-                  height={45}
-                />
-              </div>
-              <div>
-                Github : &nbsp;
-                <a href="https://github.com/Jay2009">
-                  https://github.com/Jay2009
-                </a>
-              </div>
+            <Swiper
+              id="main"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "800px",
+                height: "500px",
+              }}
+              navigation
+              pagination
+              spaceBetween={50}
+              slidesPerView={1}
+              onInit={(swiper) => swiper}
+              onSlideChange={(swiper) => {
+                swiper.activeIndex;
+              }}
+            >
+              <SwiperSlide>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <h3>Check Jay&#39;s other projects</h3>
+                  <div className="content-frame">
+                    <Image
+                      alt=""
+                      src="/assets/femco3.png"
+                      width={188}
+                      height={338}
+                      style={{ borderRadius: "10px" }}
+                    />
+                    <Image
+                      alt=""
+                      src="/assets/femco1.png"
+                      width={188}
+                      height={338}
+                      style={{ borderRadius: "10px" }}
+                    />
+                    <Image
+                      alt=""
+                      src="/assets/femco2.png"
+                      width={188}
+                      height={338}
+                      style={{ borderRadius: "10px" }}
+                    />
+                  </div>
+                  <div>
+                    Link to <a href="https://jay2009.github.io/famco">Femco</a>
+                  </div>
+                </div>
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className="contact-frame">
+                  <h3>Other projects & Contact</h3>
 
-              <div className="btn-arrow empty"></div>
-            </div>
-            <div>Email : jaem2009@naver.com</div>
+                  <div className="contact-wrap">
+                    <div>
+                      Github : &nbsp;
+                      <a href="https://github.com/Jay2009">
+                        https://github.com/Jay2009
+                      </a>
+                    </div>
+                    <div>Email : jaem2009@naver.com</div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            </Swiper>
           </div>
         </div>
       </div>
@@ -114,7 +109,9 @@ const Developer = () => {
           justify-content: center;
           align-items: center;
           height: 100%;
+          width: 100%;
           gap: 20px;
+          text-align: center;
         }
 
         .img-wrap {
@@ -126,10 +123,22 @@ const Developer = () => {
         }
         .content-frame {
           width: 586px;
+          padding: 10px;
           display: flex;
           gap: 10px;
         }
-
+        .contact-frame {
+          gap: 150px;
+          display: flex;
+          flex-direction: column;
+        }
+        .contact-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          justify-content: center;
+          align-items: center;
+        }
         a {
           color: skyblue;
         }

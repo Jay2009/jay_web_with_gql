@@ -15,6 +15,7 @@ import { currentUserVar, GET_CURRENT_USER } from "@/apollo/cache";
 import { SINGLE_USER, LOGOUT } from "@/apollo/gqlQuery/user";
 import UserEditModal from "../modal/userEditModal";
 import { loggedInUserId } from "recoil/atoms/userAtom";
+import Loading from "../common/loading";
 
 let localLoginId: string | null;
 
@@ -109,7 +110,7 @@ const UserInfoLogout: React.FC = () => {
       </Link> */}
       <div className="user-area">
         <div className="user-area-icon" onClick={onSetting}>
-          <div>{data?.singleUser?.name}</div>
+          <div>{data ? data.singleUser.name : <Loading />}</div>
           &nbsp;
           <Image alt="" src="/assets/astronaut.png" width={32} height={32} />
         </div>

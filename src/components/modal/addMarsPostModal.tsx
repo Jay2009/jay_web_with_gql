@@ -130,8 +130,8 @@ const AddMarsPostModal: React.FC<IAddPostProps> = ({
                       value: 3,
                     },
                     maxLength: {
-                      message: "Maximum length is 30",
-                      value: 30,
+                      message: "Maximum length is 70",
+                      value: 70,
                     },
                   })}
                   className="form-input"
