@@ -10,10 +10,9 @@
 
          1. Jay web uses a memory-dependent backend server instead of a traditional database like MongoDB or MYSQL. This means that Apollo server functions as the backend. As a result, there are certain advantages and disadvantages associated with this approach.
 
-          - Advantages : 1)   Nobody can see user's personal data such as Password since there is no data base.
-                         2)   The application is maybe liter and faster.
+          - Advantage : Users' personal data, including passwords, cannot be accessed as there is no database. Additionally, the application may run more efficiently, potentially resulting in faster load times.
 
-          - Disadvantages: 1) When Apollo server reloads or thows an error, all data will be disappeared.
+          - Disadvantage: If the Apollo server reloads or experiences errors, all data may be lost
 
 
          2. Fetching Open API data to the client is significantly faster due to the power of GQL in Apollo.
