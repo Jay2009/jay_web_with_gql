@@ -2,32 +2,29 @@
 
 <h3>- What you can do in Jay web </h3>
 
-- In Jay web, you can do investing training game with &quot;Real
-  data&quot;.
+- Jay web provides a training game for investing with real data to simulate realistic investment scenarios and help users improve their skills.
 
-- Also, there is a communication page that people can shere any
-  information about investment and others.
+- Users of Jay web can also take advantage of the communication page, which enables them to exchange investment-related information and ideas with others.
 
 ## Some features of Jay web
 
-         1. Memory lifecycle dependent backend server which means Jay web
-         does not have traditional DB (such as MongoDB, MYSQL...) But,
-         Apollo server has a role as backend. Therefore, there are
-         advantages and disadvantages.
+         1. Jay web uses a memory-dependent backend server instead of a traditional database like MongoDB or MYSQL. This means that Apollo server functions as the backend. As a result, there are certain advantages and disadvantages associated with this approach.
+
+          - Advantages : 1)   Nobody can see user's personal data such as Password since there is no data base.
+                         2)   The application is maybe liter and faster.
+
+          - Disadvantages: 1) When Apollo server reloads or thows an error, all data will be disappeared.
 
 
-         2. Much faster when fetching Open API data to the client because
-         of the power of GQL in Aopollo.
+         2. Fetching Open API data to the client is significantly faster due to the power of GQL in Apollo.
 
 
-         3. Bcrypt and token are used for little security on user&#39;s
-         password.
+         3. User password security is strengthened through the use of Bcrypt and token.
 
 
-         4. My own customizable side bar(with cookies) as a reusable
-         component that can be used to other project.
+         4. I created a customizable sidebar component with cookies that can be reused in other projects.
 
-         5. react hook form used for input validation check.
+         5. React Hook Form is used for input validation checks.
 
 <div >
       <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Next.js&logoColor=white" />
