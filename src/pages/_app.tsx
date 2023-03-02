@@ -5,19 +5,22 @@ import { ApolloProvider } from "@apollo/client";
 import { RecoilRoot } from "recoil";
 import { Client } from "../apollo/client";
 import "../styles/navBar.css";
-
+import { prefix } from "../../config/config";
+import { PortfolioProvider } from "../../context/context";
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <RecoilRoot>
-      <ApolloProvider client={Client}>
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
-          }}
-        >
-          <Component {...pageProps} />
-        </ConfigProvider>
-      </ApolloProvider>
-    </RecoilRoot>
+    <PortfolioProvider value={{ prefix }}>
+      <RecoilRoot>
+        <ApolloProvider client={Client}>
+          <ConfigProvider
+            theme={{
+              algorithm: theme.darkAlgorithm,
+            }}
+          >
+            <Component {...pageProps} />
+          </ConfigProvider>
+        </ApolloProvider>
+      </RecoilRoot>
+    </PortfolioProvider>
   );
 }

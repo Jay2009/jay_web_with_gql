@@ -12,13 +12,14 @@ const nextConfig = {
   // },
   assetPrefix:
     process.env.NODE_ENV === "production"
-      ? "https://boramyy.github.io/invitation"
+      ? "https://Jay2009.github.io/jay_web_with_gql"
       : "",
   images: {
     loader: "akamai",
     path: "/",
   },
   reactStrictMode: false,
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;
