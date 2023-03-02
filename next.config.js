@@ -10,14 +10,6 @@ const nextConfig = {
   //     },
   //   ];
   // },
-  assetPrefix:
-    process.env.NODE_ENV === "production"
-      ? "https://Jay2009.github.io/jay_web_with_gql"
-      : "",
-  images: {
-    loader: "akamai",
-    path: "/",
-  },
   reactStrictMode: false,
   trailingSlash: true,
 };

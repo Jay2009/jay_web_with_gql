@@ -41,7 +41,7 @@ export default function JayTopBar() {
           <a className="logo-content">
             <Image
               alt=""
-              src="/assets/jayLogo.png"
+              src="${prefix}/assets/jayLogo.png"
               width={32}
               height={32}
               style={{ borderRadius: "5px" }}

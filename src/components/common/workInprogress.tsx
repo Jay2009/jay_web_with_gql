@@ -13,7 +13,7 @@ const WorkInProgress = () => {
         <h1>Work in progress</h1>
         <Image
           alt=""
-          src="/assets/work-in-progress.png"
+          src="${prefix}/assets/work-in-progress.png"
           width={256}
           height={256}
         />

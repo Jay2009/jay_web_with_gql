@@ -94,7 +94,12 @@ const UserInfoLogout: React.FC = () => {
         <div className="user-area-icon" onClick={onSetting}>
           <div>{data ? data.singleUser.name : <Loading />}</div>
           &nbsp;
-          <Image alt="" src="/assets/astronaut.png" width={32} height={32} />
+          <Image
+            alt=""
+            src="${prefix}/assets/astronaut.png"
+            width={32}
+            height={32}
+          />
         </div>
         <UserEditModal
           localStoreUser={localStoreUser ? localStoreUser : null}
@@ -105,7 +110,12 @@ const UserInfoLogout: React.FC = () => {
         />
 
         <div className="user-logout" onClick={onLogOut}>
-          <Image alt="" src="/assets/logout.png" width={24} height={24} />
+          <Image
+            alt=""
+            src="${prefix}/assets/logout.png"
+            width={24}
+            height={24}
+          />
         </div>
         <Modal
           open={isLogoutClicked}

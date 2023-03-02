@@ -17,7 +17,12 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
             <div className="element">
               <div>{title}</div>
               <div className="info-icon">
-                <Image alt="" src="/assets/info.png" width={30} height={30} />
+                <Image
+                  alt=""
+                  src="${prefix}/assets/info.png"
+                  width={30}
+                  height={30}
+                />
               </div>
             </div>
             {title == "U.S Interest Rate" ? (
@@ -43,7 +48,7 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
         <div className="question-mark">
           <Image
             alt=""
-            src="/assets/question-mark.png"
+            src="${prefix}/assets/question-mark.png"
             width={200}
             height={200}
           />
@@ -53,7 +58,7 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
       <style jsx>{`
         .result-control {
           display: flex;
-          width:100%;
+          width: 100%;
           height: 200px;
           margin-top: 30px;
           margin-left: 5px;

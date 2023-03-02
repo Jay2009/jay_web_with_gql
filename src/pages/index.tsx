@@ -91,7 +91,7 @@ export default function Home() {
                     Next &nbsp;
                     <Image
                       alt=""
-                      src="/assets/bar-chart.png"
+                      src="${prefix}/assets/bar-chart.png"
                       width={25}
                       height={25}
                     />
@@ -102,7 +102,7 @@ export default function Home() {
                       Result &nbsp;
                       <Image
                         alt=""
-                        src="/assets/search.png"
+                        src="${prefix}/assets/search.png"
                         width={20}
                         height={20}
                       />
@@ -111,7 +111,7 @@ export default function Home() {
                       Refresh &nbsp;
                       <Image
                         alt=""
-                        src="/assets/refresh.png"
+                        src="${prefix}/assets/refresh.png"
                         width={25}
                         height={25}
                       />
@@ -122,9 +122,19 @@ export default function Home() {
             ) : (
               <div className="guide-text">
                 Click all the &nbsp;
-                <Image alt="" src="/assets/up.png" width={15} height={20} />
+                <Image
+                  alt=""
+                  src="${prefix}/assets/up.png"
+                  width={15}
+                  height={20}
+                />
                 &nbsp;or&nbsp;
-                <Image alt="" src="/assets/down.png" width={15} height={20} />
+                <Image
+                  alt=""
+                  src="${prefix}/assets/down.png"
+                  width={15}
+                  height={20}
+                />
                 &nbsp; buttons to see your result
               </div>
             )}

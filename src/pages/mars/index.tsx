@@ -20,7 +20,12 @@ export default function Mars() {
           <div className="body-content">
             <h1>Welcome to Mars</h1>
             <h3>This community page is for people who live in Mars.</h3>
-            <Image alt="" src="/assets/mars-pic.png" width={250} height={250} />
+            <Image
+              alt=""
+              src="${prefix}/assets/mars-pic.png"
+              width={250}
+              height={250}
+            />
           </div>
         </div>
       </div>

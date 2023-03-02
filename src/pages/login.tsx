@@ -99,7 +99,7 @@ const Login = () => {
         <Image
           priority={true}
           alt=""
-          src="/assets/moon.png"
+          src="${prefix}/assets/moon.png"
           width={150}
           height={150}
         />
@@ -108,7 +108,12 @@ const Login = () => {
           <div className="apollo-frame">
             <h3>with Apollo</h3>
             <div className="rocket-icon">
-              <Image alt="" src="/assets/rocket.png" width={30} height={30} />
+              <Image
+                alt=""
+                src="${prefix}/assets/rocket.png"
+                width={30}
+                height={30}
+              />
             </div>
           </div>
         </div>

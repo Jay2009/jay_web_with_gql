@@ -51,21 +51,21 @@ const Developer = () => {
                   <div className="content-frame">
                     <Image
                       alt=""
-                      src="/assets/femco3.png"
+                      src="${prefix}/assets/femco3.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}
                     />
                     <Image
                       alt=""
-                      src="/assets/femco1.png"
+                      src="${prefix}/assets/femco1.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}
                     />
                     <Image
                       alt=""
-                      src="/assets/femco2.png"
+                      src="${prefix}/assets/femco2.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}

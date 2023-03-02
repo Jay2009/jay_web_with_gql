@@ -102,29 +102,31 @@ const MarsCommunityTable = () => {
 
   const handleSearch = () => {
     let searchResult: DataType[] = [];
-    let isFoundData: boolean = false ;
+    let isFoundData: boolean = false;
     if (selectVal == "All") {
       setSearchData(data.allPost);
     }
     if (selectVal == "Title") {
-
       data.allPost.filter((element: DataType) => {
         if (element.title.includes(searchInput) == true) {
           searchResult.push(element);
           isFoundData = element ? true : false;
         }
       });
-      isFoundData ? setSearchData(searchResult) : alert("Not found the result!")
+      isFoundData
+        ? setSearchData(searchResult)
+        : alert("Not found the result!");
     }
     if (selectVal == "Writer") {
-
       data.allPost.filter((element: DataType) => {
         if (element.writer.includes(searchInput) == true) {
           searchResult.push(element);
           isFoundData = element ? true : false;
         }
       });
-      isFoundData ? setSearchData(searchResult) : alert("Not found the result!")
+      isFoundData
+        ? setSearchData(searchResult)
+        : alert("Not found the result!");
     }
     if (selectVal == "Tag") {
       data.allPost.filter((element: DataType) => {
@@ -156,7 +158,7 @@ const MarsCommunityTable = () => {
       render: (_, record) => (
         <>
           <Space size="middle">
-            { record?.writer == "admin" ? (
+            {record?.writer == "admin" ? (
               <div
                 style={{
                   width: "50px",
@@ -186,12 +188,12 @@ const MarsCommunityTable = () => {
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
-            let color ;
-            if(tag == "realEstate"){
-              color = "green"
+            let color;
+            if (tag == "realEstate") {
+              color = "green";
             }
-            if(tag == "stock"){
-              color = "geekblue"
+            if (tag == "stock") {
+              color = "geekblue";
             }
             if (tag === "others") {
               color = "volcano";
@@ -213,7 +215,7 @@ const MarsCommunityTable = () => {
       width: "150px",
       render: (_, writer) => (
         <>
-          { writer?.writer == "admin" ? (
+          {writer?.writer == "admin" ? (
             <div
               style={{
                 display: "flex",
@@ -223,7 +225,12 @@ const MarsCommunityTable = () => {
               }}
             >
               <div>{writer.writer}</div>
-              <Image alt="" src="/assets/star.png" width={15} height={15} />
+              <Image
+                alt=""
+                src="${prefix}/assets/star.png"
+                width={15}
+                height={15}
+              />
             </div>
           ) : (
             <div>{writer.writer}</div>
@@ -360,7 +367,7 @@ const MarsCommunityTable = () => {
       />
       {/* This modal is for looking up at the content */}
       <Modal
-        title={"\u00A0"+clickedTitle?.title}
+        title={"\u00A0" + clickedTitle?.title}
         centered={true}
         open={isTitleClicked}
         onCancel={handleContentModalCancel}

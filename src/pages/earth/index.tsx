@@ -22,7 +22,7 @@ export default function Earth() {
             <h3>This community page is for people who live in Earth.</h3>
             <Image
               alt=""
-              src="/assets/earth-pic.png"
+              src="${prefix}/assets/earth-pic.png"
               width={250}
               height={250}
             />

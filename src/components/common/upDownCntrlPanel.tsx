@@ -75,18 +75,28 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
                 <div>6 months later,</div>
                 {title} index
                 <div className="btn" onClick={handleRiseBtn}>
-                  <Image alt="" src="/assets/up.png" width={35} height={40} />
+                  <Image
+                    alt=""
+                    src="${prefix}/assets/up.png"
+                    width={35}
+                    height={40}
+                  />
                 </div>
                 <div>or</div>
                 <button className="btn" onClick={handleFallBtn}>
-                  <Image alt="" src="/assets/down.png" width={35} height={40} />
+                  <Image
+                    alt=""
+                    src="${prefix}/assets/down.png"
+                    width={35}
+                    height={40}
+                  />
                 </button>
               </div>
             </div>
             <div className="question-mark">
               <Image
                 alt=""
-                src="/assets/question-mark.png"
+                src="${prefix}/assets/question-mark.png"
                 width={200}
                 height={200}
               />
@@ -95,12 +105,22 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
         ) : isRiseBtnClicked == true && isFallBtnClicked == false ? (
           <div className="up">
             {title}
-            <Image alt="" src="/assets/up.png" width={35} height={40} />
+            <Image
+              alt=""
+              src="${prefix}/assets/up.png"
+              width={35}
+              height={40}
+            />
           </div>
         ) : isRiseBtnClicked == false && isFallBtnClicked == true ? (
           <div className="down">
             {title}
-            <Image alt="" src="/assets/down.png" width={35} height={40} />
+            <Image
+              alt=""
+              src="${prefix}/assets/down.png"
+              width={35}
+              height={40}
+            />
           </div>
         ) : (
           ""
