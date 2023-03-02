@@ -10,7 +10,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { cache, currentUserVar } from "./cache";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/",
+  uri: "https://jay-web-apollo-server.herokuapp.com/",
 });
 
 // Authenticate using HTTP header
