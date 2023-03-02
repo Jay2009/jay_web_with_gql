@@ -1,11 +1,8 @@
 import { Layout, Menu, Breadcrumb } from "antd";
 
 import Link from "next/link";
-// import Logo from '../pageComponents/common/Logo';
 import { useRouter } from "next/router";
-// import IconItSelf from '../pageComponents/common/IconItSelf';
 import { useEffect, useState } from "react";
-// import { UserInfo } from './';
 import IconItSelf from "../common/iconItSelf";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
@@ -15,11 +12,6 @@ import { useQuery } from "@apollo/client";
 import { ICurrentUserData } from "@/types/iApollo";
 import { currentUserVar, GET_CURRENT_USER } from "@/apollo/cache";
 import UserInfoLogout from "./userInfoLogout";
-
-//import { authority } from '../../states/admin/atomAdmin';
-
-//const IconsWithImg = dynamic(() => import('../pageComponents/common/iconsWithImg'));
-//const Logo = dynamic(() => import('../pageComponents/common/Logo'));
 
 export default function JayTopBar() {
   const router = useRouter();
@@ -62,6 +54,7 @@ export default function JayTopBar() {
         <Link href="/mars" legacyBehavior>
           <a>
             <IconWithImg
+              priority={true}
               url={"/assets/mars.png"}
               title="Mars"
               active={filteredPath[1] == "mars" ? true : false}
@@ -71,6 +64,7 @@ export default function JayTopBar() {
         <Link href="/earth" legacyBehavior>
           <a>
             <IconWithImg
+              priority={true}
               url={"/assets/earth.png"}
               title="Earth"
               active={filteredPath[1] == "earth" ? true : false}

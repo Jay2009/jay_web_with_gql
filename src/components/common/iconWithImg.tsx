@@ -5,17 +5,18 @@ interface IMenuIconProps {
   url: string;
   title?: string;
   active?: boolean;
+  priority?: boolean;
 }
 
 const IconWithImg: React.FC<IMenuIconProps> = (props) => {
-  const { url, title, active } = props;
+  const { url, title, active, priority } = props;
 
   return (
     <>
       <div className={active == true ? "menu-info active" : "menu-info"}>
         <div className="menu-title">
           {title}
-          <Image alt="" src={url} width={26} height={26} />
+          <Image priority={priority} alt="" src={url} width={26} height={26} />
           <br />
         </div>
       </div>

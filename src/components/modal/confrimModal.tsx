@@ -27,19 +27,12 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
     handleClose,
   } = props;
 
-  //const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
   const [isConfirmClicked, setIsConfirmClicked] = useState(false);
   const destroyConfirmModal = () => {
     destroyAll();
     gqlFn({ variables: { input: bakedData } });
     refetchData();
   };
-
-  // useEffect(() => {
-  // 	if (fineUserDataInClient?.length > 0) {
-  // 		testValue = fineUserDataInClient;
-  // 	}
-  // }, [fineUserDataInClient]);
 
   return (
     <>

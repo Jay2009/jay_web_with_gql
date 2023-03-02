@@ -72,7 +72,6 @@ const Login = () => {
   const onValid = (formData: ILoginFormData) => {
     login({ variables: { userId: formData.id, userPw: formData.pw } });
     setRecoilLoggedInUser(formData.id);
-    //getUserAuth({ variables: { userId: formData.id, userPw: formData.pw } });
   };
 
   const onInValid = (error: any) => {};
@@ -97,7 +96,13 @@ const Login = () => {
         className="content-wrap"
         onSubmit={handleSubmit(onValid, onInValid)}
       >
-        <Image alt="" src="/assets/moon.png" width={150} height={150} />
+        <Image
+          priority={true}
+          alt=""
+          src="/assets/moon.png"
+          width={150}
+          height={150}
+        />
         <div className="title-txt">
           <h1>Welcome to Jay Web </h1>
           <div className="apollo-frame">

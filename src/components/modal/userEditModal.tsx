@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Select, Modal, Checkbox, Button } from "antd";
 import { useMutation, useQuery } from "@apollo/client";
-//import { UPDATE_USER } from '../../hooks/api/graphql/user/queryUser';
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { UPDATE_USER } from "@/apollo/gqlQuery/user";
 import { currentUserVar } from "@/apollo/cache";
 import ConfirmModal from "./confrimModal";
 import { IProfilChangeFormData } from "@/types/iRctHookForm";
-// import { isLocalStorPwBoxSelected } from '../../states/admin/atomAdmin';
-// import ConfirmUserInfoModal from './userInfoConfirmModal';
-// import UserInfoConfirmModal from './userInfoConfirmModal';
-// import { IEventProps } from '../../types/userDataType';
+
 interface IUserProps {
   localStoreUser: {
     authority: string;

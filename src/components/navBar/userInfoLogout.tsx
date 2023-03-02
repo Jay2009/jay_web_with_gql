@@ -5,9 +5,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRecoilState } from "recoil";
-//import { authority, isRefetchedUser, loggedInUserId, userAuthority } from '../../states/admin/atomAdmin';
-//import { GET_USER } from '../../hooks/api/graphql/user/queryUser';
-//import UserInfoEdit from './userInfoEdit';
 import IconWithImg from "../common/iconWithImg";
 import Link from "next/link";
 import { ICurrentUserData, ILogoutData } from "@/types/iApollo";
@@ -37,9 +34,6 @@ const UserInfoLogout: React.FC = () => {
 
   const [localStoreUser, setLocalStoreUser] = useState<ILocalLoginObj>();
 
-  // const [userauthority, setUserAuthority] = useRecoilState(userAuthority);
-
-  // const [refetchedUser, setRefetchedUser] = useRecoilState(isRefetchedUser);
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
     useRecoilState(loggedInUserId);
 
@@ -80,8 +74,6 @@ const UserInfoLogout: React.FC = () => {
   };
   const destroyEditModal = () => {
     setIsSettingClicked(false);
-
-    //setRefetchedUser(false);
   };
 
   const onLogOut = () => {
@@ -91,7 +83,6 @@ const UserInfoLogout: React.FC = () => {
   const handleLogOutConfirm = () => {
     setIsLogoutClicked(false);
     logout();
-    //router.push("/login");
   };
   const handleLoginCancel = () => {
     setIsLogoutClicked(false);
@@ -99,15 +90,6 @@ const UserInfoLogout: React.FC = () => {
 
   return (
     <>
-      {/* <Link href="/admin">
-        <a>
-          <IconWithImg
-            url={"/assets/icons/menuIcons/admin.png"}
-            title={"관리자"}
-            // active={filteredPath[1] == "admin" ? true : false}
-          />
-        </a>
-      </Link> */}
       <div className="user-area">
         <div className="user-area-icon" onClick={onSetting}>
           <div>{data ? data.singleUser.name : <Loading />}</div>

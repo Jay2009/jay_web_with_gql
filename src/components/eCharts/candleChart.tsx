@@ -1,5 +1,4 @@
 import React from "react";
-import EChartsNextForReactCore from "echarts-next-for-react";
 import ECharts, { EChartsReactProps } from "echarts-for-react";
 
 interface IChartProps {

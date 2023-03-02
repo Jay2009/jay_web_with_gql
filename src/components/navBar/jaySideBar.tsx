@@ -40,7 +40,6 @@ const JaySideBar = () => {
 
   useEffect(() => {
     if (isCollapsed[COOKIE_KEY]) {
-      // window.addEventListener("load", handleReload);
       window.addEventListener("unload", handleReload);
     }
   }, [isCollapsed]);

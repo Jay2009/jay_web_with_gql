@@ -8,7 +8,9 @@
 
 ## Some features of Jay web
 
-         1. Jay web uses a memory-dependent backend server instead of a traditional database like MongoDB or MYSQL. This means that Apollo server functions as the backend. As a result, there are certain advantages and disadvantages associated with this approach.
+         1. Jay web uses a memory-dependent backend server instead of a traditional database like MongoDB or MYSQL.
+         This means that Apollo server functions as the backend.
+         As a result, there are certain advantages and disadvantages associated with this approach.
 
           - Advantage : Users' personal data, including passwords, cannot be accessed as there is no database. Additionally, the application may run more efficiently, potentially resulting in faster load times.
 
