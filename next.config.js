@@ -10,6 +10,10 @@ const nextConfig = {
   //     },
   //   ];
   // },
+  images: {
+    loader: "akamai",
+    path: "/",
+  },
   reactStrictMode: false,
   trailingSlash: true,
 };

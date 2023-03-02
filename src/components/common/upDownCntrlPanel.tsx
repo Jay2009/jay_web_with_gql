@@ -1,5 +1,6 @@
+import PortfolioContext from "context/context";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { riseOrFallState } from "recoil/atoms/economyAtom";
 
@@ -16,6 +17,7 @@ export interface IRiseOrFallBtn {
 }
 
 const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
+  const { prefix } = useContext(PortfolioContext);
   const [btnState, setBtnState] = useRecoilState(riseOrFallState);
 
   const [isRiseBtnClicked, setIsRiseBtnClicked] = useState(false);
@@ -77,7 +79,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
                 <div className="btn" onClick={handleRiseBtn}>
                   <Image
                     alt=""
-                    src="${prefix}/assets/up.png"
+                    src={`${prefix}/assets/up.png`}
                     width={35}
                     height={40}
                   />
@@ -86,7 +88,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
                 <button className="btn" onClick={handleFallBtn}>
                   <Image
                     alt=""
-                    src="${prefix}/assets/down.png"
+                    src={`${prefix}/assets/down.png`}
                     width={35}
                     height={40}
                   />
@@ -96,7 +98,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
             <div className="question-mark">
               <Image
                 alt=""
-                src="${prefix}/assets/question-mark.png"
+                src={`${prefix}/assets/question-mark.png`}
                 width={200}
                 height={200}
               />
@@ -107,7 +109,7 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
             {title}
             <Image
               alt=""
-              src="${prefix}/assets/up.png"
+              src={`${prefix}/assets/up.png`}
               width={35}
               height={40}
             />

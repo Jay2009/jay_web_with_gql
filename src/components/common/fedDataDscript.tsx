@@ -1,11 +1,13 @@
+import PortfolioContext from "context/context";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 interface IProps {
   title: string;
 }
 
 const FedDataDscript: React.FC<IProps> = ({ title }) => {
+  const { prefix } = useContext(PortfolioContext);
   return (
     <div>
       <div className="result-control">
@@ -19,7 +21,7 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
               <div className="info-icon">
                 <Image
                   alt=""
-                  src="${prefix}/assets/info.png"
+                  src={`${prefix}/assets/info.png`}
                   width={30}
                   height={30}
                 />
@@ -48,7 +50,7 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
         <div className="question-mark">
           <Image
             alt=""
-            src="${prefix}/assets/question-mark.png"
+            src={`${prefix}/assets/info.png`}
             width={200}
             height={200}
           />
