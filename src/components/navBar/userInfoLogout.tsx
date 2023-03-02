@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "@apollo/client";
@@ -13,6 +13,7 @@ import { SINGLE_USER, LOGOUT } from "@/apollo/gqlQuery/user";
 import UserEditModal from "../modal/userEditModal";
 import { loggedInUserId } from "recoil/atoms/userAtom";
 import Loading from "../common/loading";
+import PortfolioContext from "context/context";
 
 let localLoginId: string | null;
 
@@ -24,6 +25,8 @@ interface ILocalLoginObj {
 }
 
 const UserInfoLogout: React.FC = () => {
+  const { prefix } = useContext(PortfolioContext);
+
   const router = useRouter();
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const user = currentUser.data?.user;
@@ -95,8 +98,9 @@ const UserInfoLogout: React.FC = () => {
           <div>{data ? data.singleUser.name : <Loading />}</div>
           &nbsp;
           <Image
-            alt=""
-            src="${prefix}/assets/astronaut.png"
+            alt="astronaut"
+            loader={({ src }) => `${prefix}${src}`}
+            src="/assets/astronaut.png"
             width={32}
             height={32}
           />
@@ -111,8 +115,9 @@ const UserInfoLogout: React.FC = () => {
 
         <div className="user-logout" onClick={onLogOut}>
           <Image
-            alt=""
-            src="${prefix}/assets/logout.png"
+            alt="logout"
+            loader={({ src }) => `${prefix}${src}`}
+            src="/assets/logout.png"
             width={24}
             height={24}
           />

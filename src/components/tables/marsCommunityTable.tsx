@@ -1,5 +1,5 @@
 import { Select, Input, Table, Space, Tag, Button, Modal } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRecoilState } from "recoil";
@@ -11,6 +11,7 @@ import { ICurrentUserData } from "@/types/iApollo";
 import { GET_CURRENT_USER } from "@/apollo/cache";
 import EditMarsPostModal from "../modal/editMarsPost";
 import ConfirmModal from "../modal/confrimModal";
+import PortfolioContext from "context/context";
 
 interface DataType {
   push(element: DataType): unknown;
@@ -27,6 +28,8 @@ interface IElement {
 const { Option } = Select;
 
 const MarsCommunityTable = () => {
+  const { prefix } = useContext(PortfolioContext);
+
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const user = currentUser.data?.user;
   const [deletePost, {}] = useMutation(DELETE_POST);
@@ -226,8 +229,9 @@ const MarsCommunityTable = () => {
             >
               <div>{writer.writer}</div>
               <Image
-                alt=""
-                src="${prefix}/assets/star.png"
+                alt="star"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/star.png"
                 width={15}
                 height={15}
               />

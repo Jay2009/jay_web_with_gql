@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -21,6 +21,7 @@ import { currentUserVar, GET_CURRENT_USER } from "../apollo/cache";
 import Loading from "../components/common/loading";
 import Error from "../components/common/error";
 import { loggedInUserId } from "recoil/atoms/userAtom";
+import PortfolioContext from "context/context";
 
 let isRefreshed = false;
 let localLoginId: string;
@@ -28,6 +29,7 @@ let localLoginId: string;
 const Login = () => {
   const [capsLockFlag, setCapsLockFlag] = useState(false);
   const router = useRouter();
+  const { prefix } = useContext(PortfolioContext);
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
   const [recoilLoggedInUser, setRecoilLoggedInUser] =
@@ -98,8 +100,9 @@ const Login = () => {
       >
         <Image
           priority={true}
-          alt=""
-          src="${prefix}/assets/moon.png"
+          alt="moon"
+          loader={({ src }) => `${prefix}${src}`}
+          src="/assets/moon.png"
           width={150}
           height={150}
         />
@@ -109,8 +112,9 @@ const Login = () => {
             <h3>with Apollo</h3>
             <div className="rocket-icon">
               <Image
-                alt=""
-                src="${prefix}/assets/rocket.png"
+                alt="rocket"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/rocket.png"
                 width={30}
                 height={30}
               />
@@ -198,7 +202,7 @@ const Login = () => {
           height: 100vh;
           justify-content: center;
           align-items: center;
-          background: url("/../assets/universe.png");
+          background: url("${prefix}/assets/universe.png");
           background-size: cover;
         }
         .content-wrap {
@@ -290,7 +294,7 @@ const Login = () => {
         }
 
         .input-id {
-          background-image: url(/assets/user.png);
+          background-image: url("${prefix}/assets/user.png");
           background-repeat: no-repeat;
           background-position: 15px center;
           padding-left: 60px;
@@ -300,7 +304,7 @@ const Login = () => {
           box-shadow: 4px 4px 12px #4f5054;
         }
         .input-pw {
-          background-image: url(/assets/pw.png);
+          background-image: url("${prefix}/assets/pw.png");
           background-repeat: no-repeat;
           background-position: 15px center;
           padding-left: 60px;

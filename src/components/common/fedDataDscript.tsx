@@ -8,6 +8,7 @@ interface IProps {
 
 const FedDataDscript: React.FC<IProps> = ({ title }) => {
   const { prefix } = useContext(PortfolioContext);
+
   return (
     <div>
       <div className="result-control">
@@ -20,8 +21,9 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
               <div>{title}</div>
               <div className="info-icon">
                 <Image
-                  alt=""
-                  src={`${prefix}/assets/info.png`}
+                  alt="info"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/info.png"
                   width={30}
                   height={30}
                 />
@@ -49,8 +51,9 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
 
         <div className="question-mark">
           <Image
-            alt=""
-            src={`${prefix}/assets/info.png`}
+            alt="question"
+            loader={({ src }) => `${prefix}${src}`}
+            src="/assets/info.png"
             width={200}
             height={200}
           />

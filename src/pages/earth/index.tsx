@@ -4,8 +4,12 @@ import { Inter } from "@next/font/google";
 import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
+import { useContext } from "react";
+import PortfolioContext from "context/context";
 
 export default function Earth() {
+  const { prefix } = useContext(PortfolioContext);
+
   const getUrl = GetUrlTitle();
 
   return (
@@ -21,8 +25,9 @@ export default function Earth() {
             <h1>Welcome to Earth</h1>
             <h3>This community page is for people who live in Earth.</h3>
             <Image
-              alt=""
-              src="${prefix}/assets/earth-pic.png"
+              alt="earth"
+              loader={({ src }) => `${prefix}${src}`}
+              src="/assets/earth-pic.png"
               width={250}
               height={250}
             />

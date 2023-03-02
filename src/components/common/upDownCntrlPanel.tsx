@@ -17,8 +17,8 @@ export interface IRiseOrFallBtn {
 }
 
 const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
-  const { prefix } = useContext(PortfolioContext);
   const [btnState, setBtnState] = useRecoilState(riseOrFallState);
+  const { prefix } = useContext(PortfolioContext);
 
   const [isRiseBtnClicked, setIsRiseBtnClicked] = useState(false);
   const [isFallBtnClicked, setIsFallBtnClicked] = useState(false);
@@ -78,8 +78,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
                 {title} index
                 <div className="btn" onClick={handleRiseBtn}>
                   <Image
-                    alt=""
-                    src={`${prefix}/assets/up.png`}
+                    alt="up"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/up.png"
                     width={35}
                     height={40}
                   />
@@ -87,8 +88,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
                 <div>or</div>
                 <button className="btn" onClick={handleFallBtn}>
                   <Image
-                    alt=""
-                    src={`${prefix}/assets/down.png`}
+                    alt="down"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/down.png"
                     width={35}
                     height={40}
                   />
@@ -97,8 +99,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
             </div>
             <div className="question-mark">
               <Image
-                alt=""
-                src={`${prefix}/assets/question-mark.png`}
+                alt="question"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/question-mark.png"
                 width={200}
                 height={200}
               />
@@ -108,8 +111,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
           <div className="up">
             {title}
             <Image
-              alt=""
-              src={`${prefix}/assets/up.png`}
+              alt="up"
+              loader={({ src }) => `${prefix}${src}`}
+              src="/assets/up.png"
               width={35}
               height={40}
             />
@@ -118,8 +122,9 @@ const UpDownCntrlPanel: React.FC<IProps> = ({ title }) => {
           <div className="down">
             {title}
             <Image
-              alt=""
-              src="${prefix}/assets/down.png"
+              alt="down"
+              loader={({ src }) => `${prefix}${src}`}
+              src="/assets/down.png"
               width={35}
               height={40}
             />

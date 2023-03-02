@@ -5,7 +5,7 @@ import GetUrlTitle from "../components/navBar/getUrlTitle";
 import JayTopBar from "../components/navBar/jayTopBar";
 import { ALL_ECONOMY_IDX } from "@/apollo/gqlQuery/economy";
 import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LineChart from "@/components/eCharts/lineChart";
 import CandleChart from "@/components/eCharts/candleChart";
 import UpDownCntrlPanel from "@/components/common/upDownCntrlPanel";
@@ -18,8 +18,11 @@ import { Modal } from "antd";
 import { ICurrentUserData } from "@/types/iApollo";
 import { GET_CURRENT_USER } from "@/apollo/cache";
 import { Router, useRouter } from "next/router";
+import PortfolioContext from "context/context";
 
 export default function Home() {
+  const { prefix } = useContext(PortfolioContext);
+
   const { data, loading, error, refetch } = useQuery(ALL_ECONOMY_IDX);
 
   const [btnState, setBtnState] = useRecoilState(riseOrFallState);
@@ -90,8 +93,9 @@ export default function Home() {
                   >
                     Next &nbsp;
                     <Image
-                      alt=""
-                      src="${prefix}/assets/bar-chart.png"
+                      alt="barchart"
+                      loader={({ src }) => `${prefix}${src}`}
+                      src="/assets/bar-chart.png"
                       width={25}
                       height={25}
                     />
@@ -101,8 +105,9 @@ export default function Home() {
                     <button className="btn" onClick={showModal}>
                       Result &nbsp;
                       <Image
-                        alt=""
-                        src="${prefix}/assets/search.png"
+                        alt="search"
+                        loader={({ src }) => `${prefix}${src}`}
+                        src="/assets/search.png"
                         width={20}
                         height={20}
                       />
@@ -110,8 +115,9 @@ export default function Home() {
                     <button className="btn refresh" onClick={handleRefrBtn}>
                       Refresh &nbsp;
                       <Image
-                        alt=""
-                        src="${prefix}/assets/refresh.png"
+                        alt="refresh"
+                        loader={({ src }) => `${prefix}${src}`}
+                        src="/assets/refresh.png"
                         width={25}
                         height={25}
                       />
@@ -123,15 +129,17 @@ export default function Home() {
               <div className="guide-text">
                 Click all the &nbsp;
                 <Image
-                  alt=""
-                  src="${prefix}/assets/up.png"
+                  alt="up"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/up.png"
                   width={15}
                   height={20}
                 />
                 &nbsp;or&nbsp;
                 <Image
-                  alt=""
-                  src="${prefix}/assets/down.png"
+                  alt="down"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/down.png"
                   width={15}
                   height={20}
                 />

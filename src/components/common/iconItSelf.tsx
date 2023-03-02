@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
+import PortfolioContext from "context/context";
 
 interface IIconProps {
   url: string;
@@ -9,6 +10,8 @@ interface IIconProps {
 
 const IconItSelf: React.FC<IIconProps> = (props) => {
   const { url, isCollapsed, title } = props;
+  const { prefix } = useContext(PortfolioContext);
+
   return (
     <>
       <div
@@ -16,7 +19,13 @@ const IconItSelf: React.FC<IIconProps> = (props) => {
           isCollapsed == false ? "logo-Itself-deactive" : "logo-Itself-active"
         }
       >
-        <Image alt="" src={url} width={24} height={24} />
+        <Image
+          alt="propImg"
+          loader={({ src }) => `${prefix}${src}`}
+          src={url}
+          width={24}
+          height={24}
+        />
       </div>
 
       <style jsx>{`

@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === "production";
 const nextConfig = {
   basePath: "/jay_web_with_gql",
   // async redirects() {
@@ -10,7 +11,7 @@ const nextConfig = {
   //     },
   //   ];
   // },
-
+  assetPrefix: isProd ? "/jay_web_with_gql" : "",
   images: {
     loader: "akamai",
     path: "/",

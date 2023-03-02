@@ -2,7 +2,7 @@ import { Layout, Menu, Breadcrumb } from "antd";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import IconItSelf from "../common/iconItSelf";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
@@ -12,9 +12,12 @@ import { useQuery } from "@apollo/client";
 import { ICurrentUserData } from "@/types/iApollo";
 import { currentUserVar, GET_CURRENT_USER } from "@/apollo/cache";
 import UserInfoLogout from "./userInfoLogout";
+import PortfolioContext from "context/context";
 
 export default function JayTopBar() {
   const router = useRouter();
+  const { prefix } = useContext(PortfolioContext);
+
   const filteredPath: string[] = router.pathname.split("/", 2);
 
   const currentUser = useQuery<ICurrentUserData>(GET_CURRENT_USER);
@@ -40,8 +43,9 @@ export default function JayTopBar() {
         <Link href="/" legacyBehavior>
           <a className="logo-content">
             <Image
-              alt=""
-              src="${prefix}/assets/jayLogo.png"
+              alt="jayLogo"
+              loader={({ src }) => `${prefix}${src}`}
+              src="/assets/jayLogo.png"
               width={32}
               height={32}
               style={{ borderRadius: "5px" }}

@@ -2,7 +2,7 @@
   "name": "jay-web-with-gql",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://Jay2009.github.io/jay_web_with_graphql",
+  "homepage": "https://Jay2009.github.io/jay_web_with_graphql",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",

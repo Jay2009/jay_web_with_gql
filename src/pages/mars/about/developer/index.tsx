@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import SwiperCore, { Navigation, Pagination, Controller, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
@@ -6,9 +6,12 @@ import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
 import Image from "next/image";
+import PortfolioContext from "context/context";
 SwiperCore.use([Navigation, Pagination, Controller, Thumbs]);
 
 const Developer = () => {
+  const { prefix } = useContext(PortfolioContext);
+
   const getUrl = GetUrlTitle();
 
   return (
@@ -50,22 +53,25 @@ const Developer = () => {
                   <h3>Check Jay&#39;s other projects</h3>
                   <div className="content-frame">
                     <Image
-                      alt=""
-                      src="${prefix}/assets/femco3.png"
+                      alt="femco3"
+                      loader={({ src }) => `${prefix}${src}`}
+                      src="/assets/femco3.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}
                     />
                     <Image
-                      alt=""
-                      src="${prefix}/assets/femco1.png"
+                      alt="femco1"
+                      loader={({ src }) => `${prefix}${src}`}
+                      src="/assets/femco1.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}
                     />
                     <Image
-                      alt=""
-                      src="${prefix}/assets/femco2.png"
+                      alt="femco2"
+                      loader={({ src }) => `${prefix}${src}`}
+                      src="/assets/femco2.png"
                       width={188}
                       height={338}
                       style={{ borderRadius: "10px" }}

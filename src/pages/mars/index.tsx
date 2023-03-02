@@ -4,8 +4,12 @@ import { Inter } from "@next/font/google";
 import JaySideBar from "@/components/navBar/jaySideBar";
 import GetUrlTitle from "@/components/navBar/getUrlTitle";
 import JayTopBar from "@/components/navBar/jayTopBar";
+import { useContext } from "react";
+import PortfolioContext from "context/context";
 
 export default function Mars() {
+  const { prefix } = useContext(PortfolioContext);
+
   const getUrl = GetUrlTitle();
 
   return (
@@ -21,8 +25,9 @@ export default function Mars() {
             <h1>Welcome to Mars</h1>
             <h3>This community page is for people who live in Mars.</h3>
             <Image
-              alt=""
-              src="${prefix}/assets/mars-pic.png"
+              alt="mars"
+              loader={({ src }) => `${prefix}${src}`}
+              src="/assets/mars-pic.png"
               width={250}
               height={250}
             />

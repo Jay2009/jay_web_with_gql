@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
+import PortfolioContext from "context/context";
 
 interface IMenuIconProps {
   url: string;
@@ -10,13 +11,21 @@ interface IMenuIconProps {
 
 const IconWithImg: React.FC<IMenuIconProps> = (props) => {
   const { url, title, active, priority } = props;
+  const { prefix } = useContext(PortfolioContext);
 
   return (
     <>
       <div className={active == true ? "menu-info active" : "menu-info"}>
         <div className="menu-title">
           {title}
-          <Image priority={priority} alt="" src={url} width={26} height={26} />
+          <Image
+            priority={priority}
+            alt="imgProp"
+            loader={({ src }) => `${prefix}${src}`}
+            src={url}
+            width={26}
+            height={26}
+          />
           <br />
         </div>
       </div>
@@ -24,7 +33,6 @@ const IconWithImg: React.FC<IMenuIconProps> = (props) => {
         .menu-info {
           width: 100px;
           height: 45px;
-
           display: flex;
           align-items: center;
           justify-content: center;

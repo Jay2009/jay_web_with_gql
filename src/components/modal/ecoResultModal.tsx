@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Modal } from "antd";
 import { IFineEcoData } from "@/types/iFineEcoData";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { riseOrFallState } from "recoil/atoms/economyAtom";
+import PortfolioContext from "context/context";
 
 interface IResultModalProps {
   isModalOpen: boolean;
@@ -50,6 +51,8 @@ const EcoResultModal: React.FC<IResultProps> = ({
   firstHalfData,
   lastHalfData,
 }) => {
+  const { prefix } = useContext(PortfolioContext);
+
   const [btnState, setBtnState] = useRecoilState(riseOrFallState);
   const [nasInitData, setNasInitData] = useState<IEcoResult | null>(null);
   const [nasLastData, setNasLastData] = useState<IEcoResult | null>(null);
@@ -258,8 +261,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image
-                alt=""
-                src="${prefix}/assets/dollar.png"
+                alt="dollar"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/dollar.png"
                 width={32}
                 height={32}
               />
@@ -272,31 +276,35 @@ const EcoResultModal: React.FC<IResultProps> = ({
                 dollarLastData.dollarRateOfReturn > 0 &&
                 btnState.dollar == true ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : dollarLastData.dollarRateOfReturn < 0 &&
                   btnState.dollar == false ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/incorrect.png"
+                    alt="incorrect"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/incorrect.png"
                     width={32}
                     height={32}
                   />
                 )
               ) : (
                 <Image
-                  alt=""
-                  src="${prefix}/assets/equal.png"
+                  alt="equal"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/equal.png"
                   width={32}
                   height={32}
                 />
@@ -305,8 +313,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image
-                alt=""
-                src="${prefix}/assets/gold.png"
+                alt="gold"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/gold.png"
                 width={32}
                 height={32}
               />
@@ -316,31 +325,35 @@ const EcoResultModal: React.FC<IResultProps> = ({
               {goldLastData?.goldRateOfReturn ? (
                 goldLastData.goldRateOfReturn > 0 && btnState.gold == true ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : goldLastData.goldRateOfReturn < 0 &&
                   btnState.gold == false ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/incorrect.png"
+                    alt="incorrect"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/incorrect.png"
                     width={32}
                     height={32}
                   />
                 )
               ) : (
                 <Image
-                  alt=""
-                  src="${prefix}/assets/equal.png"
+                  alt="equal"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/equal.png"
                   width={32}
                   height={32}
                 />
@@ -349,8 +362,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image
-                alt=""
-                src="${prefix}/assets/fear.png"
+                alt="fear"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/fear.png"
                 width={32}
                 height={32}
               />
@@ -360,30 +374,34 @@ const EcoResultModal: React.FC<IResultProps> = ({
               {vixLastData?.vixRateOfReturn ? (
                 vixLastData.vixRateOfReturn > 0 && btnState.vix == true ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : vixLastData.vixRateOfReturn < 0 && btnState.vix == false ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/incorrect.png"
+                    alt="incorrect"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/incorrect.png"
                     width={32}
                     height={32}
                   />
                 )
               ) : (
                 <Image
-                  alt=""
-                  src="${prefix}/assets/equal.png"
+                  alt="equal"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/equal.png"
                   width={32}
                   height={32}
                 />
@@ -392,8 +410,9 @@ const EcoResultModal: React.FC<IResultProps> = ({
 
             <div className="row-elements">
               <Image
-                alt=""
-                src="${prefix}/assets/nasdaq.png"
+                alt="nasdaq"
+                loader={({ src }) => `${prefix}${src}`}
+                src="/assets/nasdaq.png"
                 width={32}
                 height={32}
               />
@@ -403,31 +422,35 @@ const EcoResultModal: React.FC<IResultProps> = ({
               {nasLastData?.nasRateOfReturn ? (
                 nasLastData.nasRateOfReturn > 0 && btnState.nasdaq == true ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : nasLastData.nasRateOfReturn < 0 &&
                   btnState.nasdaq == false ? (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/correct.png"
+                    alt="correct"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/correct.png"
                     width={32}
                     height={32}
                   />
                 ) : (
                   <Image
-                    alt=""
-                    src="${prefix}/assets/incorrect.png"
+                    alt="incorrect"
+                    loader={({ src }) => `${prefix}${src}`}
+                    src="/assets/incorrect.png"
                     width={32}
                     height={32}
                   />
                 )
               ) : (
                 <Image
-                  alt=""
-                  src="${prefix}/assets/equal.png"
+                  alt="equal"
+                  loader={({ src }) => `${prefix}${src}`}
+                  src="/assets/equal.png"
                   width={32}
                   height={32}
                 />
