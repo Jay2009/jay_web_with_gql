@@ -53,7 +53,7 @@ const FedDataDscript: React.FC<IProps> = ({ title }) => {
           <Image
             alt="question"
             loader={({ src }) => `${prefix}${src}`}
-            src="/assets/info.png"
+            src="/assets/info-big.png"
             width={200}
             height={200}
           />
