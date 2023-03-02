@@ -10,7 +10,14 @@ const nextConfig = {
   //     },
   //   ];
   // },
-
+  assetPrefix:
+    process.env.NODE_ENV === "production"
+      ? "https://boramyy.github.io/invitation"
+      : "",
+  images: {
+    loader: "akamai",
+    path: "/",
+  },
   reactStrictMode: false,
 };
 

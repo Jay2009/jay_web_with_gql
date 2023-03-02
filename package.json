@@ -2,11 +2,12 @@
   "name": "jay-web-with-gql",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://Jay2009.github.io/jay_web_with_graphql",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",
     "predeploy": "npm run build",
-    "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles",
+    "deploy": "fsutil file createnew out/.nojekyll 1000 && gh-pages -d out --dotfiles",
     "start": "next start",
     "lint": "next lint"
   },
