@@ -1,45 +1,30 @@
 import React, { useEffect } from "react";
 import { Modal } from "antd";
 import { useState } from "react";
-import { IAddPostData } from "@/types/iApollo";
-import SuccessModal from "./successModal";
 
 interface Iprops {
-  showModal: boolean;
-  msg: string;
-  bakedData: IAddPostData | {} | string | null;
-  gqlFn: (arg: {}) => void;
+  isConfirmClicked: boolean;
   refetchData: () => void;
   destroyAll: () => void;
-  handleClose: () => void;
+  handleSucessClose: () => void;
 }
 
-const ConfirmModal: React.FC<Iprops> = (props) => {
-  const {
-    msg,
-    destroyAll,
-    showModal,
-    refetchData,
-    gqlFn,
-    bakedData,
-    handleClose,
-  } = props;
+const SuccessModal: React.FC<Iprops> = (props) => {
+  const { isConfirmClicked, handleSucessClose, refetchData, destroyAll } =
+    props;
 
-  const [isConfirmClicked, setIsConfirmClicked] = useState(false);
+  const handleSuccess = () => {
+    handleSucessClose();
+    refetchData();
+    destroyAll();
+  };
 
-  const handleConfirmed = () => {
-    gqlFn({ variables: { input: bakedData } });
-    setIsConfirmClicked(true);
-  };
-  const handleSucessClose = () => {
-    setIsConfirmClicked(false);
-  };
   return (
     <>
       <>
         <Modal
-          open={showModal}
-          onCancel={handleClose}
+          open={isConfirmClicked}
+          onCancel={handleSuccess}
           cancelButtonProps={{ disabled: true }}
           footer={true}
           width={600}
@@ -47,23 +32,14 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
           className="modal"
         >
           <div className="confirm-wrap">
-            <h3>{msg}</h3>
+            <h3>Success!</h3>
             <div className="btn-area">
-              <div className="btn confirm" onClick={handleConfirmed}>
-                Confirm
-              </div>
-              <div className="btn delete" onClick={handleClose}>
-                Cancel
+              <div className="btn confirm" onClick={handleSuccess}>
+                OK
               </div>
             </div>
           </div>
         </Modal>
-        <SuccessModal
-          isConfirmClicked={isConfirmClicked}
-          handleSucessClose={handleSucessClose}
-          destroyAll={destroyAll}
-          refetchData={refetchData}
-        />
       </>
 
       <style jsx>{`
@@ -95,11 +71,6 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
         .confirm {
           background: #3369aa;
         }
-
-        .delete {
-          background: tomato;
-        }
-
         .btn:hover {
           cursor: pointer;
           opacity: 1;
@@ -109,4 +80,4 @@ const ConfirmModal: React.FC<Iprops> = (props) => {
   );
 };
 
-export default ConfirmModal;
+export default SuccessModal;

@@ -16,7 +16,7 @@ const nextConfig = {
     loader: "akamai",
     path: "/",
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   trailingSlash: true,
 };
 
